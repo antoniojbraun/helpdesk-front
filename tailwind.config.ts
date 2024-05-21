@@ -22,6 +22,7 @@ const config: Config = {
         "extra-bold": "800",
         black: "900",
       },
+      fontFamily: {},
     },
   },
   plugins: [],
