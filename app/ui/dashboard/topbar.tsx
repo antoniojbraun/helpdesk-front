@@ -8,7 +8,9 @@ import Logo from "./helpdesk-logo";
 export default function TopBar() {
   const { toggleSidebar } = useSidebarContext();
   return (
-    <div className="flex items-center justify-between px-[12px] border border-b-[#2C88D9]/50 ">
+    <div
+      id="topBar"
+      className="flex items-center justify-between px-[12px] border border-b-[#2C88D9]/50 ">
       <div className="flex space-x-[9px]">
         <HamburguerIcon onClick={() => toggleSidebar()} />
         <Logo />
