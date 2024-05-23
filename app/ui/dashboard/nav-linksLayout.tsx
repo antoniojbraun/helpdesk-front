@@ -8,11 +8,11 @@ import {
   HomeIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/solid";
-import { poppins500 } from "../fonts";
+import { poppinsRegular } from "../fonts";
 
 const styleLinks = "flex items-center space-x-[20px]";
 
-const styleIcons = "size-7 text-[#2C88D9]";
+const styleIcons = "size-5 text-[#2C88D9]";
 const links = [
   {
     name: "Usuários",
@@ -59,7 +59,9 @@ export default function Navlinks() {
             <p
               className={`${
                 isSidebarOpen ? "md:hidden" : "hidden "
-              } md:block text-[#2C88D9] ${poppins500.className} `}>
+              } md:block text-[#2C88D9] ${
+                poppinsRegular.className
+              } text-[14px]`}>
               {link?.name}
             </p>
           </Link>

@@ -2,7 +2,7 @@
 
 import { useSidebarContext } from "@/app/context/SidebarContext";
 import Logo from "./helpdesk-logo";
-import Navlinks from "./nav-links";
+import Navlinks from "./nav-linksLayout";
 
 export default function Sidebar() {
   const { isSidebarOpen } = useSidebarContext();
@@ -12,7 +12,7 @@ export default function Sidebar() {
   return (
     <div
       
-      className={`flex items-start bg-[#D5E6F7] transition-all`}>
+      className={`flex items-start bg-[#ecf6ff] transition-all`}>
       <div className="p-[10px]">
         <Navlinks />
       </div>
