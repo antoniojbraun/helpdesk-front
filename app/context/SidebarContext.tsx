@@ -26,9 +26,7 @@ export const SidebarProvider = ({ children }: SidebarProviderProps) => {
 
   const toggleSidebar = (action?: string) => {
     setIsSideBarOpen(!isSidebarOpen);
-    console.log('cliqueeeeei')
   };
-
 
   return (
     <SidebarContext.Provider value={{ isSidebarOpen, toggleSidebar }}>

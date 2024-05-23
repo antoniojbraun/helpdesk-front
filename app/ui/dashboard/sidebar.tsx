@@ -11,7 +11,7 @@ export default function Sidebar() {
   
   return (
     <div
-      id="divSidebar"
+      
       className={`flex items-start bg-[#D5E6F7] transition-all`}>
       <div className="p-[10px]">
         <Navlinks />
