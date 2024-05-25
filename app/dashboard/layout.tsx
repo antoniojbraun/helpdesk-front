@@ -10,9 +10,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <TopBar />
-      <div className="flex flex-row h-[calc(100vh-144px)]">
+      <div className="flex flex-row min-h-[calc(100vh-144px)]">
         <Sidebar />
-        <div className="flex-grow p-[20px] bg-[#F9FAFB] ">{children}</div>
+        <div className="flex-grow p-[30px] bg-[#F9FAFB] ">{children}</div>
       </div>
       <Footer />
     </SidebarProvider>

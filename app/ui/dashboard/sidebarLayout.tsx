@@ -2,7 +2,7 @@
 
 import { useSidebarContext } from "@/app/context/SidebarContext";
 import Logo from "./helpdesk-logo";
-import Navlinks from "./nav-linksLayout";
+import Navlinks from "./nav-links";
 
 export default function Sidebar() {
   const { isSidebarOpen } = useSidebarContext();

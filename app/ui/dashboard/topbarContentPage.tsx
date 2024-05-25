@@ -12,9 +12,9 @@ export default function TopbarContentPage({
   urlButton,
 }: ButtonProps) {
   return (
-    <div className="flex flex-row justify-between">
+    <div className="flex flex-row justify-between items-center mb-[30px]">
       <div>
-        <h1>{titlePage}</h1>
+        <h1 className="text-[20px]">{titlePage}</h1>
       </div>
       <div>
         <CreateButton urlDestino={urlButton}>{titleButton}</CreateButton>
