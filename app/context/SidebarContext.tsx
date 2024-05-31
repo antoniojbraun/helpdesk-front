@@ -2,7 +2,7 @@ import { createContext, useState, ReactNode, useContext, act } from "react";
 
 interface SidebarContextProps {
   isSidebarOpen: boolean;
-  toggleSidebar: (action?: string) => void;
+  toggleSidebar: () => void;
 }
 
 export const SidebarContext = createContext<SidebarContextProps | undefined>(

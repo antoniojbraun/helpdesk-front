@@ -1,9 +1,9 @@
 "use client";
 
 import { SidebarProvider } from "../context/SidebarContext";
-import Footer from "../ui/dashboard/footerLayout";
-import Sidebar from "../ui/dashboard/sidebarLayout";
-import TopBar from "../ui/dashboard/topbarLayout";
+import Footer from "../ui/dashboard/footer";
+import Sidebar from "../ui/dashboard/sidebar";
+import TopBar from "../ui/dashboard/topbar";
 
 let topBar = ''
 export default function Layout({ children }: { children: React.ReactNode }) {

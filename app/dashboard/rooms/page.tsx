@@ -1,4 +1,5 @@
-import TopbarContentPage from "@/app/ui/dashboard/topbarContentPage";
+import SearchBar from "@/app/ui/dashboard/searchbar";
+import TopbarContentPage from "@/app/ui/dashboard/topbarcontent";
 
 export default function Page() {
   return (
@@ -8,6 +9,7 @@ export default function Page() {
         titleButton="Criar Sala"
         urlButton="/dashboard/rooms/create"
       />
+      <SearchBar />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "@/node_modules/next/link";
-import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, PencilIcon, TrashIcon, EyeIcon } from "@heroicons/react/24/outline";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -38,5 +38,15 @@ export function DeleteButtonTable({ slug, id }: { id: string; slug: string }) {
         <TrashIcon className="w-5" />
       </button>
     </form>
+  );
+}
+
+export function ViewButtonTable({ slug, id }: { id: string; slug: string }) {
+  return (
+    <Link
+      href={`/dashboard/${slug}/${id}/`}
+      className="rounded-md border p-2 hover:bg-gray-100">
+      <EyeIcon className="w-5" />
+    </Link>
   );
 }
