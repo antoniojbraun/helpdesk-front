@@ -7,6 +7,7 @@ import {
   TrashIcon,
   EyeIcon,
 } from "@heroicons/react/24/outline";
+import { deleteGeneric } from "@/app/lib/servicesgenerics";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -35,9 +36,14 @@ export function UpdateButtonTable({ slug, id }: { id: string; slug: string }) {
 }
 
 export function DeleteButtonTable({ slug, id }: { id: string; slug: string }) {
-  // const deleteInvoiceWithId = deleteInvoice.bind(null, id);
+  const infoUrl = {
+    slug: slug,
+    id: id,
+  };
+  const deleteItemWithId = deleteGeneric.bind(null, infoUrl);
+
   return (
-    <form action={`/api/${slug}/${id}/`}>
+    <form action={deleteItemWithId}>
       <button className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />

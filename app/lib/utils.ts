@@ -1,3 +1,5 @@
+
+
 const ITEMS_PER_PAGE = 10;
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
@@ -131,3 +133,5 @@ export async function fetchFilteredItemsGeneric<T>(
 
   return filteredItems;
 }
+
+

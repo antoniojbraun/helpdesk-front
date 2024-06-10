@@ -36,3 +36,8 @@ export type State = {
   };
   message?: string | null;
 };
+
+export interface InfoUrl {
+  slug: string;
+  id: string;
+}

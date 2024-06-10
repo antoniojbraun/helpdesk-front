@@ -39,8 +39,8 @@ export default async function TableRooms({ data }: { data: Room[] }) {
                     <td className={styleTdDefault}>{item.description}</td>
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateButtonTable id={item.id} slug="users" />
-                        <DeleteButtonTable id={item.id} slug="users" />
+                        <UpdateButtonTable id={item.id} slug="rooms" />
+                        <DeleteButtonTable id={item.id} slug="rooms" />
                       </div>
                     </td>
                   </tr>

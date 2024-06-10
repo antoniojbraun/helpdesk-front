@@ -5,6 +5,8 @@ import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
 
+const url = "http://localhost:3100/rooms";
+
 const FormSchema = z.object({
   id: z.string(),
   name: z.string().min(2, {
@@ -20,7 +22,7 @@ const CreateRoom = FormSchema.omit({
 });
 
 export async function getAllRooms(): Promise<Room[]> {
-  const data = await fetch("http://localhost:3100/rooms", {
+  const data = await fetch(url, {
     cache: "no-store",
   });
   if (!data.ok) throw new Error("Failed to fetch data!");
@@ -40,7 +42,7 @@ export async function createRoom(prevState: State, formData: FormData) {
   }
   const { name, description } = validatedFields.data;
 
-  fetch("http://localhost:3100/rooms", {
+  fetch(url, {
     method: "POST",
     body: JSON.stringify({
       name: name,
