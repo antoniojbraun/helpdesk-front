@@ -3,7 +3,7 @@ export type User = {
   name: string;
   email: string;
   password: string;
-  userType: string;
+  usertype: string;
 };
 
 export type Ticket = {
@@ -13,11 +13,26 @@ export type Ticket = {
   room: string;
   dt_creation: string;
   status: string;
-  user_id: number;
+  user_id: string;
 };
 
 export type Room = {
   id: string;
-  title: string;
+  name: string;
   description: string;
+};
+
+export interface Breadcrumb {
+  label: string;
+  href: string;
+  active?: boolean;
+}
+
+export type State = {
+  errors?: {
+    title?: string[];
+    description?: string[];
+    room?: string[];
+  };
+  message?: string | null;
 };

@@ -1,9 +1,9 @@
 import { DeleteButtonTable, UpdateButtonTable } from "../buttons";
-import { User } from "@/app/lib/definitions";
+import { Room } from "@/app/lib/definitions";
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace-nowrap px-3 py-1";
 
-export default async function TableUsers({ data }: { data: User[] }) {
+export default async function TableRooms({ data }: { data: Room[] }) {
   return (
     <div className="mt-6 flex flex-root justify-center">
       <div className="inline-block align-middle min-w-full">
@@ -19,10 +19,7 @@ export default async function TableUsers({ data }: { data: User[] }) {
                   Nome
                 </th>
                 <th scope="col" className={styleThDefault}>
-                  Email
-                </th>
-                <th scope="col" className={styleThDefault}>
-                  Tipo
+                  Descrição
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Ações</span>
@@ -39,8 +36,7 @@ export default async function TableUsers({ data }: { data: User[] }) {
                       {item.id}
                     </td>
                     <td className={styleTdDefault}>{item.name}</td>
-                    <td className={styleTdDefault}>{item.email}</td>
-                    <td className={styleTdDefault}>{item.usertype}</td>
+                    <td className={styleTdDefault}>{item.description}</td>
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
                         <UpdateButtonTable id={item.id} slug="users" />

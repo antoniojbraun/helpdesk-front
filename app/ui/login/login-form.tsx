@@ -1,4 +1,4 @@
-import { Button } from "./button";
+import { Button } from "../dashboard/button";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import {
   AtSymbolIcon,

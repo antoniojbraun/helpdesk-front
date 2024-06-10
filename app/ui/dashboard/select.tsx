@@ -27,6 +27,7 @@ export default function Select({
     const params = new URLSearchParams(searchParams);
     if (sort) {
       params.set("sort", sort);
+      if (sort === "select") params.delete("sort");
     } else {
       params.delete("sort");
     }
@@ -42,7 +43,7 @@ export default function Select({
         id={`type.toLowerCase()`}
         className={`${styleInputDefault}`}
         onChange={(e) => handleChange(e.target.value)}>
-        <option value="">{type}</option>
+        <option value="select">{type}</option>
         {options?.map((item) => {
           return (
             <option value={`${item.value}`} key={item.value}>

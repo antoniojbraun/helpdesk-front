@@ -21,7 +21,7 @@ export default async function Page({
     room: "",
     dt_creation: "",
     status: "",
-    user_id: 0,
+    user_id: "",
   };
   const query = searchParams?.query || "";
   const sort = searchParams?.sort || "";

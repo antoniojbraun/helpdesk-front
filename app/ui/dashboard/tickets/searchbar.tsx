@@ -14,10 +14,6 @@ let optionsStatus = [
     name: "Título",
   },
   {
-    value: "description",
-    name: "Descrição",
-  },
-  {
     value: "room",
     name: "Sala",
   },

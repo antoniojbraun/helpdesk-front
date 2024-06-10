@@ -23,9 +23,9 @@ export default async function TableTickets({ data }: { data: Ticket[] }) {
                 <th scope="col" className={styleThDefault}>
                   Título
                 </th>
-                <th scope="col" className={styleThDefault}>
-                  Descrição
-                </th>
+                {/* <th scope="col" className={styleThDefault}>
+                    Descrição
+                  </th> */}
                 <th scope="col" className={styleThDefault}>
                   Sala
                 </th>
@@ -50,7 +50,7 @@ export default async function TableTickets({ data }: { data: Ticket[] }) {
                       {item.id}
                     </td>
                     <td className={styleTdDefault}>{item.title}</td>
-                    <td className={styleTdDefault}>{item.description}</td>
+                    {/* <td className={styleTdDefault}>{item.description}</td> */}
                     <td className={styleTdDefault}>{item.room}</td>
                     <td className={styleTdDefault}>{item.dt_creation}</td>
                     <td className={styleTdDefault}>
@@ -59,8 +59,8 @@ export default async function TableTickets({ data }: { data: Ticket[] }) {
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
                         <ViewButtonTable id={item.id} slug="tickets" />
-                        <UpdateButtonTable id={item.id} slug="tickets" />
-                        <DeleteButtonTable id={item.id} slug="tickets" />
+                        {/* <UpdateButtonTable id={item.id} slug="tickets" /> */}
+                        {/* <DeleteButtonTable id={item.id} slug="tickets"  /> */}
                       </div>
                     </td>
                   </tr>

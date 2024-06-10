@@ -1,7 +1,6 @@
 import TopbarContentPage from "@/app/ui/dashboard/topbarcontent";
-import SearchBarUsers from "@/app/ui/dashboard/searchbar";
+import SearchBar from "@/app/ui/dashboard/searchbar";
 import Pagination from "@/app/ui/dashboard/pagination";
-import Table from "@/app/ui/dashboard/users/table";
 import {
   HowManyPagesGeneric,
   fetchFilteredItemsGeneric,
@@ -41,7 +40,7 @@ export default async function Page({
         titleButton="Criar Usuário"
         urlButton="/dashboard/users/create"
       />
-      <SearchBarUsers />
+      <SearchBar />
       <TableUsers data={users} />
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
