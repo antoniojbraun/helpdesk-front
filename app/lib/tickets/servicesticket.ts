@@ -1,6 +1,6 @@
 "use server";
 
-import { Ticket, State } from "../definitions";
+import { Ticket, State, Chat, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
@@ -26,7 +26,17 @@ const CreateTicket = FormSchema.omit({
 });
 
 export async function getAllTickets(): Promise<Ticket[]> {
-  const data = await fetch("http://localhost:3100/tickets", {
+  const newUrl = `${urlBaseApi}/tickets`;
+  const data = await fetch(newUrl, {
+    cache: "no-store",
+  });
+  if (!data.ok) throw new Error("Failed to fetch data!");
+  return data.json();
+}
+
+export async function getTicketById(id: string) {
+  const newUrl = `${urlBaseApi}/tickets/${id}`;
+  const data = await fetch(newUrl, {
     cache: "no-store",
   });
   if (!data.ok) throw new Error("Failed to fetch data!");
@@ -49,7 +59,9 @@ export async function createTicket(prevState: State, formData: FormData) {
   }
   const { title, description, room, status } = validatedFields.data;
   const date = new Date().toISOString().split("T")[0];
-  fetch("http://localhost:3100/tickets", {
+  const newUrl = `${urlBaseApi}/tickets`;
+
+  fetch(newUrl, {
     method: "POST",
     body: JSON.stringify({
       title: title,
@@ -67,4 +79,14 @@ export async function createTicket(prevState: State, formData: FormData) {
 
   revalidatePath("/dashboard/tickets");
   redirect("/dashboard/tickets");
+}
+
+export async function getChatById(id: string) {
+  const newUrl = `${urlBaseApi}/chats/${id}`;
+  const data = await fetch(newUrl, {
+    cache: "no-store",
+  });
+
+  if (!data.ok) throw new Error("Failed to fetch data!");
+  return data.json();
 }

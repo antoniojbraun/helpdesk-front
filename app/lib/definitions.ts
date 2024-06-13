@@ -10,10 +10,12 @@ export type Ticket = {
   id: string;
   title: string;
   description: string;
-  room: string;
-  dt_creation: string;
   status: string;
+  img: string;
+  dt_creation: string;
   user_id: string;
+  support_id: string;
+  room_id: string;
 };
 
 export type Room = {
@@ -41,3 +43,19 @@ export interface InfoUrl {
   slug: string;
   id: string;
 }
+
+export type Message = {
+  id: number;
+  userType: string;
+  author: string;
+  message: string;
+  day_sent: string;
+  hour_sent: string;
+};
+
+export type Chat = {
+  id: string;
+  chatData: [];
+};
+
+export const urlBaseApi = "http://localhost:3100";

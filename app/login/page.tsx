@@ -1,7 +1,6 @@
 import LoginForm from "../ui/login/login-form";
 import "../ui/login/login.css";
 import Image from "@/node_modules/next/image";
-
 export default function LoginPage() {
   return (
     <main className="flex w-full">

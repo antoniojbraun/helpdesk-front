@@ -1,9 +1,11 @@
 "use server";
 
-import { User, State } from "../definitions";
+import { User, State, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
+
+const urlUsers = `${urlBaseApi}/users`;
 
 const FormSchema = z.object({
   id: z.string(),
@@ -22,8 +24,23 @@ const CreateUser = FormSchema.omit({
   password: true,
 });
 
+const UpdateUser = FormSchema.omit({
+  id: true,
+  password: true,
+});
+
 export async function getAllUsers(): Promise<User[]> {
-  const data = await fetch("http://localhost:3100/users", {
+  const data = await fetch(urlUsers, {
+    cache: "no-store",
+  });
+  if (!data.ok) throw new Error("Failed to fetch data!");
+  return data.json();
+}
+
+export async function getUserWithId(id: string) {
+  const newUrl = `${urlUsers}/${id}`;
+
+  const data = await fetch(newUrl, {
     cache: "no-store",
   });
   if (!data.ok) throw new Error("Failed to fetch data!");
@@ -45,7 +62,7 @@ export async function createUser(prevState: State, formData: FormData) {
   }
   const { name, email, usertype } = validatedFields.data;
 
-  fetch("http://localhost:3100/users", {
+  fetch(urlUsers, {
     method: "POST",
     body: JSON.stringify({
       name: name,
@@ -61,3 +78,34 @@ export async function createUser(prevState: State, formData: FormData) {
   revalidatePath("/dashboard/users");
   redirect("/dashboard/users");
 }
+
+export async function updateUser(
+  id: string,
+  prevState: State,
+  formData: FormData
+) {
+  const validatedFields = UpdateUser.safeParse({
+    name: formData.get("name"),
+    email: formData.get("email"),
+    usertype: formData.get("usertype"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Necessário preencher todos os dados para editar um usuário.",
+    };
+  }
+  const { name, email, usertype } = validatedFields.data;
+  const newUrl = `${urlUsers}/${id}`;
+  fetch(newUrl, {
+    method: "PUT",
+    body: JSON.stringify({ name: name, email: email, usertype: usertype }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  }).catch((error) => console.log(`Erro ao editar sala: ${error}`));
+  revalidatePath("/dashboard/users");
+  redirect("/dashboard/users");
+}
+

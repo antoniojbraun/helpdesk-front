@@ -18,10 +18,12 @@ export default async function Page({
     id: "",
     title: "",
     description: "",
-    room: "",
-    dt_creation: "",
     status: "",
+    img: "",
+    dt_creation: "",
     user_id: "",
+    room_id: "",
+    support_id: "",
   };
   const query = searchParams?.query || "";
   const sort = searchParams?.sort || "";
