@@ -6,16 +6,10 @@ import { getItemByIdGeneric } from "@/app/lib/servicesgenerics";
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
   const ticketItem = await getItemByIdGeneric(id, "tickets");
-  const supportId = ticketItem.support_id;
-  const roomId = ticketItem.room.id;
-  //const userId = ticketItem.user_id;
-  //const chatTicket = await getItemByIdGeneric(id, "chats");
-  //const user = await getItemByIdGeneric(userId, "users");
-  //const support = await getItemByIdGeneric(supportId, "users");
-  const room = await getItemByIdGeneric(roomId, "rooms");
-  //const userName = user.name;
-  //const supportName = support.name ?? null;
-  const roomName = room.name;
+  // const chatTicket = await getItemByIdGeneric(id, "chats");
+  const userName = ticketItem.responsible;
+  const supportName = ticketItem.attendant ?? null;
+  const roomName = ticketItem.room.name;
 
   // const listMessagesTicket = chatTicket.chatData;
   return (
@@ -32,8 +26,8 @@ export default async function Page({ params }: { params: { id: string } }) {
       />
       <HeadTicketView
         ticket={ticketItem}
-        authorName=""
-        supportName=""
+        authorName={userName}
+        supportName={supportName}
         roomName={roomName}
       />
       <ContentTicketView

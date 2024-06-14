@@ -43,7 +43,7 @@ export async function getRoomWithId(id: string) {
   return data.json();
 }
 
-export async function createRoom(formData: FormData) {
+export async function createRoom(prevState: State, formData: FormData) {
   const validatedFields = CreateRoom.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),

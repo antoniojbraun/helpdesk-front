@@ -12,7 +12,7 @@ export type Ticket = {
   number: number;
   description: string;
   status: string;
-  img: string;
+  imagesBase64: string[];
   createdAt: string;
   user: User;
   support_id: string;

@@ -9,12 +9,12 @@ export default function HeadTicketView({
   authorName,
   supportName,
   roomName,
-}: {
+}: Readonly<{
   ticket: Ticket;
   authorName: string;
   supportName: string;
   roomName: string;
-}) {
+}>) {
   console.log(supportName);
   return (
     <div className="px-[18px] py-[20px] bg-[#F1F2F3] rounded-md">
