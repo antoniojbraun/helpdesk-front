@@ -45,7 +45,7 @@ export default function ContentTicketView({
       <TicketDescriptionView
         isActive={descriptionActive}
         description={ticket.description}
-        img={ticket.img}
+        img={ticket.imagesBase64}
       />
       <TicketMessagesView
         isActive={messagesActive}

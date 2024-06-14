@@ -5,8 +5,7 @@ import { redirect } from "@/node_modules/next/navigation";
 import { InfoUrl, urlBaseApi } from "./definitions";
 
 export async function deleteGeneric(infoUrl: InfoUrl) {
-  const urlBaseDelete = "http://localhost:3100";
-  let newUrlDelete = `${urlBaseDelete}/${infoUrl.slug}/${infoUrl.id}`;
+  let newUrlDelete = `${urlBaseApi}/${infoUrl.slug}/${infoUrl.id}`;
   const urlBaseRedirect = "/dashboard/";
   let newUrlRedirect = `${urlBaseRedirect}/${infoUrl.slug}}`;
 
