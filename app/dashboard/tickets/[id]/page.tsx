@@ -7,17 +7,17 @@ export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
   const ticketItem = await getItemByIdGeneric(id, "tickets");
   const supportId = ticketItem.support_id;
-  const roomId = ticketItem.room_id;
-  const userId = ticketItem.user_id;
-  const chatTicket = await getItemByIdGeneric(id, "chats");
-  const user = await getItemByIdGeneric(userId, "users");
-  const support = await getItemByIdGeneric(supportId, "users");
+  const roomId = ticketItem.room.id;
+  //const userId = ticketItem.user_id;
+  //const chatTicket = await getItemByIdGeneric(id, "chats");
+  //const user = await getItemByIdGeneric(userId, "users");
+  //const support = await getItemByIdGeneric(supportId, "users");
   const room = await getItemByIdGeneric(roomId, "rooms");
-  const userName = user.name;
-  const supportName = support.name;
+  //const userName = user.name;
+  //const supportName = support.name ?? null;
   const roomName = room.name;
 
-  const listMessagesTicket = chatTicket.chatData;
+  // const listMessagesTicket = chatTicket.chatData;
   return (
     <main>
       <Breadcrumbs
@@ -32,13 +32,13 @@ export default async function Page({ params }: { params: { id: string } }) {
       />
       <HeadTicketView
         ticket={ticketItem}
-        authorName={userName}
-        supportName={supportName}
+        authorName=""
+        supportName=""
         roomName={roomName}
       />
       <ContentTicketView
         ticket={ticketItem}
-        messagesChat={listMessagesTicket}
+        messagesChat={[]}
       />
     </main>
   );

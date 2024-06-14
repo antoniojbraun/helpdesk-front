@@ -9,13 +9,14 @@ export type User = {
 export type Ticket = {
   id: string;
   title: string;
+  number: number;
   description: string;
   status: string;
   img: string;
-  dt_creation: string;
-  user_id: string;
+  createdAt: string;
+  user: User;
   support_id: string;
-  room_id: string;
+  room: Room;
 };
 
 export type Room = {
@@ -58,4 +59,26 @@ export type Chat = {
   chatData: [];
 };
 
-export const urlBaseApi = "http://localhost:3100";
+export var urlBaseApi = "";
+
+export function environmentVariables() {
+  let env = process.env.ENVIRONMENT;
+
+  if (env == "DEV") {
+    urlBaseApi = "https://helpdesk-backend-muvo.onrender.com/api"
+  }
+  else if (env == "LOCAL") {
+    urlBaseApi = "https://localhost:7233/api"
+  }
+  else {
+    urlBaseApi = "http://localhost:3100"
+  }
+
+}
+
+environmentVariables()
+
+//export const urlBaseApi = "https://helpdesk-backend-muvo.onrender.com/api"
+//export const urlBaseApi = "https://localhost:7233/api";
+//export const urlBaseApi = "http://localhost:3100";
+

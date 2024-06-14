@@ -26,7 +26,7 @@ const CreateTicket = FormSchema.omit({
 });
 
 export async function getAllTickets(): Promise<Ticket[]> {
-  const newUrl = `${urlBaseApi}/tickets`;
+  const newUrl = `${urlBaseApi}/tickets/user/d1611669-2928-480a-bd97-2bec86f7773e`;
   const data = await fetch(newUrl, {
     cache: "no-store",
   });

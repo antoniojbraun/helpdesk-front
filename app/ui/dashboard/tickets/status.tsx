@@ -15,8 +15,9 @@ export default function Status({ children }: StatusProps) {
     <p
       className={`${styleStatus.default} 
       ${children === "Pendente" ? styleStatus.pending : ""} 
-      ${children === "Em progresso" ? styleStatus.progress : ""}
-      ${children === "Concluído" ? styleStatus.done : ""}
+      ${children === "Em Progresso" ? styleStatus.progress : ""}
+      ${children === "Resolvido" ? styleStatus.done : ""}
+      ${children === "Encerrado" ? styleStatus.default : ""}
       `}>
       {children}
     </p>

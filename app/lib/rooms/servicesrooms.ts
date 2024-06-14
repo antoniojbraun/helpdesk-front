@@ -4,7 +4,6 @@ import { Room, State, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
-import { type } from "os";
 
 const urlRooms = `${urlBaseApi}/rooms`;
 
@@ -44,7 +43,7 @@ export async function getRoomWithId(id: string) {
   return data.json();
 }
 
-export async function createRoom(prevState: State, formData: FormData) {
+export async function createRoom(formData: FormData) {
   const validatedFields = CreateRoom.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
@@ -68,6 +67,7 @@ export async function createRoom(prevState: State, formData: FormData) {
     },
   }).catch((error) => console.log(`Erro ao criar sala: ${error}`));
   revalidatePath("/dashboard/rooms");
+  getAllRooms();
   redirect("/dashboard/rooms");
 }
 
@@ -89,7 +89,7 @@ export async function updateRoom(
   const { name, description } = validatedFields.data;
   const newUrl = `${urlRooms}/${id}`;
   fetch(newUrl, {
-    method: "PUT",
+    method: "PATCH",
     body: JSON.stringify({ name: name, description: description }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",

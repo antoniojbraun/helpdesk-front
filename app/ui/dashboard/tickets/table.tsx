@@ -23,9 +23,9 @@ export default async function TableTickets({ data }: { data: Ticket[] }) {
                 <th scope="col" className={styleThDefault}>
                   Título
                 </th>
-                {/* <th scope="col" className={styleThDefault}>
+                <th scope="col" className={styleThDefault}>
                     Descrição
-                  </th> */}
+                  </th>
                 <th scope="col" className={styleThDefault}>
                   Sala
                 </th>
@@ -47,12 +47,12 @@ export default async function TableTickets({ data }: { data: Ticket[] }) {
                     key={indice}
                     className="w-full border-b text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                     <td className="whitespace-nowrap py-1 pl-6 pr-3">
-                      {item.id}
+                      {item.number}
                     </td>
                     <td className={styleTdDefault}>{item.title}</td>
-                    {/* <td className={styleTdDefault}>{item.description}</td> */}
-                    <td className={styleTdDefault}>{item.room}</td>
-                    <td className={styleTdDefault}>{item.dt_creation}</td>
+                    <td className={styleTdDefault}>{item.description}</td>
+                    <td className={styleTdDefault}>{item.room.name}</td>
+                    <td className={styleTdDefault}>{item.createdAt}</td>
                     <td className={styleTdDefault}>
                       <Status>{item.status}</Status>
                     </td>

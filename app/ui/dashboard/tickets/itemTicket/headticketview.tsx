@@ -22,7 +22,7 @@ export default function HeadTicketView({
         <div className="space-y-[5px]">
           <p className={poppins600.className}>Dados do Chamado</p>
           <p>Veja um resumo do seu chamado</p>
-          <p className="pt-[5px] text-slate-500">Chamado #{ticket.id}</p>
+          <p className="pt-[5px] text-slate-500">Chamado #{ticket.number}</p>
         </div>
         <div className="flex flex-col justify-start items-center">
           <QuestionMarkCircleIcon className="text-[#788796] size-[20px]" />
@@ -40,7 +40,7 @@ export default function HeadTicketView({
           <div>
             <p className={styleP}>{ticket.title}</p>
             <p className={styleP}>{authorName}</p>
-            <p className={styleP}>{ticket.dt_creation}</p>
+            <p className={styleP}>{ticket.createdAt}</p>
           </div>
         </div>
         <div className="flex space-x-[45px] md:space-x-[15px] ">
@@ -52,7 +52,7 @@ export default function HeadTicketView({
           <div>
             <p className={styleP}>{ticket.status}</p>
             <p className={styleP}>
-              {supportName == undefined ? "--" : supportName}
+              {supportName ?? "--"}
             </p>
             <p className={styleP}>{roomName}</p>
           </div>
