@@ -4,7 +4,6 @@ import { Room, State, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
-import { type } from "os";
 
 const urlRooms = `${urlBaseApi}/rooms`;
 

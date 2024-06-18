@@ -5,14 +5,14 @@ import { useState } from "react";
 import ButtonContent from "./toggledescriptiondataticket";
 import TicketDescriptionView from "./ticketdescriptionview";
 import TicketMessagesView from "./ticketmessagesview";
-import { Ticket, Message } from "@/app/lib/definitions";
+import { Ticket, Chat } from "@/app/lib/definitions";
 
 export default function ContentTicketView({
   ticket,
   messagesChat,
 }: {
   ticket: Ticket;
-  messagesChat: Message[];
+  messagesChat: Chat;
 }) {
   let [descriptionActive, setDescriptionActive] = useState(true);
   let [messagesActive, setMessagesActive] = useState(false);

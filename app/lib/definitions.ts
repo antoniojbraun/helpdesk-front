@@ -55,7 +55,7 @@ export type Message = {
 
 export type Chat = {
   id: string;
-  chatData: [];
+  chatdata: [];
 };
 
 export const urlBaseApi = "http://localhost:3100";

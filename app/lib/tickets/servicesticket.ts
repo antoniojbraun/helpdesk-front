@@ -1,6 +1,6 @@
 "use server";
 
-import { Ticket, State, Chat, urlBaseApi } from "../definitions";
+import { Ticket, State, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
@@ -74,19 +74,8 @@ export async function createTicket(prevState: State, formData: FormData) {
       "Content-type": "application/json; charset=UTF-8",
     },
   })
-    // .then((response) => console.log(response))
     .then((error) => console.log(error));
 
   revalidatePath("/dashboard/tickets");
   redirect("/dashboard/tickets");
-}
-
-export async function getChatById(id: string) {
-  const newUrl = `${urlBaseApi}/chats/${id}`;
-  const data = await fetch(newUrl, {
-    cache: "no-store",
-  });
-
-  if (!data.ok) throw new Error("Failed to fetch data!");
-  return data.json();
 }

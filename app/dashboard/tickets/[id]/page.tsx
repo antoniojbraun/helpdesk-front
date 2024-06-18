@@ -17,7 +17,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   const supportName = support.name;
   const roomName = room.name;
 
-  const listMessagesTicket = chatTicket.chatData;
+  const listMessagesTicket = chatTicket;
+
   return (
     <main>
       <Breadcrumbs

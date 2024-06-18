@@ -15,7 +15,6 @@ export default function HeadTicketView({
   supportName: string;
   roomName: string;
 }) {
-  console.log(supportName);
   return (
     <div className="px-[18px] py-[20px] bg-[#F1F2F3] rounded-md">
       <div className="flex flex-row justify-between">
