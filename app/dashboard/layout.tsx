@@ -5,7 +5,7 @@ import Footer from "../ui/dashboard/footer";
 import Sidebar from "../ui/dashboard/sidebar";
 import TopBar from "../ui/dashboard/topbar";
 
-let topBar = ''
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>

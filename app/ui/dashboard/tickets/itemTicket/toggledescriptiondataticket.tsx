@@ -10,7 +10,8 @@ export default function toggleDescriptionDataTicket({
   isActive: boolean;
   handleToggle: handleToggleMessages;
   children: string;
-}) {
+  }) {
+  
   const styleButtonDivActive =
     "flex justify-center w-full h-full bg-[#4B5C6B] text-[#F0F1F3] p-[10px] rounded-sm cursor-pointer";
   const styleButtonDivInactive =
