@@ -8,6 +8,7 @@ import {
 import { getAllRooms } from "@/app/lib/rooms/servicesrooms";
 import TableRooms from "@/app/ui/dashboard/rooms/table";
 import { Room } from "@/app/lib/definitions";
+
 export default async function Page({
   searchParams,
 }: {

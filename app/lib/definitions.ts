@@ -9,6 +9,7 @@ export type User = {
 export type Ticket = {
   id: string;
   title: string;
+
   description: string;
   status: string;
   img: string;
@@ -58,4 +59,22 @@ export type Chat = {
   chatdata: [];
 };
 
-export const urlBaseApi = "http://localhost:3100";
+// export const urlBaseApi = "http://localhost:3100";
+export let urlBaseApi = "";
+
+function environmentVariables() {
+  const env = process.env.ENVIROMENT;
+
+  switch (env) {
+    case "DEV":
+      urlBaseApi = "https://helpdesk-backend-muvo.onrender.com/api";
+      break;
+    case "LOCAL":
+      urlBaseApi = "http://localhost:7233/api";
+      break;
+    default:
+      urlBaseApi = "http://localhost:3100";
+  }
+}
+
+environmentVariables();
