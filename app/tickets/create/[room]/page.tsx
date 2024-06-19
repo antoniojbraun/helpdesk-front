@@ -20,7 +20,7 @@ export default function Page({ params }: { params: { room: string } }) {
     setLoginActive(false);
   }
   return (
-    <main className="flex flex-col w-[500px] h-auto bg-[#ECF6FF] p-[20px] space-y-[20px] rounded-md">
+    <main className="flex flex-col justify-start w-[500px] h-fit bg-[#ECF6FF] p-[20px] space-y-[20px] rounded-md">
       <h1 className={`${poppins500.className} text-center text-[20px]`}>
         Identifique-se
       </h1>
