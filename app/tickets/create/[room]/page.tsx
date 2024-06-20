@@ -19,6 +19,8 @@ export default function Page({ params }: { params: { room: string } }) {
     setFormNewUserActive(true);
     setLoginActive(false);
   }
+
+
   return (
     <main className="flex flex-col justify-start w-[500px] h-fit bg-[#ECF6FF] p-[20px] space-y-[20px] rounded-md">
       <h1 className={`${poppins500.className} text-center text-[20px]`}>

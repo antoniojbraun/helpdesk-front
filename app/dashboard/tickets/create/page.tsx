@@ -1,6 +1,10 @@
 import Breadcrumbs from "../../../ui/dashboard/breadcrumbs";
 import FormCreateTicket from "@/app/ui/dashboard/tickets/form";
-export default function CreateTicket() {
+import { getAllRooms } from "@/app/lib/rooms/servicesrooms";
+
+export default async function CreateTicket() {
+  const listOfRooms = await getAllRooms();
+
   return (
     <main>
       <Breadcrumbs
@@ -13,7 +17,7 @@ export default function CreateTicket() {
           },
         ]}
       />
-      <FormCreateTicket />
+      <FormCreateTicket listofrooms={listOfRooms} />
     </main>
   );
 }

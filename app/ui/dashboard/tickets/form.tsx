@@ -4,16 +4,25 @@ import { createTicket } from "@/app/lib/tickets/servicesticket";
 import Link from "@/node_modules/next/link";
 import { useFormState } from "react-dom";
 import { Button } from "../button";
+import { Room } from "@/app/lib/definitions";
 
 const styleLabel = " w-full py-[8px] ";
 const styleInput = " rounded-md w-full py-[8px] px-[15px] ";
 const styleDivInputs = "flex flex-col items-start rounded-md";
 const styleCancelButton =
   "flex h-10 items-center rounded-lg bg-gray-200 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-300";
-export default function FormCreateTicket() {
+export default function FormCreateTicket({
+  listofrooms,
+}: {
+  listofrooms: Room[];
+}) {
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createTicket, initialState);
-
+  let room: string | null = "";
+  if (typeof window !== undefined) {
+    room = localStorage.getItem("room");
+  }
+  
   return (
     <form action={dispatch}>
       <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">
@@ -27,8 +36,13 @@ export default function FormCreateTicket() {
             aria-describedby="room-error"
             className={styleInput}>
             <option value="">Selecione a Sala</option>
-            <option value="A1">A1</option>
-            <option value="A2">A2</option>
+            {listofrooms.map((item, indice) => (
+              <option
+                value={item.id}
+                selected={item.name == room ? true : false}>
+                {item.name}
+              </option>
+            ))}
           </select>
           <div id="room-error" aria-live="polite" aria-atomic="true">
             {state.errors?.room &&

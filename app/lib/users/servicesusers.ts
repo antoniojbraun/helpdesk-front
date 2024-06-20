@@ -109,7 +109,17 @@ export async function updateUser(
   redirect("/dashboard/users");
 }
 
-export async function createUserByUser(formData:FormData) {
-  
-}
+export async function createUserByUser(formData: FormData) {}
 
+export async function loginUser(
+  room: string,
+  prevState: State,
+  formData: FormData
+) {
+  const email = formData.get("email");
+  const senha = formData.get("password");
+
+  console.log("email: " + email + "senha: " + senha);
+  console.log("E aqui vai a sala " + room);
+  redirect(`/dashboard/tickets/create/`);
+}

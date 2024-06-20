@@ -4,14 +4,14 @@ import { createUser } from "@/app/lib/users/servicesusers";
 import Link from "@/node_modules/next/link";
 import { useFormState } from "react-dom";
 import { Button } from "../button";
-
+import { initialState } from "@/app/lib/definitions";
+initialState
 const styleLabel = " w-full py-[8px] ";
 const styleInput = " rounded-md w-full py-[8px] px-[15px] ";
 const styleDivInputs = "flex flex-col items-start rounded-md";
 const styleCancelButton =
   "flex h-10 items-center rounded-lg bg-gray-200 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-300";
 export default function FormCreateUser() {
-  const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createUser, initialState);
 
   return (

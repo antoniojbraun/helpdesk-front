@@ -32,3 +32,4 @@ export async function getItemByIdGeneric(id: string, slug: string) {
   if (!data.ok) throw new Error("Failed to fetch data!");
   return data.json();
 }
+

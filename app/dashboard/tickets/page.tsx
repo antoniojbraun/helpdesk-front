@@ -7,8 +7,8 @@ import {
   HowManyPagesGeneric,
   fetchFilteredItemsGeneric,
 } from "@/app/lib/utils";
-
 import { Ticket } from "@/app/lib/definitions";
+
 export default async function Page({
   searchParams,
 }: {
@@ -25,6 +25,7 @@ export default async function Page({
     room_id: "",
     support_id: "",
   };
+
   const query = searchParams?.query || "";
   const sort = searchParams?.sort || "";
   const currentPage = Number(searchParams?.page || 1);
@@ -36,6 +37,8 @@ export default async function Page({
     getAllTickets,
     ticket
   );
+
+
 
   return (
     <div className="flex flex-col">
