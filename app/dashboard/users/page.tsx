@@ -33,6 +33,7 @@ export default async function Page({
     getAllUsers,
     user
   );
+
   return (
     <div className="flex flex-col">
       <TopbarContentPage

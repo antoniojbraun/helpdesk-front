@@ -15,10 +15,11 @@ export default function FormEditUser({ user }: { user: User }) {
   const initialState = { message: null, errors: {} };
   const updateUserWithId = updateUser.bind(null, user.id);
   const [state, dispatch] = useFormState(updateUserWithId, initialState);
-  const adminType = user.usertype === "admin";
-  const userType = user.usertype === "user";
-  const supportType = user.usertype === "supportType";
+  const adminType = user.userType === "Administrador";
+  const userType = user.userType === "Usuário";
+  const supportType = user.userType === "Suporte";
 
+  // user 0 support 1 admin 2
   return (
     <form action={dispatch}>
       <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">
@@ -68,45 +69,45 @@ export default function FormEditUser({ user }: { user: User }) {
         </div>
 
         <div className={styleDivInputs}>
-          <label htmlFor="usertype" className={styleLabel}>
+          <label htmlFor="userType" className={styleLabel}>
             Tipo<span className="text-red-500">*</span>
           </label>
           <div className="flex space-x-[7px]" aria-describedby="type-error">
             <input
               type="radio"
-              id="usertype"
-              name="usertype"
+              id="userType"
+              name="userType"
               className=""
-              value="admin"
+              value="2"
               defaultChecked={adminType}
             />
-            <label htmlFor="usertype">Admin</label>
+            <label htmlFor="userType">Admin</label>
           </div>
           <div className="flex space-x-[7px]">
             <input
               type="radio"
-              id="usertype"
-              name="usertype"
+              id="userType"
+              name="userType"
               className=""
-              value="user"
+              value="0"
               defaultChecked={userType}
             />
-            <label htmlFor="usertype">Usuário</label>
+            <label htmlFor="userType">Usuário</label>
           </div>
           <div className="flex space-x-[7px]">
             <input
               type="radio"
-              id="usertype"
-              name="usertype"
+              id="userType"
+              name="userType"
               className=""
-              value="support"
+              value="1"
               defaultChecked={supportType}
             />
-            <label htmlFor="usertype">Suporte</label>
+            <label htmlFor="userType">Suporte</label>
           </div>
-          <div id="usertype-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.usertype &&
-              state.errors.usertype.map((error: string) => (
+          <div id="userType-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.userType &&
+              state.errors.userType.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>

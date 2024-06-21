@@ -2,21 +2,21 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  password: string;
-  usertype: string;
+  password?: string;
+  userType: string;
 };
 
 export type Ticket = {
   id: string;
   title: string;
-
+  number: number;
   description: string;
   status: string;
   img: string;
-  dt_creation: string;
-  user_id: string;
+  createdAt: string;
+  user: User;
   support_id: string;
-  room_id: string;
+  room: Room;
 };
 
 export type Room = {

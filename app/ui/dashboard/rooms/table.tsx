@@ -12,9 +12,9 @@ export default async function TableRooms({ data }: { data: Room[] }) {
           <table className="hidden min-w-full text-gray-900 md:table ">
             <thead className="rounded-lg text-left text-sm font-normal ">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                {/* <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                   ID
-                </th>
+                </th> */}
                 <th scope="col" className={styleThDefault}>
                   Nome
                 </th>
@@ -32,9 +32,9 @@ export default async function TableRooms({ data }: { data: Room[] }) {
                   <tr
                     key={indice}
                     className="w-full border-b text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
-                    <td className="whitespace-nowrap py-1 pl-6 pr-3">
+                    {/* <td className="whitespace-nowrap py-1 pl-6 pr-3">
                       {item.id}
-                    </td>
+                    </td> */}
                     <td className={styleTdDefault}>{item.name}</td>
                     <td className={styleTdDefault}>{item.description}</td>
                     <td className="whitespace-nowrap py-1 px-3">

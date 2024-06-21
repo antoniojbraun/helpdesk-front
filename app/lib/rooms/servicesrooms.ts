@@ -87,13 +87,17 @@ export async function updateRoom(
   }
   const { name, description } = validatedFields.data;
   const newUrl = `${urlRooms}/${id}`;
-  fetch(newUrl, {
-    method: "PUT",
+  const response = await fetch(newUrl, {
+    method: "PATCH",
     body: JSON.stringify({ name: name, description: description }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-  }).catch((error) => console.log(`Erro ao editar sala: ${error}`));
+  });
+  if (!response.ok) {
+    const errorData = response.json();
+    console.error(errorData);
+  }
   revalidatePath("/dashboard/rooms");
   redirect("/dashboard/rooms");
 }

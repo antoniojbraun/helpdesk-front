@@ -3,7 +3,7 @@
 import { User, State, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
-import { redirect } from "@/node_modules/next/navigation";
+import { redirect, RedirectType } from "@/node_modules/next/navigation";
 
 const urlUsers = `${urlBaseApi}/users`;
 
@@ -13,37 +13,42 @@ const FormSchema = z.object({
     .string()
     .min(5, { message: "O nome é necessário com pelo menos 5 letra." }),
   email: z.string().email({ message: "Necessário inserir um email válido!" }),
-  usertype: z.enum(["admin", "user", "support"], {
+  userType: z.enum(["2", "0", "1"], {
     message: "Necessário informar um tipo.",
   }),
-  password: z.string(),
+  password: z.string().min(5, {
+    message: "A senha deve conter: min 5 caracteres.",
+  }),
+  confirmPassword: z.string().min(5, {
+    message: "A senha deve conter: min 5 caracteres.",
+  }),
 });
 
 const CreateUser = FormSchema.omit({
   id: true,
-  password: true,
 });
 
 const UpdateUser = FormSchema.omit({
   id: true,
   password: true,
+  confirmPassword: true,
 });
 
 export async function getAllUsers(): Promise<User[]> {
   const data = await fetch(urlUsers, {
-    cache: "no-store",
+    // cache: "force-cache",
+    next: { revalidate: 10 },
   });
-  if (!data.ok) throw new Error("Failed to fetch data!");
+  if (!data.ok) throw new Error("Erro ao buscar lista de usuários!");
   return data.json();
 }
 
 export async function getUserWithId(id: string) {
   const newUrl = `${urlUsers}/${id}`;
-
   const data = await fetch(newUrl, {
-    cache: "no-store",
+    cache: "force-cache",
   });
-  if (!data.ok) throw new Error("Failed to fetch data!");
+  if (!data.ok) throw new Error("Erro ao buscar usuário pelo ID!");
   return data.json();
 }
 
@@ -51,7 +56,9 @@ export async function createUser(prevState: State, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
-    usertype: formData.get("usertype"),
+    userType: formData.get("userType"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
   });
 
   if (!validatedFields.success) {
@@ -60,23 +67,27 @@ export async function createUser(prevState: State, formData: FormData) {
       message: "Necessário preencher todos os dados para criar um usuário.",
     };
   }
-  const { name, email, usertype } = validatedFields.data;
+  let { name, email, userType, password } = validatedFields.data;
 
-  fetch(urlUsers, {
+  userType = parseInt(userType);
+  const response = await fetch(urlUsers, {
     method: "POST",
     body: JSON.stringify({
       name: name,
       email: email,
-      usertype: usertype,
+      userType: userType,
+      password: password,
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-  })
-    // .then((response) => console.log(response))
-    .catch((error) => console.log(`Erro ao criar usuário: ${error}`));
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error(`Erro ao cadastrar usuário: ${errorData.error}`);
+  }
   revalidatePath("/dashboard/users");
-  redirect("/dashboard/users");
+  redirect("/dashboard/users", RedirectType.push);
 }
 
 export async function updateUser(
@@ -87,7 +98,7 @@ export async function updateUser(
   const validatedFields = UpdateUser.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
-    usertype: formData.get("usertype"),
+    userType: formData.get("userType"),
   });
 
   if (!validatedFields.success) {
@@ -96,20 +107,25 @@ export async function updateUser(
       message: "Necessário preencher todos os dados para editar um usuário.",
     };
   }
-  const { name, email, usertype } = validatedFields.data;
+  let { name, email, userType } = validatedFields.data;
+  userType = parseInt(userType);
+
   const newUrl = `${urlUsers}/${id}`;
-  fetch(newUrl, {
-    method: "PUT",
-    body: JSON.stringify({ name: name, email: email, usertype: usertype }),
+  const response = await fetch(newUrl, {
+    method: "PATCH",
+    body: JSON.stringify({ name: name, email: email, userType: userType }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-  }).catch((error) => console.log(`Erro ao editar sala: ${error}`));
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error(errorData);
+  }
+
   revalidatePath("/dashboard/users");
   redirect("/dashboard/users");
 }
 
-export async function createUserByUser(formData:FormData) {
-  
-}
-
+export async function createUserByUser(formData: FormData) {}
