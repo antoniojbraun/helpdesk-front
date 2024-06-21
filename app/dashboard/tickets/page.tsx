@@ -20,8 +20,8 @@ export default async function Page({
     description: "",
     status: "",
     img: "",
-    dt_creation: "",
-    user_id: "",
+    createdAt: "",
+    user: "",
     room_id: "",
     support_id: "",
   };
