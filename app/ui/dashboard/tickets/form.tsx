@@ -16,8 +16,6 @@ export default function FormCreateTicket({
 }: {
   listofrooms: Room[];
 }) {
-  const [isEditable, setIsEditable] = useState(false);
-
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createTicket, initialState);
   let room: string | null = null;
