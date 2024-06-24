@@ -1,19 +1,19 @@
 import { poppins600 } from "../../../fonts";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
-import { Ticket } from "@/app/lib/definitions";
+import { itemTicket } from "@/app/lib/definitions";
 
 const styleP = "whitespace-nowrap";
 const styleAtributesP = " text-slate-500";
 export default function HeadTicketView({
   ticket,
-  authorName,
-  supportName,
-  roomName,
-}: {
-  ticket: Ticket;
-  authorName: string;
-  supportName: string;
-  roomName: string;
+}: // authorName,
+// supportName,
+// roomName,
+{
+  ticket: itemTicket;
+  // authorName: string;
+  // supportName: string;
+  // roomName: string;
 }) {
   return (
     <div className="px-[18px] py-[20px] bg-[#F1F2F3] rounded-md">
@@ -38,8 +38,8 @@ export default function HeadTicketView({
           </div>
           <div>
             <p className={styleP}>{ticket.title}</p>
-            <p className={styleP}>{authorName}</p>
-            <p className={styleP}>{ticket.dt_creation}</p>
+            <p className={styleP}>{ticket.responsible}</p>
+            <p className={styleP}>{ticket.createdAt}</p>
           </div>
         </div>
         <div className="flex space-x-[45px] md:space-x-[15px] ">
@@ -51,9 +51,9 @@ export default function HeadTicketView({
           <div>
             <p className={styleP}>{ticket.status}</p>
             <p className={styleP}>
-              {supportName == undefined ? "--" : supportName}
+              {ticket.attendant == undefined ? "--" : ticket.attendant}
             </p>
-            <p className={styleP}>{roomName}</p>
+            <p className={styleP}>{ticket.room.name}</p>
           </div>
         </div>
       </div>

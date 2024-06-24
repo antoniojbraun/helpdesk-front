@@ -25,11 +25,16 @@ export async function deleteGeneric(infoUrl: InfoUrl) {
 
 export async function getItemByIdGeneric(id: string, slug: string) {
   const newUrl = `${urlBaseApi}/${slug}/${id}`;
-  const data = await fetch(newUrl, {
+  console.log(newUrl);
+  const response = await fetch(newUrl, {
     cache: "no-store",
   });
 
-  if (!data.ok) throw new Error("Failed to fetch data!");
-  return data.json();
+  if (!response.ok) {
+    const errorData = response.json();
+    console.error(
+      `Problema ao buscar dados de '${slug}' com erro: ${errorData} `
+    );
+  }
+  return response.json();
 }
-

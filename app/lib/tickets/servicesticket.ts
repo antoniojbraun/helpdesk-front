@@ -73,8 +73,7 @@ export async function createTicket(prevState: State, formData: FormData) {
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-  })
-    .then((error) => console.log(error));
+  }).then((error) => console.log(error));
 
   revalidatePath("/dashboard/tickets");
   redirect("/dashboard/tickets");

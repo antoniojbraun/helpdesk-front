@@ -12,7 +12,12 @@ interface FormLoginUserProps {
 
 const FormLoginUser: React.FC<FormLoginUserProps> = ({ isVisible, room }) => {
   const visibleOrNot = isVisible ? " block" : " hidden";
-  localStorage.setItem("room", JSON.stringify(room));
+  if (room) {
+    if (typeof window !== undefined) {
+      localStorage.setItem("room", room);
+    }
+  }
+
   const loginUserWithRoom = loginUser.bind(null, room);
   const [state, dispatch] = useFormState(loginUserWithRoom, initialState);
 

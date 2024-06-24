@@ -93,6 +93,7 @@ export async function updateRoom(
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
+    
   }).catch((error) => console.log(`Erro ao editar sala: ${error}`));
   revalidatePath("/dashboard/rooms");
   redirect("/dashboard/rooms");

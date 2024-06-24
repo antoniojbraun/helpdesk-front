@@ -4,7 +4,6 @@ import { getAllRooms } from "@/app/lib/rooms/servicesrooms";
 
 export default async function CreateTicket() {
   const listOfRooms = await getAllRooms();
-
   return (
     <main>
       <Breadcrumbs

@@ -6,16 +6,30 @@ export type User = {
   usertype: string;
 };
 
-export type Ticket = {
+export type TicketList = {
   id: string;
+  number: number;
+  title: string;
+  roomName: string;
+  createdAt: string;
+  status: string;
+};
+
+export type itemTicket = {
+  id: string;
+  number: number;
   title: string;
   description: string;
   status: string;
-  img: string;
-  dt_creation: string;
-  user_id: string;
-  support_id: string;
-  room_id: string;
+  responsible: string;
+  attendant: string;
+  room: {
+    id: string;
+    name: string;
+    description: string;
+  };
+  createdAt: string;
+  imagesBase64: string;
 };
 
 export type Room = {

@@ -1,14 +1,41 @@
 import { DeleteButtonTable, UpdateButtonTable } from "../buttons";
+import { poppins500 } from "../../fonts";
 import { Room } from "@/app/lib/definitions";
 const styleThDefault = "px-3 py-5 font-medium";
-const styleTdDefault = "whitespace-nowrap px-3 py-1";
+const styleTdDefault = "whitespace px-3 py-1";
 
 export default async function TableRooms({ data }: { data: Room[] }) {
   return (
     <div className="mt-6 flex flex-root justify-center">
       <div className="inline-block align-middle min-w-full">
-        <div className="rounded-xl  bg-[#f1f2f3] p-3 md:pt-0 ">
+        <div className="rounded-xl bg-[#f1f2f3] p-3 md:pt-0 ">
           {/* Aqui vai a versão mobile da tabela */}
+          <div className="md:hidden">
+            <div className="h-[20px]"></div>
+            {data.map((item, indice) => {
+              return (
+                <div
+                  className="mb-2 w-full rounded-md bg-white p-4"
+                  key={indice}>
+                  <div className="border-b pb-4">
+                    <div className="mb-2 flex flex-row justify-between">
+                      <p>Sala {item.name}</p>
+                      <p className={`${poppins500.className}`}>#{indice + 1}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between pt-4">
+                    <p>{item.description}</p>
+                    <div className="flex justify-end gap-2 ml-[3px]">
+                      <UpdateButtonTable id={item.id} slug="rooms" />
+                      <DeleteButtonTable id={item.id} slug="rooms" />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Aqui vai a versão desktop da tabela */}
           <table className="hidden min-w-full text-gray-900 md:table ">
             <thead className="rounded-lg text-left text-sm font-normal ">
               <tr>

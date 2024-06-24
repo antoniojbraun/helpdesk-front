@@ -18,11 +18,16 @@ export default function FormCreateTicket({
 }) {
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createTicket, initialState);
-  let room: string | null = "";
+  let room: string | null = null;
   if (typeof window !== undefined) {
     room = localStorage.getItem("room");
   }
-  
+  let roomId = "0";
+  if (room) {
+    listofrooms.map((item) => {
+      if (item.name == room) roomId = item.id;
+    });
+  }
   return (
     <form action={dispatch}>
       <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">
@@ -34,12 +39,11 @@ export default function FormCreateTicket({
             name="room"
             id="room"
             aria-describedby="room-error"
-            className={styleInput}>
+            className={styleInput}
+            defaultValue={roomId}>
             <option value="">Selecione a Sala</option>
-            {listofrooms.map((item, indice) => (
-              <option
-                value={item.id}
-                selected={item.name == room ? true : false}>
+            {listofrooms.map((item) => (
+              <option value={item.id} key={item.name}>
                 {item.name}
               </option>
             ))}
@@ -125,7 +129,7 @@ export default function FormCreateTicket({
         <Link href="/dashboard/tickets" className={styleCancelButton}>
           Cancel
         </Link>
-        <Button type="submit">Criar um Ticket</Button>
+        <Button type="submit">Criar um Chamado</Button>
       </div>
     </form>
   );

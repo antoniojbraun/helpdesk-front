@@ -4,16 +4,55 @@ import {
   ViewButtonTable,
 } from "../buttons";
 import Status from "./status";
-import { Ticket } from "@/app/lib/definitions";
+import { TicketList } from "@/app/lib/definitions";
+import { poppins500 } from "../../fonts";
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace-nowrap px-3 py-1";
 
-export default async function TableTickets({ data }: { data: Ticket[] }) {
+export default async function TableTickets({ data }: { data: TicketList[] }) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-xl  bg-[#f1f2f3] p-3 md:pt-0">
+        <div className="rounded-xl bg-[#f1f2f3] p-3 md:pt-0">
           {/* Aqui vai a versão mobile da tabela */}
+          {/* Aqui vai a versão mobile da tabela */}
+          <div className="md:hidden">
+            <div className="h-[20px]"></div>
+            {data.map((item, indice) => {
+              return (
+                <div
+                  className="mb-2 w-full rounded-md bg-white p-4"
+                  key={indice}>
+                  <div className="border-b pb-4">
+                    <div className="mb-2 flex flex-row justify-between">
+                      <div>
+                        <p>{item.title}</p>
+                        <p className={`${poppins500.className} text-sm`}>
+                          #{item.number}
+                        </p>
+                      </div>
+                      <div>
+                        <Status>{item.status}</Status>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between pt-4 whitespace-pre-wrap">
+                    <div className="flex flex-col ">
+                      <p>Sala {item.roomName}</p>
+                      <p>Criado em {item.createdAt}</p>
+                    </div>
+                    <div className="flex justify-end gap-2 ml-[3px]">
+                      {/* <UpdateButtonTable id={item.id} slug="tickets" />
+                      <DeleteButtonTable id={item.id} slug="tickets" /> */}
+                      <ViewButtonTable id={item.id} slug="tickets" />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Aqui vai a versão desktop */}
           <table className="hidden min-w-full text-gray-900 md:table ">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
@@ -47,12 +86,12 @@ export default async function TableTickets({ data }: { data: Ticket[] }) {
                     key={indice}
                     className="w-full border-b text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                     <td className="whitespace-nowrap py-1 pl-6 pr-3">
-                      {item.id}
+                      {item.number}
                     </td>
                     <td className={styleTdDefault}>{item.title}</td>
                     {/* <td className={styleTdDefault}>{item.description}</td> */}
-                    <td className={styleTdDefault}>{item.room}</td>
-                    <td className={styleTdDefault}>{item.dt_creation}</td>
+                    <td className={styleTdDefault}>{item.roomName}</td>
+                    <td className={styleTdDefault}>{item.createdAt}</td>
                     <td className={styleTdDefault}>
                       <Status>{item.status}</Status>
                     </td>

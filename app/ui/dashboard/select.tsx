@@ -36,7 +36,7 @@ export default function Select({
     router.replace(`${pathname}?${params.toString()}`);
   }
   return (
-    <div className={`${styleDivDefault}`}>
+    <div className={`${styleDivDefault} space-x-[26px] md:space-x-3`}>
       <label htmlFor={`title.toLowerCase()`}>{title}</label>
       <select
         name={`type.toLowerCase()`}

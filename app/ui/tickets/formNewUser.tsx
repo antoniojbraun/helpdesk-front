@@ -1,19 +1,16 @@
 import React from "react";
-import { poppins500 } from "../fonts";
 import {
   AtSymbolIcon,
   KeyIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import Link from "@/node_modules/next/link";
 import { Button } from "../dashboard/button";
 
 interface FormNewUserProps {
   isVisible: boolean;
-  room: string;
 }
 
-const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible, room }) => {
+const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
   const visibleOrNot = isVisible ? " block" : " hidden";
 
   return (

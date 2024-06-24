@@ -47,7 +47,7 @@ export default function Page({ params }: { params: { room: string } }) {
             Cadastrar
           </ToggleCreateLogin>
         </div>
-        <FormNewUser isVisible={formNewUserActive} room={room} />
+        <FormNewUser isVisible={formNewUserActive} />
         <FormLoginUser isVisible={loginActive} room={room} />
       </div>
     </main>

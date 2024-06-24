@@ -7,23 +7,20 @@ import {
   HowManyPagesGeneric,
   fetchFilteredItemsGeneric,
 } from "@/app/lib/utils";
-import { Ticket } from "@/app/lib/definitions";
+import { TicketList } from "@/app/lib/definitions";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams?: { query?: string; sort?: string; page?: string };
 }) {
-  const ticket: Ticket = {
+  const ticket: TicketList = {
     id: "",
     title: "",
-    description: "",
+    number: 0 ,
+    createdAt: "",
+    roomName: "",
     status: "",
-    img: "",
-    dt_creation: "",
-    user_id: "",
-    room_id: "",
-    support_id: "",
   };
 
   const query = searchParams?.query || "";
@@ -38,7 +35,9 @@ export default async function Page({
     ticket
   );
 
-
+  if (typeof window !== undefined) {
+    console.log(localStorage.getItem("room"));
+  }
 
   return (
     <div className="flex flex-col">
