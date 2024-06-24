@@ -44,6 +44,7 @@ export async function getTicketById(id: string) {
 }
 
 export async function createTicket(prevState: State, formData: FormData) {
+  console.log(typeof formData.get("room"));
   const validatedFields = CreateTicket.safeParse({
     title: formData.get("title"),
     description: formData.get("description"),

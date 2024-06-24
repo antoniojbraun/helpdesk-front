@@ -17,7 +17,7 @@ export default async function Page({
   const ticket: TicketList = {
     id: "",
     title: "",
-    number: 0 ,
+    number: 0,
     createdAt: "",
     roomName: "",
     status: "",
@@ -34,10 +34,6 @@ export default async function Page({
     getAllTickets,
     ticket
   );
-
-  if (typeof window !== undefined) {
-    console.log(localStorage.getItem("room"));
-  }
 
   return (
     <div className="flex flex-col">

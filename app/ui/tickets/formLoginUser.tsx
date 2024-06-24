@@ -13,7 +13,7 @@ interface FormLoginUserProps {
 const FormLoginUser: React.FC<FormLoginUserProps> = ({ isVisible, room }) => {
   const visibleOrNot = isVisible ? " block" : " hidden";
   if (room) {
-    if (typeof window !== undefined) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("room", room);
     }
   }

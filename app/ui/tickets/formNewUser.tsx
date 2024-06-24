@@ -21,20 +21,12 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
         <label htmlFor="firstname">Nome:</label>
         <input
           type="firstname"
-          placeholder="Digite seu primeiro nome"
+          placeholder="Digite seu nome"
           className="rounded border border-gray-400 py-[11px] pl-10 text-sm placeholder:text-gray-500"
         />
         <UserCircleIcon className="pointer-events-none absolute left-2 h-[18px] w-[18px] top-[52px] text-gray-500 peer-focus:text-gray-900" />
       </div>
-      <div className="flex flex-col relative pt-[15px] pb-[7px] ">
-        <label htmlFor="lastname">Sobrenome:</label>
-        <input
-          type="lastname"
-          placeholder="Digite seu sobrenome"
-          className="rounded border border-gray-400 py-[11px] pl-10 text-sm placeholder:text-gray-500"
-        />
-        <UserCircleIcon className="pointer-events-none absolute left-2 h-[18px] w-[18px] top-[52px] text-gray-500 peer-focus:text-gray-900" />
-      </div>
+
       <div className="flex flex-col relative pt-[15px] pb-[7px]">
         <label htmlFor="email">Email:</label>
         <input
@@ -55,6 +47,13 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
       </div>
       <div className="mt-[15px] flex justify-end">
         <Button type="submit">Criar conta</Button>
+      </div>
+
+      <div className="flex justify-center items-center mt-6 space-x-2">
+        <input type="checkbox" id="agreement" />
+        <label htmlFor="agreement" className="text-[10px]">
+          Concordo com os termos de serviço.
+        </label>
       </div>
     </form>
   );

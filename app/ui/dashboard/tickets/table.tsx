@@ -1,20 +1,22 @@
-import {
-  DeleteButtonTable,
-  UpdateButtonTable,
-  ViewButtonTable,
-} from "../buttons";
+"use client";
+import { useEffect } from "react";
+import { ViewButtonTable } from "../buttons";
 import Status from "./status";
 import { TicketList } from "@/app/lib/definitions";
 import { poppins500 } from "../../fonts";
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace-nowrap px-3 py-1";
 
-export default async function TableTickets({ data }: { data: TicketList[] }) {
+export default function TableTickets({ data }: { data: TicketList[] }) {
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      if (localStorage.getItem("room")) localStorage.removeItem("room");
+    }
+  });
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-xl bg-[#f1f2f3] p-3 md:pt-0">
-          {/* Aqui vai a versão mobile da tabela */}
           {/* Aqui vai a versão mobile da tabela */}
           <div className="md:hidden">
             <div className="h-[20px]"></div>

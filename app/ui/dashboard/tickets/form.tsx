@@ -5,7 +5,7 @@ import Link from "@/node_modules/next/link";
 import { useFormState } from "react-dom";
 import { Button } from "../button";
 import { Room } from "@/app/lib/definitions";
-
+import { useState } from "react";
 const styleLabel = " w-full py-[8px] ";
 const styleInput = " rounded-md w-full py-[8px] px-[15px] ";
 const styleDivInputs = "flex flex-col items-start rounded-md";
@@ -16,18 +16,21 @@ export default function FormCreateTicket({
 }: {
   listofrooms: Room[];
 }) {
+  const [isEditable, setIsEditable] = useState(false);
+
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createTicket, initialState);
   let room: string | null = null;
-  if (typeof window !== undefined) {
-    room = localStorage.getItem("room");
-  }
   let roomId = "0";
+
+  if (typeof window !== undefined) room = localStorage.getItem("room");
   if (room) {
     listofrooms.map((item) => {
-      if (item.name == room) roomId = item.id;
+      if (item.name.toLowerCase() == room!.toLowerCase())
+        roomId = item.id.toString();
     });
   }
+
   return (
     <form action={dispatch}>
       <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">
@@ -41,7 +44,7 @@ export default function FormCreateTicket({
             aria-describedby="room-error"
             className={styleInput}
             defaultValue={roomId}>
-            <option value="">Selecione a Sala</option>
+            <option value="0">Selecione a Sala</option>
             {listofrooms.map((item) => (
               <option value={item.id} key={item.name}>
                 {item.name}
@@ -129,6 +132,7 @@ export default function FormCreateTicket({
         <Link href="/dashboard/tickets" className={styleCancelButton}>
           Cancel
         </Link>
+
         <Button type="submit">Criar um Chamado</Button>
       </div>
     </form>
