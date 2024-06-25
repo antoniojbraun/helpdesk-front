@@ -4,17 +4,7 @@ import { itemTicket } from "@/app/lib/definitions";
 
 const styleP = "whitespace-nowrap";
 const styleAtributesP = " text-slate-500";
-export default function HeadTicketView({
-  ticket,
-}: // authorName,
-// supportName,
-// roomName,
-{
-  ticket: itemTicket;
-  // authorName: string;
-  // supportName: string;
-  // roomName: string;
-}) {
+export default function HeadTicketView({ ticket }: { ticket: itemTicket }) {
   return (
     <div className="px-[18px] py-[20px] bg-[#F1F2F3] rounded-md">
       <div className="flex flex-row justify-between">

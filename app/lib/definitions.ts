@@ -6,13 +6,14 @@ export type User = {
   usertype: string;
 };
 
-export type TicketList = {
+export type TicketByUser = {
   id: string;
   number: number;
   title: string;
-  roomName: string;
-  createdAt: string;
+  description: string;
   status: string;
+  room: string;
+  createdAt: string;
 };
 
 export type itemTicket = {

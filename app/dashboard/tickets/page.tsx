@@ -7,20 +7,21 @@ import {
   HowManyPagesGeneric,
   fetchFilteredItemsGeneric,
 } from "@/app/lib/utils";
-import { TicketList } from "@/app/lib/definitions";
+import { TicketByUser } from "@/app/lib/definitions";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams?: { query?: string; sort?: string; page?: string };
 }) {
-  const ticket: TicketList = {
+  const ticket: TicketByUser = {
     id: "",
-    title: "",
     number: 0,
-    createdAt: "",
-    roomName: "",
+    title: "",
+    description: "",
+    room: "",
     status: "",
+    createdAt: "",
   };
 
   const query = searchParams?.query || "";

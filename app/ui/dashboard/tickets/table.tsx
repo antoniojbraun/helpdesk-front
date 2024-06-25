@@ -2,12 +2,12 @@
 import { useEffect } from "react";
 import { ViewButtonTable } from "../buttons";
 import Status from "./status";
-import { TicketList } from "@/app/lib/definitions";
+import { TicketByUser } from "@/app/lib/definitions";
 import { poppins500 } from "../../fonts";
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace-nowrap px-3 py-1";
 
-export default function TableTickets({ data }: { data: TicketList[] }) {
+export default function TableTickets({ data }: { data: TicketByUser[] }) {
   useEffect(() => {
     if (typeof window !== undefined) {
       if (localStorage.getItem("room")) localStorage.removeItem("room");
@@ -40,7 +40,7 @@ export default function TableTickets({ data }: { data: TicketList[] }) {
                   </div>
                   <div className="flex items-center justify-between pt-4 whitespace-pre-wrap">
                     <div className="flex flex-col ">
-                      <p>Sala {item.roomName}</p>
+                      <p>Sala {item.room}</p>
                       <p>Criado em {item.createdAt}</p>
                     </div>
                     <div className="flex justify-end gap-2 ml-[3px]">
@@ -92,7 +92,7 @@ export default function TableTickets({ data }: { data: TicketList[] }) {
                     </td>
                     <td className={styleTdDefault}>{item.title}</td>
                     {/* <td className={styleTdDefault}>{item.description}</td> */}
-                    <td className={styleTdDefault}>{item.roomName}</td>
+                    <td className={styleTdDefault}>{item.room}</td>
                     <td className={styleTdDefault}>{item.createdAt}</td>
                     <td className={styleTdDefault}>
                       <Status>{item.status}</Status>
