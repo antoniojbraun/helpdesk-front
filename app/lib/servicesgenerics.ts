@@ -4,6 +4,8 @@ import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
 import { InfoUrl, urlBaseApi } from "./definitions";
 
+// import { AuthError } from "next-auth";
+
 export async function deleteGeneric(infoUrl: InfoUrl) {
   const urlBaseDelete = "http://localhost:3100";
   let newUrlDelete = `${urlBaseDelete}/${infoUrl.slug}/${infoUrl.id}`;
@@ -38,3 +40,29 @@ export async function getItemByIdGeneric(id: string, slug: string) {
   }
   return response.json();
 }
+
+// export async function authenticate(
+//   prevState: string | undefined,
+//   formData: FormData
+// ) {
+//   const user = {
+//     email: formData.get("email"),
+//     password: formData.get("password"),
+//   };
+//   signIn("credentials", { ...user, callbackUrl: "/dashboard" });
+
+//   // try {
+//   //   await
+//   // } catch (error) {
+//   //   if (error instanceof AuthError) {
+//   //     switch (error.type) {
+//   //       case "CredentialsSignin":
+//   //         return "Email ou senha incorretos!";
+//   //       default:
+//   //         return "Algo de errado não está certo!";
+//   //     }
+//   //   }
+//   //   throw error;
+//   // }
+// }
+

@@ -9,11 +9,11 @@ import {
 } from "@/app/lib/utils";
 import { TicketByUser } from "@/app/lib/definitions";
 
-export default async function Page({
+const Page = async ({
   searchParams,
 }: {
   searchParams?: { query?: string; sort?: string; page?: string };
-}) {
+}) => {
   const ticket: TicketByUser = {
     id: "",
     number: 0,
@@ -41,7 +41,7 @@ export default async function Page({
       <TopbarContentPage
         titlePage="Chamados"
         titleButton="Criar Chamado"
-        urlButton="/dashboard/tickets/create"
+        urlButton="/dashboard/user/tickets/create"
       />
       <SearchBar />
       <Table data={tickets} />
@@ -50,4 +50,6 @@ export default async function Page({
       </div>
     </div>
   );
-}
+};
+
+export default Page;

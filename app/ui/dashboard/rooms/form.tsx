@@ -26,7 +26,7 @@ export default function FormCreateRoom() {
             id="name"
             name="name"
             aria-describedby="name-error"
-            placeholder="Digite o nome da sala..."
+            placeholder="Digite o nome da sala"
             className={styleInput}
           />
           <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -46,7 +46,7 @@ export default function FormCreateRoom() {
             id="description"
             name="description"
             aria-describedby="description-error"
-            placeholder="Digite a descrição da sala..."
+            placeholder="Digite a descrição da sala"
             className={styleInput}
           />
           <div id="description-error" aria-live="polite" aria-atomic="true">
@@ -61,7 +61,7 @@ export default function FormCreateRoom() {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link href="/dashboard/rooms" className={styleCancelButton}>
-          Cancel
+          Cancelar
         </Link>
         <Button type="submit">Criar uma Sala</Button>
       </div>

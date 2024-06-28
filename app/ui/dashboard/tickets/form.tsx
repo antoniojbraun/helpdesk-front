@@ -3,12 +3,12 @@
 import { createTicket } from "@/app/lib/tickets/servicesticket";
 import Link from "@/node_modules/next/link";
 import { useFormState } from "react-dom";
-import { Button } from "../button";
+import { Button, InputFile } from "../button";
 import { Room } from "@/app/lib/definitions";
-import { useState } from "react";
+import React, { useState } from "react";
 const styleLabel = " w-full py-[8px] ";
 const styleInput = " rounded-md w-full py-[8px] px-[15px] ";
-const styleDivInputs = "flex flex-col items-start rounded-md";
+const styleDivInputs = "flex flex-col rounded-md";
 const styleCancelButton =
   "flex h-10 items-center rounded-lg bg-gray-200 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-300";
 export default function FormCreateTicket({
@@ -29,9 +29,17 @@ export default function FormCreateTicket({
     });
   }
 
+  const [fileName, setFileName] = useState("");
+  function handleInputFile(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.files && event.target.files?.length > 0) {
+      setFileName(event.target.files[0].name);
+    } else {
+      setFileName("");
+    }
+  }
   return (
     <form action={dispatch}>
-      <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">
+      <div className="rounded-md bg-[#F1F2F3] p-6 space-y-[10px] w-full">
         <div className={styleDivInputs}>
           <label htmlFor="room" className={styleLabel}>
             Sala<span className="text-red-500">*</span>
@@ -67,7 +75,7 @@ export default function FormCreateTicket({
             id="title"
             name="title"
             aria-describedby="title-error"
-            placeholder="Digite o título do chamado."
+            placeholder="Digite o título do chamado"
             className={styleInput}
           />
           <div id="title-error" aria-live="polite" aria-atomic="true">
@@ -87,7 +95,7 @@ export default function FormCreateTicket({
             id="description"
             name="description"
             aria-describedby="description-error"
-            placeholder="Explique em poucas palavras o problema.."
+            placeholder="Explique o problema encontrado"
             className={styleInput}
           />
           <div id="description-error" aria-live="polite" aria-atomic="true">
@@ -115,20 +123,16 @@ export default function FormCreateTicket({
           <label htmlFor="status">Pendente</label>
         </div>
         <div className={styleDivInputs}>
-          <label htmlFor="ticket_img" className={styleLabel}>
+          <label htmlFor="file" className={styleLabel}>
             Anexo
           </label>
-          <input
-            type="file"
-            id="ticket_img"
-            name="ticket_img"
-            className="w-full"
-          />
+          <InputFile fileName={fileName} handleFileChange={handleInputFile} />
         </div>
       </div>
+
       <div className="mt-6 flex justify-end gap-4">
         <Link href="/dashboard/tickets" className={styleCancelButton}>
-          Cancel
+          Cancelar
         </Link>
 
         <Button type="submit">Criar um Chamado</Button>

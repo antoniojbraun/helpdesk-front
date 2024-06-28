@@ -1,4 +1,4 @@
-export default function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: { id: string } }) {
   return (
     <main>
       Dashboard Home

@@ -1,5 +1,3 @@
-
-
 const ITEMS_PER_PAGE = 10;
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
@@ -109,7 +107,7 @@ export async function fetchFilteredItemsGeneric<T>(
   currentPage: number,
   getAllItems: () => Promise<T[]>,
   type: T
-): Promise<T[]> {
+) {
   let items: T[] = await getAllItems();
   let filteredItems: T[];
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -133,5 +131,3 @@ export async function fetchFilteredItemsGeneric<T>(
 
   return filteredItems;
 }
-
-

@@ -20,6 +20,7 @@ const authOptions: NextAuthOptions = {
           password: "123",
           role: "support",
         };
+<<<<<<< Updated upstream
 
         const response = await fetch(endpointLogin, {
           method: "POST",
@@ -31,6 +32,23 @@ const authOptions: NextAuthOptions = {
           console.error(`Erro ao fazer login: ${erroData}`);
         }
         console.log(response.json());
+=======
+        try {
+          const response = await fetch(endpointLogin, {
+            method: "POST",
+            body: JSON.stringify(credentials),
+            headers: { "Content-Type": "application/json" },
+          });
+          if (!response.ok) {
+            // Se a resposta não for OK, lançamos um erro
+            throw new Error(`Erro: ${response.statusText}`);
+          }
+          console.log(response.json());
+        } catch (error) {
+          console.error("Erro na autenticação: ", error);
+          throw error;
+        }
+>>>>>>> Stashed changes
 
         return user;
       },

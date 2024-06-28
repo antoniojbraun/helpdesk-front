@@ -1,15 +1,39 @@
+"use client";
+
 import { Button } from "../dashboard/button";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
-import {
-  AtSymbolIcon,
-  KeyIcon,
-  ExclamationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { poppins600 } from "../fonts";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
+  // const [state, dispatch] = useFormState(authenticate, undefined);
+
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const response = await signIn("credentials", {
+      redirect: false,
+      email: email,
+      password: password,
+    });
+    console.log("[LOGIN_RESPONSE]: " + response);
+    if (!response?.error) {
+      router.refresh();
+      router.push("/dashboard/");
+    } else {
+      setError("Email ou senha inválidos!");
+      console.log("[LOGIN_ERROR]: ", response.error);
+    }
+  };
   return (
-    <form className="flex justify-center w-full">
+    <form onSubmit={handleLogin} className="flex justify-center w-full">
       <div className="flex flex-col items-center w-[90%]">
         <h1 className={`${poppins600.className} text-[30px] text-[#283845]`}>
           HelpDesk
@@ -29,6 +53,8 @@ export default function LoginForm() {
             <input
               placeholder="Digite seu email"
               type="email"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
               className="rounded border border-gray-400 py-[11px] pl-10 text-sm placeholder:text-gray-500"
             />
             <AtSymbolIcon className="pointer-events-none absolute left-2 h-[18px] w-[18px] top-[42px] text-gray-500 peer-focus:text-gray-900" />
@@ -41,26 +67,22 @@ export default function LoginForm() {
             <input
               placeholder="Digite sua senha"
               type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
               className="rounded border border-gray-400 py-[11px] pl-10 text-sm placeholder:text-gray-500"
             />
             <KeyIcon className="pointer-events-none absolute left-2 h-[18px] w-[18px] top-[41px] text-gray-500 peer-focus:text-gray-900" />
           </div>
-          <LoginButton />
+          <Button className="mt-4 w-full">
+            Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+          </Button>
           <div>{/* Seção que irá exibir os erros de login */}</div>
           <div className="mt-[20px] text-[11px] text-gray-600 text-center">
-            Ainda não é cadastrado?{" "}
+            Ainda não é cadastrado?
             <span className="text-blue-600">Faça seu cadastro aqui</span>
           </div>
         </div>
       </div>
     </form>
-  );
-}
-
-function LoginButton() {
-  return (
-    <Button className="mt-4 w-full">
-      Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-    </Button>
   );
 }

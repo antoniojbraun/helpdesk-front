@@ -1,4 +1,4 @@
-import Breadcrumbs from "../../../ui/dashboard/breadcrumbs";
+import Breadcrumbs from "../../../../ui/dashboard/breadcrumbs";
 import FormCreateTicket from "@/app/ui/dashboard/tickets/form";
 import { getAllRooms } from "@/app/lib/rooms/servicesrooms";
 

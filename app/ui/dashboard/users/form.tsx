@@ -26,7 +26,7 @@ export default function FormCreateUser() {
             id="name"
             name="name"
             aria-describedby="name-error"
-            placeholder="Digite o nome do usuário."
+            placeholder="Digite o nome do usuário"
             className={styleInput}
           />
           <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -47,7 +47,7 @@ export default function FormCreateUser() {
             id="email"
             name="email"
             aria-describedby="email-error"
-            placeholder="Digite o email do usuário."
+            placeholder="Digite o email do usuário"
             className={styleInput}
           />
           <div id="email-error" aria-live="polite" aria-atomic="true">
@@ -106,7 +106,7 @@ export default function FormCreateUser() {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link href="/dashboard/users" className={styleCancelButton}>
-          Cancel
+          Cancelar
         </Link>
         <Button type="submit">Criar um Usuário</Button>
       </div>

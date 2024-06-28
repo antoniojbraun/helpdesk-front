@@ -18,7 +18,7 @@ export default function FormCreateMessages({ id }: { id: string }) {
   const initialState = { message: null, errors: {} };
   const createMessageChatWithId = createMessageChat.bind(null, id);
   const [state, dispatch] = useFormState(createMessageChatWithId, initialState);
-  
+
   return (
     <form action={dispatch} className="py-[30px] px-[20px] flex flex-col">
       <div className="border-[2px] my-[12px]"></div>

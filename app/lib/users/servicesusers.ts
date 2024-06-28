@@ -121,5 +121,5 @@ export async function loginUser(
 
   console.log("email: " + email + "senha: " + senha);
   console.log("E aqui vai a sala " + room);
-  redirect(`/dashboard/tickets/create/`);
+  redirect(`/dashboard/user/tickets/create/`);
 }

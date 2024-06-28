@@ -31,7 +31,7 @@ export default function FormEditUser({ user }: { user: User }) {
             id="name"
             name="name"
             aria-describedby="name-error"
-            placeholder="Digite o nome do usuário."
+            placeholder="Digite o nome do usuário"
             className={styleInput}
             defaultValue={user.name}
           />
@@ -53,7 +53,7 @@ export default function FormEditUser({ user }: { user: User }) {
             id="email"
             name="email"
             aria-describedby="email-error"
-            placeholder="Digite o email do usuário."
+            placeholder="Digite o email do usuário"
             className={styleInput}
             defaultValue={user.email}
           />
@@ -116,7 +116,7 @@ export default function FormEditUser({ user }: { user: User }) {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link href="/dashboard/users" className={styleCancelButton}>
-          Cancel
+          Cancelar
         </Link>
         <Button type="submit">Editar Usuário</Button>
       </div>

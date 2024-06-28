@@ -73,6 +73,11 @@ export type Chat = {
   chatdata: [];
 };
 
+export type InitialState = {
+  message: null;
+  errors: {};
+};
+
 export const initialState = { message: null, errors: {} };
 
 export const urlBaseApi = "http://localhost:3100";

@@ -27,7 +27,7 @@ export default function FormEditRoom({ room }: { room: Room }) {
             id="name"
             name="name"
             aria-describedby="name-error"
-            placeholder="Digite o nome da sala..."
+            placeholder="Digite o nome da sala"
             className={styleInput}
             defaultValue={room.name}
           />
@@ -48,7 +48,7 @@ export default function FormEditRoom({ room }: { room: Room }) {
             id="description"
             name="description"
             aria-describedby="description-error"
-            placeholder="Digite a descrição da sala..."
+            placeholder="Digite a descrição da sala"
             className={styleInput}
             defaultValue={room.description}
           />
@@ -64,7 +64,7 @@ export default function FormEditRoom({ room }: { room: Room }) {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link href="/dashboard/rooms" className={styleCancelButton}>
-          Cancel
+          Cancelar
         </Link>
         <Button type="submit">Editar Sala</Button>
       </div>

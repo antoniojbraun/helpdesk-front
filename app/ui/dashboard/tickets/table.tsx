@@ -99,7 +99,7 @@ export default function TableTickets({ data }: { data: TicketByUser[] }) {
                     </td>
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
-                        <ViewButtonTable id={item.id} slug="tickets" />
+                        <ViewButtonTable id={item.id} slug="user/tickets" />
                         {/* <UpdateButtonTable id={item.id} slug="tickets" /> */}
                         {/* <DeleteButtonTable id={item.id} slug="tickets"  /> */}
                       </div>
