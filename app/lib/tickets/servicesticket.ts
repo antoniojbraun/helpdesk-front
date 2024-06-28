@@ -34,6 +34,18 @@ export async function getAllTickets(): Promise<Ticket[]> {
   return data.json();
 }
 
+export async function getAllTicketsByUser(
+  idUser: string,
+  token: string
+): Promise<Ticket[]> {
+  const newUrl = `${urlBaseApi}/tickets/user/${idUser}`;
+  const data = await fetch(newUrl, {
+    cache: "no-store",
+  });
+  if (!data.ok) throw new Error("Failed to fetch data!");
+  return data.json();
+}
+
 export async function getTicketById(id: string) {
   const newUrl = `${urlBaseApi}/tickets/${id}`;
   const data = await fetch(newUrl, {

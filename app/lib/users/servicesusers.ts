@@ -153,5 +153,15 @@ export async function createUserByUser(
   }
 
   const { name, email, password, confirmPassword } = validatedFields.data;
-  const response = await fetch("/");
+  const response = await fetch(`${urlBaseApi}/users`, {
+    method: "POST",
+    body: JSON.stringify({ name, email, password, confirmPassword }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
+  if (!response.ok) {
+    const errorData = response.json();
+    console.error(`Erro ao cadastrar usuário: ${errorData}`);
+  }
 }

@@ -6,14 +6,17 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { Button } from "../dashboard/button";
-
+import { useFormState } from "react-dom";
+import { createUserByUser } from "@/app/lib/users/servicesusers";
+import { initialState } from "@/app/lib/definitions";
 interface FormNewUserProps {
   isVisible: boolean;
 }
 
 const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
   const visibleOrNot = isVisible ? " block" : " hidden";
-
+  const [state, disptch] = useFormState(createUserByUser, initialState);
+  
   return (
     <form
       action=""
