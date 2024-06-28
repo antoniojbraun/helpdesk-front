@@ -22,7 +22,7 @@ export default function Page({ params }: { params: { room: string } }) {
 
 
   return (
-    <main className="flex flex-col justify-start w-[500px] h-fit bg-[#ECF6FF] p-[20px] space-y-[20px] rounded-md">
+    <main className="flex flex-col justify-start w-[500px] h-fit bg-[#D6E5F7] p-[40px] space-y-[20px] rounded-lg">
       <h1 className={`${poppins500.className} text-center text-[20px]`}>
         Identifique-se
       </h1>

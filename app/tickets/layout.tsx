@@ -4,13 +4,13 @@ import Footer from "../ui/dashboard/footer";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="border-b-[2px] border-[#2C88D9] p-[7px] w-full">
+      <div className="border-b-[2px] border-[#2C88D9] p-[7px] w-full bg-[#E7E9EA]">
         <h1
           className={`${poppins600.className} text-[25px] text-[#2C88D9] text-center`}>
           HelpDesk
         </h1>
       </div>
-      <div className="flex justify-center p-[20px] min-h-[calc(100vh-153.5px)] w-full">
+      <div className="flex justify-center p-[20px] min-h-[calc(100vh-153.5px)] w-full bg-[#E7E9EA]">
         {children}
       </div>
       <Footer />

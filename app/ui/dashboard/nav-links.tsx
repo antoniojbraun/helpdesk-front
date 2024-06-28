@@ -78,7 +78,7 @@ export default function Navlinks() {
   const data = useSession();
   const accessToken = data.data?.user;
   let userType = "";
-
+  let jaVai = false;
   if (accessToken) {
     userType =
       accessToken.role === 2
@@ -88,34 +88,37 @@ export default function Navlinks() {
         : accessToken.role === 0
         ? "user"
         : "";
+    jaVai = true;
   }
   const newLinks = links.filter((item) => item?.userType.includes(userType));
   return (
     <div className="space-y-[7px]">
       {newLinks.map((link, index) => {
         const LinkIcon = link?.icon;
-        return (
-          <Link
-            key={index}
-            href={link?.href}
-            className={clsx(
-              "flex items-center space-x-[18px] py-[6px] px-[15px] hover:bg-[#2C88D9] hover:rounded-lg hover:bg-opacity-15 active:bg-opacity-20",
-              {
-                "bg-[#2C88D9] rounded-lg bg-opacity-15":
-                  pathname === link?.href,
-              }
-            )}>
-            <LinkIcon className={styleIcons} />
-            <p
-              className={`${
-                isSidebarOpen ? "md:hidden" : "hidden "
-              } md:block text-[#2C88D9] ${
-                poppinsRegular.className
-              } text-[14px]`}>
-              {link?.name}
-            </p>
-          </Link>
-        );
+        if (jaVai) {
+          return (
+            <Link
+              key={index}
+              href={link?.href}
+              className={clsx(
+                "flex items-center space-x-[18px] py-[6px] px-[15px] hover:bg-[#2C88D9] hover:rounded-lg hover:bg-opacity-15 active:bg-opacity-20",
+                {
+                  "bg-[#2C88D9] rounded-lg bg-opacity-15":
+                    pathname === link?.href,
+                }
+              )}>
+              <LinkIcon className={styleIcons} />
+              <p
+                className={`${
+                  isSidebarOpen ? "md:hidden" : "hidden "
+                } md:block text-[#2C88D9] ${
+                  poppinsRegular.className
+                } text-[14px]`}>
+                {link?.name}
+              </p>
+            </Link>
+          );
+        }
       })}
       <SignOutButton />
     </div>
