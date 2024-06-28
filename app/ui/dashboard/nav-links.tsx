@@ -23,7 +23,13 @@ type DataUser = {
   expirationDate: string;
 };
 
-const styleLinks = "flex items-center space-x-[20px]";
+type listLinks = {
+  name: string;
+  href: string;
+  icon: string;
+  useType: string;
+};
+
 const styleIcons = "size-5 text-[#2C88D9]";
 const links = [
   {
@@ -76,9 +82,11 @@ export default function Navlinks() {
   const pathname = usePathname();
 
   const data = useSession();
-  const accessToken = data.data?.user;
+  const accessToken: DataUser = data.data?.user;
   let userType = "";
   let jaVai = false;
+  let newLinks;
+
   if (accessToken) {
     userType =
       accessToken.role === 2
@@ -89,38 +97,39 @@ export default function Navlinks() {
         ? "user"
         : "";
     jaVai = true;
+    newLinks = links.filter((item) => item?.userType.includes(userType));
   }
-  const newLinks = links.filter((item) => item?.userType.includes(userType));
   return (
     <div className="space-y-[7px]">
-      {newLinks.map((link, index) => {
-        const LinkIcon = link?.icon;
-        if (jaVai) {
-          return (
-            <Link
-              key={index}
-              href={link?.href}
-              className={clsx(
-                "flex items-center space-x-[18px] py-[6px] px-[15px] hover:bg-[#2C88D9] hover:rounded-lg hover:bg-opacity-15 active:bg-opacity-20",
-                {
-                  "bg-[#2C88D9] rounded-lg bg-opacity-15":
-                    pathname === link?.href,
-                }
-              )}>
-              <LinkIcon className={styleIcons} />
-              <p
-                className={`${
-                  isSidebarOpen ? "md:hidden" : "hidden "
-                } md:block text-[#2C88D9] ${
-                  poppinsRegular.className
-                } text-[14px]`}>
-                {link?.name}
-              </p>
-            </Link>
-          );
-        }
-      })}
-      <SignOutButton />
+      {newLinks &&
+        newLinks.map((link, index) => {
+          const LinkIcon = link?.icon;
+          if (jaVai) {
+            return (
+              <Link
+                key={index}
+                href={link?.href}
+                className={clsx(
+                  "flex items-center space-x-[18px] py-[6px] px-[15px] hover:bg-[#2C88D9] hover:rounded-lg hover:bg-opacity-15 active:bg-opacity-20",
+                  {
+                    "bg-[#2C88D9] rounded-lg bg-opacity-15":
+                      pathname === link?.href,
+                  }
+                )}>
+                <LinkIcon className={styleIcons} />
+                <p
+                  className={`${
+                    isSidebarOpen ? "md:hidden" : "hidden "
+                  } md:block text-[#2C88D9] ${
+                    poppinsRegular.className
+                  } text-[14px]`}>
+                  {link?.name}
+                </p>
+              </Link>
+            );
+          }
+        })}
+      <SignOutButton isSidebarOpen={isSidebarOpen} />
     </div>
   );
 }

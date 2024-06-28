@@ -1,6 +1,6 @@
 "use server";
 
-import { User, State, urlBaseApi } from "../definitions";
+import { User, State, urlBaseApi, InitialState } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
@@ -109,17 +109,49 @@ export async function updateUser(
   redirect("/dashboard/users");
 }
 
-export async function createUserByUser(formData: FormData) {}
+const FormSchemaCreatePublic = z.object({
+  name: z
+    .string()
+    .min(5, { message: "O nome é necessário com pelo menos 5 letra." }),
+  email: z.string().email({ message: "Necessário inserir um email válido!" }),
+  password: z
+    .string()
+    .min(6, { message: "Conter ao menos 6 caracteres." })
+    .refine((value) => /[a-z]/.test(value), {
+      message: "Conter ao menos um caracter em caixa baixa ('a'-'z').",
+    })
+    .refine((value) => /[A-Z]/.test(value), {
+      message: "Conter ao menos um caracter em caixa alta ('A'-'Z').",
+    }),
+  confirmPassword: z
+    .string()
+    .min(6, { message: "Conter ao menos 6 caracteres." })
+    .refine((value) => /[a-z]/.test(value), {
+      message: "Conter ao menos um caracter em caixa baixa ('a'-'z').",
+    })
+    .refine((value) => /[A-Z]/.test(value), {
+      message: "Conter ao menos um caracter em caixa alta ('A'-'Z').",
+    }),
+});
 
-export async function loginUser(
-  room: string,
-  prevState: State,
+export async function createUserByUser(
+  prevState: InitialState,
   formData: FormData
 ) {
-  const email = formData.get("email");
-  const senha = formData.get("password");
+  const validatedFields = FormSchemaCreatePublic.safeParse({
+    name: formData.get("name"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+  });
 
-  console.log("email: " + email + "senha: " + senha);
-  console.log("E aqui vai a sala " + room);
-  redirect(`/dashboard/user/tickets/create/`);
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Necessário preencher todos os dados para fazer um cadastro.",
+    };
+  }
+
+  const { name, email, password, confirmPassword } = validatedFields.data;
+  const response = await fetch("/");
 }

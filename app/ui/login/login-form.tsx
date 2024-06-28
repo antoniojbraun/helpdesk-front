@@ -13,8 +13,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
-  // const [state, dispatch] = useFormState(authenticate, undefined);
-
+  
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -80,7 +79,7 @@ export default function LoginForm() {
             <KeyIcon className="pointer-events-none absolute left-2 h-[18px] w-[18px] top-[41px] text-gray-500 peer-focus:text-gray-900" />
           </div>
           <Button className="mt-4 w-full">
-            Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+            Entrar <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
           </Button>
           <div className="flex gap-2 mt-3 text-sm justify-center">
             {/* Seção que irá exibir os erros de login */}

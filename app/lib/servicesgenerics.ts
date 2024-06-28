@@ -41,6 +41,8 @@ export async function getItemByIdGeneric(id: string, slug: string) {
   return response.json();
 }
 
+
+
 // export async function authenticate(
 //   prevState: string | undefined,
 //   formData: FormData

@@ -7,7 +7,8 @@ import {
 import { NextResponse } from "next/server";
 
 const middleware = (request: NextRequestWithAuth) => {
-  console.log("[MIDDLEWARE_NEXTAUTH_TOKEN]: ", request.nextauth.token);
+  // console.log("[MIDDLEWARE_NEXTAUTH_TOKEN]: ", request.nextauth.token);
+
   let userRole = JSON.stringify(request.nextauth.token?.role);
 
   const isAdmin = userRole === "2";
@@ -42,5 +43,5 @@ const callbackOptions: NextAuthMiddlewareOptions = {};
 
 export default withAuth(middleware, callbackOptions);
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/"],
 };
