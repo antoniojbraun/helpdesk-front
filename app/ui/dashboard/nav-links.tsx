@@ -1,3 +1,5 @@
+"use client";
+
 import { useSidebarContext } from "@/app/context/SidebarContext";
 import Link from "@/node_modules/next/link";
 import { usePathname } from "@/node_modules/next/navigation";
@@ -10,9 +12,18 @@ import {
 } from "@heroicons/react/24/solid";
 import { poppinsRegular } from "../fonts";
 import { SignOutButton } from "./sign-out-button";
+import { useSession } from "next-auth/react";
+
+type DataUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: number;
+  token: string;
+  expirationDate: string;
+};
 
 const styleLinks = "flex items-center space-x-[20px]";
-
 const styleIcons = "size-5 text-[#2C88D9]";
 const links = [
   {
@@ -60,12 +71,25 @@ const links = [
   },
 ];
 
-const userType = "admin";
-const newLinks = links.filter((item) => item?.userType.includes(userType));
-
 export default function Navlinks() {
   const { isSidebarOpen } = useSidebarContext();
   const pathname = usePathname();
+
+  const data = useSession();
+  const accessToken = data.data?.user;
+  let userType = "";
+
+  if (accessToken) {
+    userType =
+      accessToken.role === 2
+        ? "admin"
+        : accessToken.role === 1
+        ? "support"
+        : accessToken.role === 0
+        ? "user"
+        : "";
+  }
+  const newLinks = links.filter((item) => item?.userType.includes(userType));
   return (
     <div className="space-y-[7px]">
       {newLinks.map((link, index) => {

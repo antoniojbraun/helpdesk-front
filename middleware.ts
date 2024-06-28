@@ -8,9 +8,11 @@ import { NextResponse } from "next/server";
 
 const middleware = (request: NextRequestWithAuth) => {
   console.log("[MIDDLEWARE_NEXTAUTH_TOKEN]: ", request.nextauth.token);
-  const isAdmin = request.nextauth.token?.role === "admin";
-  const isUser = request.nextauth.token?.role === "user";
-  const isSupport = request.nextauth.token?.role === "support";
+  let userRole = JSON.stringify(request.nextauth.token?.role);
+
+  const isAdmin = userRole === "2";
+  const isSupport = userRole === "1";
+  const isUser = userRole === "0";
 
   const isPrivateRoutes = request.nextUrl.pathname.startsWith("/dashboard");
 

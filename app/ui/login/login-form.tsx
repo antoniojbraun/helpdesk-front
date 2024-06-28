@@ -2,7 +2,11 @@
 
 import { Button } from "../dashboard/button";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
-import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
+import {
+  AtSymbolIcon,
+  ExclamationCircleIcon,
+  KeyIcon,
+} from "@heroicons/react/24/outline";
 import { poppins600 } from "../fonts";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -14,7 +18,7 @@ export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errorMessage, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +32,7 @@ export default function LoginForm() {
       router.refresh();
       router.push("/dashboard/");
     } else {
-      setError("Email ou senha inválidos!");
+      setError("Email e/ou senha inválido(s)");
       console.log("[LOGIN_ERROR]: ", response.error);
     }
   };
@@ -51,6 +55,7 @@ export default function LoginForm() {
               Email
             </label>
             <input
+              required
               placeholder="Digite seu email"
               type="email"
               name="email"
@@ -65,6 +70,7 @@ export default function LoginForm() {
               Senha
             </label>
             <input
+              required
               placeholder="Digite sua senha"
               type="password"
               name="password"
@@ -76,11 +82,19 @@ export default function LoginForm() {
           <Button className="mt-4 w-full">
             Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
           </Button>
-          <div>{/* Seção que irá exibir os erros de login */}</div>
-          <div className="mt-[20px] text-[11px] text-gray-600 text-center">
+          <div className="flex gap-2 mt-3 text-sm justify-center">
+            {/* Seção que irá exibir os erros de login */}
+            {errorMessage && (
+              <>
+                <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+                <p className="text-sm text-red-500">{errorMessage}</p>
+              </>
+            )}
+          </div>
+          {/* <div className="mt-[20px] text-[11px] text-gray-600 text-center">
             Ainda não é cadastrado?
             <span className="text-blue-600">Faça seu cadastro aqui</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </form>
