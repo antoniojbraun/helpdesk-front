@@ -80,4 +80,19 @@ export type InitialState = {
 
 export const initialState = { message: null, errors: {} };
 
-export const urlBaseApi = "http://localhost:3100";
+export let urlBaseApi = "";
+
+function enviromentVariables() {
+  const env = process.env.ENVIROMENT;
+  switch (env) {
+    case "DEV":
+      urlBaseApi = "https://helpdesk-backend-muvo.onrender.com/api/";
+      break;
+    case "LOCAL":
+      urlBaseApi = "http://localhost:7233/api";
+      break;
+    default:
+      urlBaseApi = "http://localhost:3000/";
+  }
+}
+enviromentVariables();
