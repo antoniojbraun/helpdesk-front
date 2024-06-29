@@ -82,8 +82,9 @@ export const initialState = { message: null, errors: {} };
 
 export let urlBaseApi = "";
 
-function enviromentVariables() {
+function environmentVariables() {
   const env = process.env.ENVIROMENT;
+
   switch (env) {
     case "DEV":
       urlBaseApi = "https://helpdesk-backend-muvo.onrender.com/api";
@@ -95,4 +96,5 @@ function enviromentVariables() {
       urlBaseApi = "http://localhost:3000";
   }
 }
-enviromentVariables();
+
+environmentVariables();
