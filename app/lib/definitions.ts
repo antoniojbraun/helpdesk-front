@@ -86,13 +86,13 @@ function enviromentVariables() {
   const env = process.env.ENVIROMENT;
   switch (env) {
     case "DEV":
-      urlBaseApi = "https://helpdesk-backend-muvo.onrender.com/api/";
+      urlBaseApi = "https://helpdesk-backend-muvo.onrender.com/api";
       break;
     case "LOCAL":
       urlBaseApi = "http://localhost:7233/api";
       break;
     default:
-      urlBaseApi = "http://localhost:3000/";
+      urlBaseApi = "http://localhost:3000";
   }
 }
 enviromentVariables();

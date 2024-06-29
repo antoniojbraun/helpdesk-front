@@ -20,14 +20,17 @@ export default function Page({ params }: { params: { room: string } }) {
     setLoginActive(false);
   }
 
-
   return (
-    <main className="flex flex-col justify-start w-[500px] h-fit bg-[#D6E5F7] p-[40px] space-y-[20px] rounded-lg">
-      <h1 className={`${poppins500.className} text-center text-[20px]`}>
-        Identifique-se
-      </h1>
-      <p>Necessário identificar-se no sistema, para criar seu chamado.</p>
-      <p>É novo por aqui? Faça seu cadastro clicando no botão logo abaixo =)</p>
+    <main className="flex flex-col justify-start w-[500px] h-fit bg-[#D6E5F7] py-[40px] space-y-[20px] rounded-lg">
+      <div className="px-[30px] space-y-4">
+        <h1 className={`${poppins500.className} text-center text-[20px]`}>
+          Identifique-se
+        </h1>
+        <p>Necessário identificar-se no sistema, para criar seu chamado.</p>
+        <p>
+          É novo por aqui? Faça seu cadastro clicando no botão logo abaixo =)
+        </p>
+      </div>
       <div>
         <div className="flex flex-row mx-[20px] justify-end">
           <ToggleCreateLogin

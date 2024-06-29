@@ -109,7 +109,7 @@ export async function updateUser(
   redirect("/dashboard/users");
 }
 
-const FormSchemaCreatePublic = z.object({
+export const FormSchemaCreateUserPublic = z.object({
   name: z
     .string()
     .min(5, { message: "O nome é necessário com pelo menos 5 letra." }),
@@ -138,7 +138,7 @@ export async function createUserByUser(
   prevState: InitialState,
   formData: FormData
 ) {
-  const validatedFields = FormSchemaCreatePublic.safeParse({
+  const validatedFields = FormSchemaCreateUserPublic.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
@@ -153,6 +153,7 @@ export async function createUserByUser(
   }
 
   const { name, email, password, confirmPassword } = validatedFields.data;
+  console.log(`${urlBaseApi}/users`);
   const response = await fetch(`${urlBaseApi}/users`, {
     method: "POST",
     body: JSON.stringify({ name, email, password, confirmPassword }),
@@ -161,7 +162,11 @@ export async function createUserByUser(
     },
   });
   if (!response.ok) {
-    const errorData = response.json();
+    const errorData = await response.json();
     console.error(`Erro ao cadastrar usuário: ${errorData}`);
+  }
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
   }
 }
