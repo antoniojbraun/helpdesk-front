@@ -60,7 +60,7 @@ export default function FormCreateRoom() {
         </div>
       </div>
       <div className="mt-6 flex justify-end gap-4">
-        <Link href="/dashboard/rooms" className={styleCancelButton}>
+        <Link href="/dashboard/support/rooms" className={styleCancelButton}>
           Cancelar
         </Link>
         <Button type="submit">Criar uma Sala</Button>

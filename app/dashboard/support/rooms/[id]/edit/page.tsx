@@ -1,9 +1,16 @@
 import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import FormEditRoom from "@/app/ui/dashboard/rooms/edit-form";
-import { getRoomWithId } from "@/app/lib/rooms/servicesrooms";
+import { getRoomWithIdAPI } from "@/app/lib/rooms/servicesrooms";
+import { getDataSession } from "@/app/lib/utils";
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
-  const room = await getRoomWithId(id);
+  const getDataUserLogged = await getDataSession();
+  const dataFetch = {
+    token: getDataUserLogged?.token,
+    roomId: id,
+  };
+
+  const room = await getRoomWithIdAPI(dataFetch);
   return (
     <main>
       <Breadcrumbs

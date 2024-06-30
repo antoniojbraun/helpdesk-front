@@ -5,10 +5,10 @@ export default function CreateRoom() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Salas", href: "/dashboard/rooms" },
+          { label: "Salas", href: "/dashboard/support/rooms" },
           {
             label: "Criar uma sala",
-            href: "/dashboard/rooms/create",
+            href: "/dashboard/support/rooms/create",
             active: true,
           },
         ]}

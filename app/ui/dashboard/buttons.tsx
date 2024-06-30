@@ -35,10 +35,19 @@ export function UpdateButtonTable({ slug, id }: { id: string; slug: string }) {
   );
 }
 
-export function DeleteButtonTable({ slug, id }: { id: string; slug: string }) {
+export function DeleteButtonTable({
+  slug,
+  id,
+  redirect,
+}: {
+  id: string;
+  slug: string;
+  redirect: string;
+}) {
   const infoUrl = {
     slug: slug,
     id: id,
+    redirect: redirect,
   };
   const deleteItemWithId = deleteGeneric.bind(null, infoUrl);
 

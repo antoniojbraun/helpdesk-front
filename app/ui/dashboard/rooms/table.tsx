@@ -26,8 +26,12 @@ export default async function TableRooms({ data }: { data: Room[] }) {
                   <div className="flex items-center justify-between pt-4">
                     <p>{item.description}</p>
                     <div className="flex justify-end gap-2 ml-[3px]">
-                      <UpdateButtonTable id={item.id} slug="rooms" />
-                      <DeleteButtonTable id={item.id} slug="rooms" />
+                      <UpdateButtonTable id={item.id} slug="support/rooms" />
+                      <DeleteButtonTable
+                        id={item.id}
+                        slug="rooms"
+                        redirect="support/rooms"
+                      />
                     </div>
                   </div>
                 </div>
@@ -60,14 +64,18 @@ export default async function TableRooms({ data }: { data: Room[] }) {
                     key={indice}
                     className="w-full border-b text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                     <td className="whitespace-nowrap py-1 pl-6 pr-3">
-                      {item.id}
+                      {indice + 1}
                     </td>
                     <td className={styleTdDefault}>{item.name}</td>
                     <td className={styleTdDefault}>{item.description}</td>
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateButtonTable id={item.id} slug="rooms" />
-                        <DeleteButtonTable id={item.id} slug="rooms" />
+                        <UpdateButtonTable id={item.id} slug="support/rooms" />
+                        <DeleteButtonTable
+                          id={item.id}
+                          slug="rooms"
+                          redirect="support/rooms"
+                        />
                       </div>
                     </td>
                   </tr>

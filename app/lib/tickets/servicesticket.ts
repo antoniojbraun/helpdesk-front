@@ -1,9 +1,12 @@
 "use server";
 
-import { Ticket, State, urlBaseApi } from "../definitions";
+import { TicketByUser, itemTicket, State, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
+import { getDataSession } from "@/app/lib/utils";
+
+const urlTickets = `${urlBaseApi}/tickets/`;
 
 const FormSchema = z.object({
   id: z.string(),
@@ -25,8 +28,8 @@ const CreateTicket = FormSchema.omit({
   user_id: true,
 });
 
-export async function getAllTickets(): Promise<Ticket[]> {
-  const newUrl = `${urlBaseApi}/tickets`;
+export async function getAllTickets(): Promise<TicketByUser[]> {
+  const newUrl = `http://localhost:3100/tickets`;
   const data = await fetch(newUrl, {
     cache: "no-store",
   });
@@ -34,22 +37,76 @@ export async function getAllTickets(): Promise<Ticket[]> {
   return data.json();
 }
 
-export async function getAllTicketsByUser(
-  idUser: string,
-  token: string
-): Promise<Ticket[]> {
-  const newUrl = `${urlBaseApi}/tickets/user/${idUser}`;
+export async function getAllTicketsAPI(data: {
+  token: string;
+  userId: string;
+}): Promise<TicketByUser[]> {
+  const response = await fetch(`${urlBaseApi}/tickets/user/${data.userId}`, {
+    cache: "no-store",
+    headers: { Authorization: `Bearer ${data.token}` },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error(`Erro ao buscar dados: ${errorData}`);
+  }
+
+  return response.json();
+}
+
+export async function getAllTicketsSupportAPI(data: {
+  token: string;
+  userId: string;
+}): Promise<TicketByUser[]> {
+  const response = await fetch(`${urlBaseApi}/tickets/support/${data.userId}`, {
+    cache: "no-store",
+    headers: { Authorization: `Bearer ${data.token}` },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error(`Erro ao buscar dados: ${errorData}`);
+  }
+
+  return response.json();
+}
+
+export async function getPendingTicketsAPI(data: {
+  token: string;
+  userId: string;
+}): Promise<TicketByUser[]> {
+  const response = await fetch(`${urlBaseApi}/tickets/user/${data.userId}`, {
+    cache: "no-store",
+    headers: { Authorization: `Bearer ${data.token}` },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error(`Erro ao buscar dados: ${errorData}`);
+  }
+  let pendingTickets = await response.json();
+  pendingTickets = pendingTickets.filter(
+    (item: any) => item.status === "Pendente"
+  );
+  return pendingTickets;
+}
+
+export async function getAllTicketsByUser(dataFetch: {
+  idUser: string;
+  token: string;
+}): Promise<TicketByUser[]> {
+  const newUrl = `${urlBaseApi}/tickets/user/${dataFetch.idUser}`;
   const data = await fetch(newUrl, {
     cache: "no-store",
+    headers: { Authorization: `Bearer ${dataFetch.token}` },
   });
   if (!data.ok) throw new Error("Failed to fetch data!");
   return data.json();
 }
 
-export async function getTicketById(id: string) {
-  const newUrl = `${urlBaseApi}/tickets/${id}`;
+export async function getTicketById(dataFetch: { id: string; token: string }) {
+  const newUrl = `${urlBaseApi}/tickets/${dataFetch.id}`;
+  console.log(newUrl);
   const data = await fetch(newUrl, {
     cache: "no-store",
+    headers: { Authorization: `Bearer ${dataFetch.token}` },
   });
   if (!data.ok) throw new Error("Failed to fetch data!");
   return data.json();

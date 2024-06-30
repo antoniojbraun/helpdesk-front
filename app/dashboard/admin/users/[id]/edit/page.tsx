@@ -8,10 +8,10 @@ export default async function Page({ params }: { params: { id: string } }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Usuários", href: "/dashboard/users" },
+          { label: "Usuários", href: "/dashboard/admin/users" },
           {
             label: "Editar um Usuário ",
-            href: `/dashboard/users/${id}/edit`,
+            href: `/dashboard/admin/users/${id}/edit`,
             active: true,
           },
         ]}

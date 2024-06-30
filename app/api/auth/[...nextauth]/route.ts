@@ -5,7 +5,7 @@ import z from "zod";
 const endpointLogin =
   "https://helpdesk-backend-muvo.onrender.com/api/users/login";
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialProvider({
       name: "Credentials",
@@ -33,13 +33,13 @@ const authOptions: NextAuthOptions = {
           headers: { "Content-Type": "application/json; charset=utf-8" },
         });
 
-        const data = await response.json();
-
         if (!response.ok) {
           const erroData = response.json();
           console.error(`Erro ao fazer login: ${erroData}`);
           return null;
         }
+        const data = await response.json();
+
         const user = {
           id: data.userId,
           name: data.name,
@@ -68,12 +68,12 @@ const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    session: async ({ session, token }) => {
+    session: async ({ session, token, user }) => {
       return {
         ...session,
         user: {
-          id: token.userId,
           name: token.name,
+          id: token.sub,
           email: token.email,
           role: token.role,
           token: token.token,

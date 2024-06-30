@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect } from "react";
 import { ViewButtonTable } from "../buttons";
 import Status from "./status";
@@ -40,13 +41,13 @@ export default function TableTickets({ data }: { data: TicketByUser[] }) {
                   </div>
                   <div className="flex items-center justify-between pt-4 whitespace-pre-wrap">
                     <div className="flex flex-col ">
-                      <p>Sala {item.room}</p>
+                      <p>Sala {item.room.name}</p>
                       <p>Criado em {item.createdAt}</p>
                     </div>
                     <div className="flex justify-end gap-2 ml-[3px]">
                       {/* <UpdateButtonTable id={item.id} slug="tickets" />
                       <DeleteButtonTable id={item.id} slug="tickets" /> */}
-                      <ViewButtonTable id={item.id} slug="tickets" />
+                      <ViewButtonTable id={item.id} slug="admin/tickets" />
                     </div>
                   </div>
                 </div>
@@ -92,14 +93,14 @@ export default function TableTickets({ data }: { data: TicketByUser[] }) {
                     </td>
                     <td className={styleTdDefault}>{item.title}</td>
                     {/* <td className={styleTdDefault}>{item.description}</td> */}
-                    <td className={styleTdDefault}>{item.room}</td>
+                    <td className={styleTdDefault}>{item.room.name}</td>
                     <td className={styleTdDefault}>{item.createdAt}</td>
                     <td className={styleTdDefault}>
                       <Status>{item.status}</Status>
                     </td>
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
-                        <ViewButtonTable id={item.id} slug="user/tickets" />
+                        <ViewButtonTable id={item.id} slug="admin/tickets" />
                         {/* <UpdateButtonTable id={item.id} slug="tickets" /> */}
                         {/* <DeleteButtonTable id={item.id} slug="tickets"  /> */}
                       </div>

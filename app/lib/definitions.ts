@@ -2,8 +2,7 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  password: string;
-  usertype: string;
+  userType: string;
 };
 
 export type TicketByUser = {
@@ -12,7 +11,11 @@ export type TicketByUser = {
   title: string;
   description: string;
   status: string;
-  room: string;
+  room: {
+    id: string;
+    name: string;
+    description: string;
+  };
   createdAt: string;
 };
 
@@ -57,6 +60,7 @@ export type State = {
 export interface InfoUrl {
   slug: string;
   id: string;
+  redirect?: string;
 }
 
 export type Message = {
@@ -83,8 +87,7 @@ export const initialState = { message: null, errors: {} };
 export let urlBaseApi = "";
 
 function environmentVariables() {
-  const env = process.env.ENVIROMENT;
-
+  const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
   switch (env) {
     case "DEV":
       urlBaseApi = "https://helpdesk-backend-muvo.onrender.com/api";

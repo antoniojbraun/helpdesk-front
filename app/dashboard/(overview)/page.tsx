@@ -1,10 +1,10 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-
+import { useUserSession } from "@/app/context/SessionContext";
 export default function Page({ params }: { params: { id: string } }) {
-  const data = useSession();
-  const accessToken = data.data?.user;
+  const data = useUserSession();
+  const accessToken = data?.user;
+  console.log(data);
   let isAdmin = null;
   let isUser = null;
   let isSupport = null;
@@ -12,6 +12,7 @@ export default function Page({ params }: { params: { id: string } }) {
     isAdmin = accessToken.role === 2;
     isSupport = accessToken.role === 1;
     isUser = accessToken.role === 0;
+    console.log(accessToken.token);
   }
 
   return (
@@ -21,7 +22,10 @@ export default function Page({ params }: { params: { id: string } }) {
         Aqui vai mais algum conteúdo:{" "}
         {accessToken && "Bem vindo:" + accessToken.name}
       </p>
-      <p>{isAdmin && "Tipo de Usuário: Administrador"}</p>
+      <p>
+        {isAdmin &&
+          `Tipo de Usuário: Administrador. Seu Token é ${accessToken.token}`}
+      </p>
       <p>{isSupport && "Tipo de Usuário: Suporte"}</p>
       <p>{isUser && "Tipo de Usuário: Usuário"}</p>
     </main>

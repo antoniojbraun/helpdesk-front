@@ -79,8 +79,9 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
     });
     if (!response.ok) {
       const errorData = await response.json();
-      console.log(errorData);
+      console.error(`Erro ao fazer cadastro: ${errorData}`);
     }
+    handleLogin();
   };
 
   const handleLogin = async () => {
@@ -92,12 +93,8 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
     console.log("[LOGIN_RESPONSE]: " + response);
     if (!response?.error) {
       router.refresh();
-      router.push("/dashboard/");
+      router.push("/dashboard/user/tickets/create/");
     }
-    // } else {
-    //   // setError("Email e/ou senha inválido(s)");
-    //   // console.log("[LOGIN_ERROR]: ", response.error);
-    // }
   };
   return (
     <form

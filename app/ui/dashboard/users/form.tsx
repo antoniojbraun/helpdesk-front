@@ -5,7 +5,7 @@ import Link from "@/node_modules/next/link";
 import { useFormState } from "react-dom";
 import { Button } from "../button";
 import { initialState } from "@/app/lib/definitions";
-initialState
+initialState;
 const styleLabel = " w-full py-[8px] ";
 const styleInput = " rounded-md w-full py-[8px] px-[15px] ";
 const styleDivInputs = "flex flex-col items-start rounded-md";
@@ -30,7 +30,7 @@ export default function FormCreateUser() {
             className={styleInput}
           />
           <div id="name-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.name &&
+            {state?.errors.name &&
               state.errors.name.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
@@ -51,7 +51,7 @@ export default function FormCreateUser() {
             className={styleInput}
           />
           <div id="email-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.email &&
+            {state?.errors?.email &&
               state.errors.email.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
@@ -61,42 +61,84 @@ export default function FormCreateUser() {
         </div>
 
         <div className={styleDivInputs}>
-          <label htmlFor="usertype" className={styleLabel}>
+          <label htmlFor="password" className={styleLabel}>
+            Senha<span className="text-red-500">*</span>
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            aria-describedby="password-error"
+            placeholder="Digite a senha do novo usuário"
+            className={styleInput}
+          />
+          <div id="password-error" aria-live="polite" aria-atomic="true">
+            {state?.errors?.password &&
+              state.errors.password.map((error: string) => (
+                <p key={error} className="mt-2 text-sm text-red-500">
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+        <div className={styleDivInputs}>
+          <label htmlFor="confirmPassword" className={styleLabel}>
+            Confirme a senha<span className="text-red-500">*</span>
+          </label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            aria-describedby="confirmPassword-error"
+            placeholder="Confirme a senha do novo usuário"
+            className={styleInput}
+          />
+          <div id="confirmPassword-error" aria-live="polite" aria-atomic="true">
+            {state?.errors.confirmPassword &&
+              state.errors.confirmPassword.map((error: string) => (
+                <p key={error} className="mt-2 text-sm text-red-500">
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+        <div className={styleDivInputs}>
+          <label htmlFor="userType" className={styleLabel}>
             Tipo<span className="text-red-500">*</span>
           </label>
           <div className="flex space-x-[7px]" aria-describedby="type-error">
             <input
               type="radio"
-              id="usertype"
-              name="usertype"
+              id="userType"
+              name="userType"
               className=""
-              value="admin"
+              value="2"
             />
-            <label htmlFor="usertype">Admin</label>
+            <label htmlFor="userType">Admin</label>
           </div>
           <div className="flex space-x-[7px]">
             <input
               type="radio"
-              id="usertype"
-              name="usertype"
+              id="userType"
+              name="userType"
               className=""
-              value="user"
+              value="0"
             />
-            <label htmlFor="usertype">Usuário</label>
+            <label htmlFor="userType">Usuário</label>
           </div>
           <div className="flex space-x-[7px]">
             <input
               type="radio"
-              id="usertype"
-              name="usertype"
+              id="userType"
+              name="userType"
               className=""
-              value="support"
+              value="1"
             />
-            <label htmlFor="usertype">Suporte</label>
+            <label htmlFor="userType">Suporte</label>
           </div>
-          <div id="usertype-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.usertype &&
-              state.errors.usertype.map((error: string) => (
+          <div id="userType-error" aria-live="polite" aria-atomic="true">
+            {state?.errors.userType &&
+              state?.errors.userType.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>
@@ -105,7 +147,7 @@ export default function FormCreateUser() {
         </div>
       </div>
       <div className="mt-6 flex justify-end gap-4">
-        <Link href="/dashboard/users" className={styleCancelButton}>
+        <Link href="/dashboard/admin/users" className={styleCancelButton}>
           Cancelar
         </Link>
         <Button type="submit">Criar um Usuário</Button>

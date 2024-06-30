@@ -6,6 +6,12 @@ import {
 
 import { NextResponse } from "next/server";
 
+export const isExpired = (expirationDate: string): boolean => {
+  const now = new Date();
+  const expiration = new Date(expirationDate);
+  return now > expiration;
+};
+
 const middleware = (request: NextRequestWithAuth) => {
   // console.log("[MIDDLEWARE_NEXTAUTH_TOKEN]: ", request.nextauth.token);
 

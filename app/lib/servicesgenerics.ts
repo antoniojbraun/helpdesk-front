@@ -3,30 +3,38 @@
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
 import { InfoUrl, urlBaseApi } from "./definitions";
-
-// import { AuthError } from "next-auth";
+import {
+  convertToKeyOfT,
+  ListItemsLimitedPerPage,
+  OrderingByItem,
+  VerifyQueryForSearch,
+  getDataSession,
+} from "./utils";
 
 export async function deleteGeneric(infoUrl: InfoUrl) {
-  const urlBaseDelete = "http://localhost:3100";
-  let newUrlDelete = `${urlBaseDelete}/${infoUrl.slug}/${infoUrl.id}`;
-  const urlBaseRedirect = "/dashboard/";
-  let newUrlRedirect = `${urlBaseRedirect}/${infoUrl.slug}}`;
+  const getDataUserLogged = await getDataSession();
+  const token = getDataUserLogged?.token;
 
-  try {
-    const response = await fetch(newUrlDelete, {
-      method: "DELETE",
-    });
-    if (response.ok) {
-      revalidatePath(newUrlRedirect);
-      redirect(newUrlRedirect);
-    }
-  } catch (err) {
-    console.log(`Erro ao deletar item: ${err}`);
+  let newUrlDelete = `${urlBaseApi}/${infoUrl.slug}/${infoUrl.id}`;
+
+  const response = await fetch(newUrlDelete, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) {
+    const statusError = response.status;
+    console.error(statusError);
+    return;
   }
+  const urlBaseRedirect = "/dashboard";
+  let newUrlRedirect = `${urlBaseRedirect}/${infoUrl.redirect}}`;
+  revalidatePath(newUrlRedirect);
+  redirect(newUrlRedirect);
 }
 
 export async function getItemByIdGeneric(id: string, slug: string) {
-  const newUrl = `${urlBaseApi}/${slug}/${id}`;
+  const newUrl = `http://localhost:3100/${slug}/${id}`;
   console.log(newUrl);
   const response = await fetch(newUrl, {
     cache: "no-store",
@@ -41,30 +49,53 @@ export async function getItemByIdGeneric(id: string, slug: string) {
   return response.json();
 }
 
+const ITEMS_PER_PAGE = 10;
 
+export async function HowManyPagesGeneric<T>(
+  getAllItems: () => Promise<T[]>,
+  query: string
+): Promise<number> {
+  let items: Array<T> = await getAllItems();
+  let filteredItems: T[];
 
-// export async function authenticate(
-//   prevState: string | undefined,
-//   formData: FormData
-// ) {
-//   const user = {
-//     email: formData.get("email"),
-//     password: formData.get("password"),
-//   };
-//   signIn("credentials", { ...user, callbackUrl: "/dashboard" });
+  if (query && query.trim() != "") {
+    filteredItems = items.filter((item: T) =>
+      VerifyQueryForSearch(item, query)
+    );
+  } else {
+    filteredItems = [...items];
+  }
+  const totalPages = Math.ceil(Number(filteredItems.length) / ITEMS_PER_PAGE);
+  return totalPages;
+}
 
-//   // try {
-//   //   await
-//   // } catch (error) {
-//   //   if (error instanceof AuthError) {
-//   //     switch (error.type) {
-//   //       case "CredentialsSignin":
-//   //         return "Email ou senha incorretos!";
-//   //       default:
-//   //         return "Algo de errado não está certo!";
-//   //     }
-//   //   }
-//   //   throw error;
-//   // }
-// }
+export async function fetchFilteredItemsGeneric<T>(
+  query: string,
+  order: string,
+  currentPage: number,
+  getAllItems: () => Promise<T[]>,
+  type: T
+) {
+  let items: T[] = await getAllItems();
+  let filteredItems: T[];
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
+  // Aqui caso houver uma query, fazemos o filtro dos tickets por ela.
+  if (query != "") {
+    filteredItems = items?.filter((item: T) =>
+      VerifyQueryForSearch(item, query)
+    );
+  } else {
+    filteredItems = [...items];
+  }
+  if (order != "") {
+    let newOrder = convertToKeyOfT(order, type);
+    if (newOrder) filteredItems = OrderingByItem(filteredItems, newOrder);
+  }
+  // Aqui vamos filtrar agora pela paginação.
+  filteredItems = filteredItems.filter((item, key) =>
+    ListItemsLimitedPerPage(key, offset, ITEMS_PER_PAGE)
+  );
+
+  return filteredItems;
+}

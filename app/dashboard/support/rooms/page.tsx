@@ -4,15 +4,22 @@ import Pagination from "@/app/ui/dashboard/pagination";
 import {
   HowManyPagesGeneric,
   fetchFilteredItemsGeneric,
-} from "@/app/lib/utils";
-import { getAllRooms } from "@/app/lib/rooms/servicesrooms";
+} from "@/app/lib/servicesgenerics";
+import { getAllRooms, getAllRoomsAPI } from "@/app/lib/rooms/servicesrooms";
 import TableRooms from "@/app/ui/dashboard/rooms/table";
 import { Room } from "@/app/lib/definitions";
+import { getDataSession } from "@/app/lib/utils";
 export default async function Page({
   searchParams,
 }: {
   searchParams?: { query?: string; sort?: string; page?: string };
 }) {
+  const getDataUserLogged = await getDataSession();
+  const dataFetch = {
+    token: getDataUserLogged?.token,
+    userId: getDataUserLogged?.id,
+  };
+  const getAllRoomsWithToken = getAllRoomsAPI.bind(null, dataFetch);
   const room: Room = {
     id: "",
     name: "",
@@ -21,12 +28,12 @@ export default async function Page({
   const query = searchParams?.query || "";
   const sort = searchParams?.sort || "";
   const currentPage = Number(searchParams?.page || 1);
-  const totalPages = await HowManyPagesGeneric(getAllRooms, query);
+  const totalPages = await HowManyPagesGeneric(getAllRoomsWithToken, query);
   const rooms = await fetchFilteredItemsGeneric(
     query,
     sort,
     currentPage,
-    getAllRooms,
+    getAllRoomsWithToken,
     room
   );
   return (
@@ -34,7 +41,7 @@ export default async function Page({
       <TopbarContentPage
         titlePage="Salas"
         titleButton="Criar Sala"
-        urlButton="/dashboard/rooms/create"
+        urlButton="/dashboard/support/rooms/create"
       />
       <SearchBar />
       <TableRooms data={rooms} />

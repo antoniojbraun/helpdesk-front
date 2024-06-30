@@ -15,10 +15,10 @@ export default function FormEditUser({ user }: { user: User }) {
   const initialState = { message: null, errors: {} };
   const updateUserWithId = updateUser.bind(null, user.id);
   const [state, dispatch] = useFormState(updateUserWithId, initialState);
-  const adminType = user.usertype === "admin";
-  const userType = user.usertype === "user";
-  const supportType = user.usertype === "supportType";
-
+  const adminType = user.userType === "Administrador";
+  const userType = user.userType === "Usuário";
+  const supportType = user.userType === "Suporte";
+  console.log(user);
   return (
     <form action={dispatch}>
       <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">
@@ -115,7 +115,7 @@ export default function FormEditUser({ user }: { user: User }) {
         </div>
       </div>
       <div className="mt-6 flex justify-end gap-4">
-        <Link href="/dashboard/users" className={styleCancelButton}>
+        <Link href="/dashboard/admin/users" className={styleCancelButton}>
           Cancelar
         </Link>
         <Button type="submit">Editar Usuário</Button>

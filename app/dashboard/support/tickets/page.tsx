@@ -2,12 +2,16 @@ import Pagination from "@/app/ui/dashboard/pagination";
 import Table from "@/app/ui/dashboard/tickets/table";
 import SearchBar from "@/app/ui/dashboard/tickets/searchbar";
 import TopbarContentPage from "@/app/ui/dashboard/topbarcontent";
-import { getAllTickets } from "@/app/lib/tickets/servicesticket";
+import {
+  getAllTickets,
+  getAllTicketsSupportAPI,
+} from "@/app/lib/tickets/servicesticket";
 import {
   HowManyPagesGeneric,
   fetchFilteredItemsGeneric,
-} from "@/app/lib/utils";
+} from "@/app/lib/servicesgenerics";
 import { TicketByUser } from "@/app/lib/definitions";
+import { getDataSession } from "@/app/lib/utils";
 
 const Page = async ({
   searchParams,
@@ -19,30 +23,43 @@ const Page = async ({
     number: 0,
     title: "",
     description: "",
-    room: "",
+    room: {
+      id: "",
+      name: "",
+      description: "",
+    },
     status: "",
     createdAt: "",
   };
+  const getDataUserLogged = await getDataSession();
+
+  const dataFetch = {
+    userId: getDataUserLogged?.id,
+    token: getDataUserLogged?.token,
+  };
+  const getAllTicketsAPIWithToken = getAllTicketsSupportAPI.bind(
+    null,
+    dataFetch
+  );
 
   const query = searchParams?.query || "";
   const sort = searchParams?.sort || "";
   const currentPage = Number(searchParams?.page || 1);
-  const totalPages = await HowManyPagesGeneric(getAllTickets, query);
+  const totalPages = await HowManyPagesGeneric(
+    getAllTicketsAPIWithToken,
+    query
+  );
   const tickets = await fetchFilteredItemsGeneric(
     query,
     sort,
     currentPage,
-    getAllTickets,
+    getAllTicketsAPIWithToken,
     ticket
   );
 
   return (
     <div className="flex flex-col">
-      <TopbarContentPage
-        titlePage="Meus Chamados"
-        titleButton="Criar Chamado"
-        urlButton="/dashboard/tickets/create"
-      />
+      <TopbarContentPage titlePage="Meus Chamados" />
       <SearchBar />
       <Table data={tickets} />
       <div className="mt-5 flex w-full justify-center">

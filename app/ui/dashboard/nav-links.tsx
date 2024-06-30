@@ -12,77 +12,75 @@ import {
 } from "@heroicons/react/24/solid";
 import { poppinsRegular } from "../fonts";
 import { SignOutButton } from "./sign-out-button";
-import { useSession } from "next-auth/react";
-
-type DataUser = {
-  id: string;
-  name: string;
-  email: string;
-  role: number;
-  token: string;
-  expirationDate: string;
-};
-
-type listLinks = {
-  name: string;
-  href: string;
-  icon: string;
-  useType: string;
-};
+import { useUserSession } from "@/app/context/SessionContext";
 
 const styleIcons = "size-5 text-[#2C88D9]";
 const links = [
   {
+    title: "Lista Todos os Usuários Admin",
     name: "Usuários",
     href: "/dashboard/admin/users",
     icon: UserIcon,
-    userType: "administrador",
+    userType: "admin",
   },
   {
-    name: "Meus Chamados",
+    title: "Lista Todos os Chamados Admin",
+    name: "Chamados",
+    href: "/dashboard/admin/tickets",
+    icon: ListBulletIcon,
+    userType: "admin",
+  },
+  {
+    title: "Lista chamados Suporte",
+    name: "Chamados",
     href: "/dashboard/support/tickets",
     icon: ListBulletIcon,
-    userType: "support, administrador",
+    userType: "support",
   },
   {
+    title: "Fila chamados Pendentes",
     name: "Fila de Pendentes",
     href: "/dashboard/support/tickets/pending",
     icon: ListBulletIcon,
-    userType: "support, administrador",
+    userType: "support",
   },
   {
+    title: "Fila Chamados Usuário",
     name: "Chamados User",
     href: "/dashboard/user/tickets",
     icon: ListBulletIcon,
-    userType: "user, administrador",
+    userType: "user",
   },
   {
+    title: "Lista salas Suporte",
     name: "Salas",
     href: "/dashboard/support/rooms",
     icon: HomeIcon,
-    userType: "support, administrador",
+    userType: "support, admin",
   },
   ,
   {
+    title: "Página Ajuda Sporte",
     name: "Ajuda",
     href: "/dashboard/support/help-page",
     icon: InformationCircleIcon,
-    userType: "support, administrador",
+    userType: "support",
   },
   {
+    title: "Página Ajuda Usuário",
     name: "Ajuda",
     href: "/dashboard/user/help-page",
     icon: InformationCircleIcon,
-    userType: "user, administrador",
+    userType: "user",
   },
 ];
 
 export default function Navlinks() {
   const { isSidebarOpen } = useSidebarContext();
   const pathname = usePathname();
+  const data = useUserSession();
+  const accessToken = data?.user;
 
-  const data = useSession();
-  const accessToken: DataUser = data.data?.user;
   let userType = "";
   let jaVai = false;
   let newLinks;

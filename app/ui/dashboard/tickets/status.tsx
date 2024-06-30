@@ -1,5 +1,3 @@
-import { HTMLAttributes } from "react";
-
 const styleStatus = {
   default: "flex items-center justify-center p-[5px] rounded-md text-xs",
   pending: " bg-yellow-100 text-yellow-800",

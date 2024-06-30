@@ -6,9 +6,9 @@ import { getAllTickets } from "@/app/lib/tickets/servicesticket";
 import {
   HowManyPagesGeneric,
   fetchFilteredItemsGeneric,
-} from "@/app/lib/utils";
+} from "@/app/lib/servicesgenerics";
 import { TicketByUser } from "@/app/lib/definitions";
-
+import { getDataSession } from "@/app/lib/utils";
 const Page = async ({
   searchParams,
 }: {
@@ -19,7 +19,11 @@ const Page = async ({
     number: 0,
     title: "",
     description: "",
-    room: "",
+    room: {
+      id: "",
+      name: "",
+      description: "",
+    },
     status: "",
     createdAt: "",
   };

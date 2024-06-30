@@ -1,4 +1,5 @@
 "use client";
+
 import FormNewUser from "@/app/ui/tickets/formNewUser";
 import { poppins500 } from "@/app/ui/fonts";
 import ToggleCreateLogin from "@/app/ui/tickets/toggleCreateLogin";

@@ -1,4 +1,5 @@
-const ITEMS_PER_PAGE = 10;
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
@@ -83,51 +84,57 @@ export function convertToKeyOfT<T>(key: string, type: T): keyof T | undefined {
   }
 }
 
-export async function HowManyPagesGeneric<T>(
-  getAllItems: () => Promise<T[]>,
-  query: string
-): Promise<number> {
-  let items: Array<T> = await getAllItems();
-  let filteredItems: T[];
-
-  if (query && query.trim() != "") {
-    filteredItems = items.filter((item: T) =>
-      VerifyQueryForSearch(item, query)
-    );
-  } else {
-    filteredItems = [...items];
+export async function getDataSession() {
+  const session = await getServerSession(authOptions);
+  if (session) {
+    const dataUserLogged = {
+      name: session.user?.name,
+      id: session.user?.id,
+      email: session.user?.email,
+      role: session.user?.role,
+      token: session.user?.token,
+      expirationDate: session.user?.expirationDate,
+    };
+    return dataUserLogged;
   }
-  const totalPages = Math.ceil(Number(filteredItems.length) / ITEMS_PER_PAGE);
-  return totalPages;
 }
 
-export async function fetchFilteredItemsGeneric<T>(
-  query: string,
-  order: string,
-  currentPage: number,
-  getAllItems: () => Promise<T[]>,
-  type: T
-) {
-  let items: T[] = await getAllItems();
-  let filteredItems: T[];
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
-  // Aqui caso houver uma query, fazemos o filtro dos tickets por ela.
-  if (query != "") {
-    filteredItems = items?.filter((item: T) =>
-      VerifyQueryForSearch(item, query)
-    );
-  } else {
-    filteredItems = [...items];
-  }
-  if (order != "") {
-    let newOrder = convertToKeyOfT(order, type);
-    if (newOrder) filteredItems = OrderingByItem(filteredItems, newOrder);
-  }
-  // Aqui vamos filtrar agora pela paginação.
-  filteredItems = filteredItems.filter((item, key) =>
-    ListItemsLimitedPerPage(key, offset, ITEMS_PER_PAGE)
-  );
-
-  return filteredItems;
-}
+export const chats = {
+  id: "1",
+  chatdata: [
+    {
+      id: 1,
+      userType: "support",
+      author: "Smeagle",
+      message:
+        "Boa noite Antonio. Já fizemos a troca do seu monitor! Por favor, teste e veja se está tudo certo.",
+      day_sent: "2024-06-12",
+      hour_sent: "14:01",
+    },
+    {
+      id: 2,
+      userType: "user",
+      author: "Bilbo Bolseiro",
+      message:
+        "Ok, assim que chegar na sala eu testo e dou um retorno pra vocês aqui.",
+      day_sent: "2024-06-12",
+      hour_sent: "18:45",
+    },
+    {
+      id: 3,
+      userType: "user",
+      author: "Bilbo Bolseiro",
+      message: "Olha só, parece que está tudo ok. Muito obrigado pela rapidez.",
+      day_sent: "2024-06-12",
+      hour_sent: "19:00",
+    },
+    {
+      id: 4,
+      userType: "support",
+      author: "Smeagle",
+      message: "Nós que agradecemos. Uma ótima aula.",
+      day_sent: "2024-06-12",
+      hour_sent: "19:15",
+    },
+  ],
+};

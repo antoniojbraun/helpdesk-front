@@ -5,7 +5,7 @@ export default function CreateUser() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Usuários", href: "/dashboard/users" },
+          { label: "Usuários", href: "/dashboard/admin/users" },
           {
             label: "Criar um usuário",
             href: "/dashboard/users/create",

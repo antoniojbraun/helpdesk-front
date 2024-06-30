@@ -20,7 +20,7 @@ export default async function TableUsers({ data }: { data: User[] }) {
                   <div className="border-b pb-4">
                     <div className="mb-2 flex flex-row justify-between">
                       <p>
-                        {item.name} - {item.usertype}
+                        {item.name} - {item.userType}
                       </p>
                       <p className={`${poppins500.className}`}>#{indice + 1}</p>
                     </div>
@@ -28,7 +28,7 @@ export default async function TableUsers({ data }: { data: User[] }) {
                   <div className="flex items-center justify-between pt-4">
                     <p>{item.email}</p>
                     <div className="flex justify-end gap-2 ml-[3px]">
-                      <UpdateButtonTable id={item.id} slug="users" />
+                      {/* <UpdateButtonTable id={item.id} slug="admin/users" /> */}
                       <DeleteButtonTable id={item.id} slug="users" />
                     </div>
                   </div>
@@ -69,11 +69,15 @@ export default async function TableUsers({ data }: { data: User[] }) {
                     </td>
                     <td className={styleTdDefault}>{item.name}</td>
                     <td className={styleTdDefault}>{item.email}</td>
-                    <td className={styleTdDefault}>{item.usertype}</td>
+                    <td className={styleTdDefault}>{item.userType}</td>
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateButtonTable id={item.id} slug="users" />
-                        <DeleteButtonTable id={item.id} slug="users" />
+                        {/* <UpdateButtonTable id={item.id} slug="admin/users" /> */}
+                        <DeleteButtonTable
+                          id={item.id}
+                          slug="users"
+                          redirect="admin/users"
+                        />
                       </div>
                     </td>
                   </tr>

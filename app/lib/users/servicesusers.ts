@@ -4,54 +4,78 @@ import { User, State, urlBaseApi, InitialState } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
+import { getDataSession } from "../utils";
 
 const urlUsers = `${urlBaseApi}/users`;
 
-const FormSchema = z.object({
-  id: z.string(),
-  name: z
-    .string()
-    .min(5, { message: "O nome é necessário com pelo menos 5 letra." }),
-  email: z.string().email({ message: "Necessário inserir um email válido!" }),
-  usertype: z.enum(["admin", "user", "support"], {
-    message: "Necessário informar um tipo.",
-  }),
-  password: z.string(),
-});
+const passwordValidation = new RegExp(
+  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/
+);
 
-const CreateUser = FormSchema.omit({
-  id: true,
-  password: true,
-});
+const FormSchema = z
+  .object({
+    name: z
+      .string()
+      .min(5, { message: "O nome é necessário com pelo menos 5 letra." }),
+    email: z.string().email({ message: "Necessário inserir um email válido!" }),
+    userType: z.enum(["0", "1", "2"], {
+      message: "Necessário informar um tipo.",
+    }),
+    password: z.string().regex(passwordValidation, {
+      message:
+        "Senhas devem conter ao menos 6 letras, sendo: 1 maiúscula, 1 minúscula, 1 número e 1 caracter especial.",
+    }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "As senhas não são iguais.",
+    path: ["confirmPassword"],
+  });
 
-const UpdateUser = FormSchema.omit({
-  id: true,
-  password: true,
-});
-
-export async function getAllUsers(): Promise<User[]> {
-  const data = await fetch(urlUsers, {
+export async function getAllUsers() {
+  const data = await fetch("http://localhost:3100/users", {
     cache: "no-store",
   });
   if (!data.ok) throw new Error("Failed to fetch data!");
   return data.json();
 }
 
+export async function getAllUsersAPI(token: string): Promise<User[]> {
+  const response = await fetch(urlUsers, {
+    cache: "no-store",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error(`Erro ao buscar dados: ${errorData}`);
+  }
+  return response.json();
+}
+
 export async function getUserWithId(id: string) {
+  const session = await getDataSession();
+  const token = session?.token;
   const newUrl = `${urlUsers}/${id}`;
 
   const data = await fetch(newUrl, {
     cache: "no-store",
+    headers: { Authorization: `Bearer ${token}` },
   });
+
   if (!data.ok) throw new Error("Failed to fetch data!");
   return data.json();
 }
 
 export async function createUser(prevState: State, formData: FormData) {
-  const validatedFields = CreateUser.safeParse({
+  const session = await getDataSession();
+  const token = session?.token;
+
+  const validatedFields = FormSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
-    usertype: formData.get("usertype"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+    userType: formData.get("userType"),
   });
 
   if (!validatedFields.success) {
@@ -60,23 +84,31 @@ export async function createUser(prevState: State, formData: FormData) {
       message: "Necessário preencher todos os dados para criar um usuário.",
     };
   }
-  const { name, email, usertype } = validatedFields.data;
 
-  fetch(urlUsers, {
+  let { name, email, password, confirmPassword, userType } =
+    validatedFields.data;
+
+  const response = await fetch(`${urlBaseApi}/users/admcreate`, {
     method: "POST",
     body: JSON.stringify({
       name: name,
       email: email,
-      usertype: usertype,
+      password: password,
+      confirmPassword: confirmPassword,
+      userType: userType,
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
+      Authorization: `Bearer ${token}`,
     },
-  })
-    // .then((response) => console.log(response))
-    .catch((error) => console.log(`Erro ao criar usuário: ${error}`));
-  revalidatePath("/dashboard/users");
-  redirect("/dashboard/users");
+  });
+
+  if (!response.ok) {
+    const dataError = response.json();
+    console.error(`Erro ao criar usuário: ${dataError}`);
+  }
+  revalidatePath("/dashboard/admin/users");
+  redirect("/dashboard/admin/users");
 }
 
 export async function updateUser(
@@ -84,9 +116,11 @@ export async function updateUser(
   prevState: State,
   formData: FormData
 ) {
-  const validatedFields = UpdateUser.safeParse({
+  const validatedFields = FormSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
+    password: formData.get("password"),
+    confirmPasswotd: formData.get("confirmPassword"),
     usertype: formData.get("usertype"),
   });
 
@@ -96,77 +130,15 @@ export async function updateUser(
       message: "Necessário preencher todos os dados para editar um usuário.",
     };
   }
-  const { name, email, usertype } = validatedFields.data;
+  const { name, email, userType } = validatedFields.data;
   const newUrl = `${urlUsers}/${id}`;
   fetch(newUrl, {
     method: "PUT",
-    body: JSON.stringify({ name: name, email: email, usertype: usertype }),
+    body: JSON.stringify({ name: name, email: email, usertype: userType }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
   }).catch((error) => console.log(`Erro ao editar sala: ${error}`));
   revalidatePath("/dashboard/users");
   redirect("/dashboard/users");
-}
-
-export const FormSchemaCreateUserPublic = z.object({
-  name: z
-    .string()
-    .min(5, { message: "O nome é necessário com pelo menos 5 letra." }),
-  email: z.string().email({ message: "Necessário inserir um email válido!" }),
-  password: z
-    .string()
-    .min(6, { message: "Conter ao menos 6 caracteres." })
-    .refine((value) => /[a-z]/.test(value), {
-      message: "Conter ao menos um caracter em caixa baixa ('a'-'z').",
-    })
-    .refine((value) => /[A-Z]/.test(value), {
-      message: "Conter ao menos um caracter em caixa alta ('A'-'Z').",
-    }),
-  confirmPassword: z
-    .string()
-    .min(6, { message: "Conter ao menos 6 caracteres." })
-    .refine((value) => /[a-z]/.test(value), {
-      message: "Conter ao menos um caracter em caixa baixa ('a'-'z').",
-    })
-    .refine((value) => /[A-Z]/.test(value), {
-      message: "Conter ao menos um caracter em caixa alta ('A'-'Z').",
-    }),
-});
-
-export async function createUserByUser(
-  prevState: InitialState,
-  formData: FormData
-) {
-  const validatedFields = FormSchemaCreateUserPublic.safeParse({
-    name: formData.get("name"),
-    email: formData.get("email"),
-    password: formData.get("password"),
-    confirmPassword: formData.get("confirmPassword"),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: "Necessário preencher todos os dados para fazer um cadastro.",
-    };
-  }
-
-  const { name, email, password, confirmPassword } = validatedFields.data;
-  console.log(`${urlBaseApi}/users`);
-  const response = await fetch(`${urlBaseApi}/users`, {
-    method: "POST",
-    body: JSON.stringify({ name, email, password, confirmPassword }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
-  if (!response.ok) {
-    const errorData = await response.json();
-    console.error(`Erro ao cadastrar usuário: ${errorData}`);
-  }
-  if (response.ok) {
-    const data = await response.json();
-    console.log(data);
-  }
 }
