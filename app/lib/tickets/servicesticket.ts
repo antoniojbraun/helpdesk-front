@@ -8,6 +8,14 @@ import { getDataSession } from "@/app/lib/utils";
 
 const urlTickets = `${urlBaseApi}/tickets/`;
 
+const MAX_FILE_SIZE = 5000000;
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
+
 const FormSchema = z.object({
   id: z.string(),
   title: z
