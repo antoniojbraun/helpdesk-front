@@ -24,7 +24,7 @@ export default function Page({ params }: { params: { id: string } }) {
       </p>
       <p>
         {isAdmin &&
-          `Tipo de Usuário: Administrador. Seu Token é ${accessToken.token}`}
+          `Tipo de Usuário: Administrador. Seu Token é ${accessToken?.token}`}
       </p>
       <p>{isSupport && "Tipo de Usuário: Suporte"}</p>
       <p>{isUser && "Tipo de Usuário: Usuário"}</p>

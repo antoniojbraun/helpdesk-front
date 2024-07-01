@@ -34,9 +34,15 @@ export default async function Page({
     createdAt: "",
   };
   const getDataUserLogged = await getDataSession();
+  
+  // Verifique se token e userId estão definidos
+  if (!getDataUserLogged?.token || !getDataUserLogged?.id) {
+    return <div>Error: Missing token or user ID</div>;
+  }
+
   const dataFetch = {
-    token: getDataUserLogged?.token,
-    userId: getDataUserLogged?.id,
+    token: getDataUserLogged.token,
+    userId: getDataUserLogged.id,
   };
 
   const getAllTicketsWithToken = getAllTicketsAPI.bind(null, dataFetch);

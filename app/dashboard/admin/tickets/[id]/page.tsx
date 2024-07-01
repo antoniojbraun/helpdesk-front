@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
   const dataUserLogged = await getDataSession();
   const dataFecth = { id: id, token: dataUserLogged?.token };
-  const ticketItem = await getTicketById(dataFecth);
+  // const ticketItem = await getTicketById(dataFecth);
 
   return (
     <main>
@@ -23,8 +23,8 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <HeadTicketView ticket={ticketItem} />
-      <ContentTicketView ticket={ticketItem} messagesChat={chats} />
+      {/* <HeadTicketView ticket={ticketItem} /> */}
+      {/* <ContentTicketView ticket={ticketItem} messagesChat={chats} /> */}
     </main>
   );
 }
