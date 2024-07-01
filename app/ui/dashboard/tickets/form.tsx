@@ -66,7 +66,7 @@ export default function FormCreateTicket({
             ))}
           </select>
           <div id="room-error" aria-live="polite" aria-atomic="true">
-            {state.errors.roomid &&
+            {state?.errors.roomid &&
               state.errors.roomid.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
@@ -87,7 +87,7 @@ export default function FormCreateTicket({
             className={styleInput}
           />
           <div id="title-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.title &&
+            {state?.errors?.title &&
               state.errors.title.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
@@ -132,13 +132,28 @@ export default function FormCreateTicket({
           <label htmlFor="status">Pendente</label>
         </div>
         <div>
-          <input type="text" name="userid" id="userid" value={`${userid}`} />
+          <input
+            type="text"
+            className="hidden"
+            name="userid"
+            id="userid"
+            value={`${userid}`}
+            readOnly
+          />
         </div>
         <div className={styleDivInputs}>
           <label htmlFor="images" className={styleLabel}>
             Anexo
           </label>
           <InputFile fileName={fileName} handleFileChange={handleInputFile} />
+        </div>
+        <div id="images-error" aria-live="polite" aria-atomic="true">
+          {state?.errors?.images &&
+            state.errors.images.map((error: string) => (
+              <p key={error} className="mt-2 text-sm text-red-500">
+                {error}
+              </p>
+            ))}
         </div>
       </div>
 

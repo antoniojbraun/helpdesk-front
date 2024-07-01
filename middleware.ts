@@ -14,7 +14,7 @@ const middleware = (request: NextRequestWithAuth) => {
   const expiration = new Date(`${expirationDate}`);
   const isExpired = now > expiration;
   const nameIsNull = request.nextauth.token?.name === null;
-
+  console.log(isExpired);
   if (isExpired || nameIsNull) {
     request.nextauth.token = null;
     // Redirecionar para a página de login

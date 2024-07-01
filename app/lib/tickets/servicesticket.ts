@@ -17,7 +17,7 @@ const ACCEPTED_IMAGE_TYPES = [
 ];
 
 const FormSchema = z.object({
-  id: z.string(),
+  userid: z.string(),
   title: z
     .string()
     .min(5, { message: "Títuo é obrigatório com pelo menos 5 caracteres." }),
@@ -25,10 +25,20 @@ const FormSchema = z.object({
     message: "Descrição é necessária com pelo menos 10 caracteres.",
   }),
   roomid: z.string({ message: "Sala é necessária." }),
-});
-
-const CreateTicket = FormSchema.omit({
-  id: true,
+  images: z
+    .instanceof(File)
+    .optional()
+    .refine((file: File | undefined) => !file || file.size <= MAX_FILE_SIZE, {
+      message: `Tamanho máximo permitido da imagem: 5MB.`,
+    })
+    .refine(
+      (file: File | undefined) =>
+        !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
+      {
+        message:
+          "Formatos de arquivos permitidos: .jpg, .jpeg, .png and .webp.",
+      }
+    ),
 });
 
 export async function getAllTickets(): Promise<TicketByUser[]> {
@@ -106,7 +116,7 @@ export async function getAllTicketsByUser(dataFetch: {
 
 export async function getTicketById(dataFetch: { id: string; token: string }) {
   const newUrl = `${urlBaseApi}/tickets/${dataFetch.id}`;
-  console.log(newUrl);
+
   const data = await fetch(newUrl, {
     cache: "no-store",
     headers: { Authorization: `Bearer ${dataFetch.token}` },
@@ -118,32 +128,33 @@ export async function getTicketById(dataFetch: { id: string; token: string }) {
 export async function createTicket(prevState: State, formData: FormData) {
   const session = await getDataSession();
   const newUrl = `${urlBaseApi}/tickets`;
-  console.log(formData);
-  const validatedFields = CreateTicket.safeParse({
-    title: formData.get("title"),
-    description: formData.get("description"),
-    roomid: formData.get("roomid"),
+
+  const userid = formData.get("userid");
+  const title = formData.get("title");
+  const description = formData.get("description");
+  const roomid = formData.get("roomid");
+  const images = formData.get("file") as File;
+
+  const validatedFields = FormSchema.safeParse({
+    userid: userid,
+    title: title,
+    description: description,
+    roomid: roomid,
+    images: images.size !== 0 ? images : undefined,
   });
 
+  console.log(validatedFields.data);
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields Failed to Create Ticket",
     };
   }
-  const { title, description, room } = validatedFields.data;
-  console.log(title, description, room, session?.id);
+
   const response = await fetch(newUrl, {
     method: "POST",
-    body: {
-      title: title,
-      description: description,
-      roomId: room,
-      userId: session?.id,
-      images: [],
-    },
+    body: formData,
     headers: {
-      "Content-type": "application/json; charset=UTF-8",
       Authorization: `Bearer ${session?.token}`,
     },
   });
@@ -151,6 +162,7 @@ export async function createTicket(prevState: State, formData: FormData) {
     const dataError = await response.json();
     console.error("Erro ao cadastrar um chamado:");
     console.error(dataError);
+    return;
   }
 
   revalidatePath("/dashboard/user/tickets");

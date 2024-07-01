@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   let urlHrefBack = "/dashboard/support/tickets/";
   if (ticketItem.status === "Pendente") urlHrefBack += "pending";
-
+  
   return (
     <main>
       <Breadcrumbs

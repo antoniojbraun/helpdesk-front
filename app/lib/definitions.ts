@@ -52,7 +52,9 @@ export type State = {
   errors?: {
     title?: string[];
     description?: string[];
-    room?: string[];
+    roomid?: string[];
+    userid?: string[];
+    images?: string[];
   };
   message?: string | null;
 };
