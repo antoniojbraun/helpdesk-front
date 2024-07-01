@@ -16,16 +16,11 @@ const FormSchema = z.object({
   description: z.string().min(10, {
     message: "Descrição é necessária com pelo menos 10 caracteres.",
   }),
-  room: z.string().min(2, { message: "Sala é necessária." }),
-  dt_creation: z.string(),
-  status: z.enum(["Pendente", "Em Progresso", "Resolvido"]),
-  user_id: z.string(),
+  roomid: z.string({ message: "Sala é necessária." }),
 });
 
 const CreateTicket = FormSchema.omit({
   id: true,
-  dt_creation: true,
-  user_id: true,
 });
 
 export async function getAllTickets(): Promise<TicketByUser[]> {
@@ -113,12 +108,13 @@ export async function getTicketById(dataFetch: { id: string; token: string }) {
 }
 
 export async function createTicket(prevState: State, formData: FormData) {
-  console.log(typeof formData.get("room"));
+  const session = await getDataSession();
+  const newUrl = `${urlBaseApi}/tickets`;
+  console.log(formData);
   const validatedFields = CreateTicket.safeParse({
     title: formData.get("title"),
     description: formData.get("description"),
-    room: formData.get("room"),
-    status: formData.get("status"),
+    roomid: formData.get("roomid"),
   });
 
   if (!validatedFields.success) {
@@ -127,24 +123,30 @@ export async function createTicket(prevState: State, formData: FormData) {
       message: "Missing Fields Failed to Create Ticket",
     };
   }
-  const { title, description, room, status } = validatedFields.data;
-  const date = new Date().toISOString().split("T")[0];
-  const newUrl = `${urlBaseApi}/tickets`;
-
-  fetch(newUrl, {
+  const { title, description, room } = validatedFields.data;
+  console.log(title, description, room, session?.id);
+  const response = await fetch(newUrl, {
     method: "POST",
-    body: JSON.stringify({
+    body: {
       title: title,
       description: description,
-      room: room,
-      status: status,
-      dt_creation: date,
-    }),
+      roomId: room,
+      userId: session?.id,
+      images: [],
+    },
     headers: {
       "Content-type": "application/json; charset=UTF-8",
+      Authorization: `Bearer ${session?.token}`,
     },
-  }).then((error) => console.log(error));
+  });
+  if (!response.ok) {
+    const dataError = await response.json();
+    console.error("Erro ao cadastrar um chamado:");
+    console.error(dataError);
+  }
 
-  revalidatePath("/dashboard/tickets");
-  redirect("/dashboard/tickets");
+  revalidatePath("/dashboard/user/tickets");
+  redirect("/dashboard/user/tickets");
 }
+
+// d042c31a-5454-4bef-890c-aa06db7333cc

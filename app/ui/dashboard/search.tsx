@@ -13,9 +13,11 @@ const styleInputDefault =
 export default function Search({
   placeholder,
   title,
+  isActive,
 }: {
   placeholder: string;
   title: string;
+  isActive: boolean;
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -39,6 +41,7 @@ export default function Search({
       <div className={`${styleDivDefault}`}>
         <label htmlFor="searchInput">{title}</label>
         <input
+          disabled={!isActive}
           type="text"
           placeholder={placeholder}
           className={`${styleInputDefault} w-[220px] `}

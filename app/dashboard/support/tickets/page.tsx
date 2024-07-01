@@ -56,12 +56,13 @@ const Page = async ({
     getAllTicketsAPIWithToken,
     ticket
   );
+  const hasTicketsToShow: boolean = tickets.length > 0;
 
   return (
     <div className="flex flex-col">
       <TopbarContentPage titlePage="Meus Chamados" />
-      <SearchBar />
-      <Table data={tickets} url='support' />
+      <SearchBar isActive={hasTicketsToShow} />
+      <Table data={tickets} url="support" />
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

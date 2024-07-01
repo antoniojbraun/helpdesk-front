@@ -23,11 +23,20 @@ let optionsStatus = [
   },
 ];
 
-export default function SearchBarTicket() {
+export default function SearchBarTicket({ isActive }: { isActive: boolean }) {
   return (
     <div className="flex flex-col md:flex-row items-start space-y-2 md:space-y-0">
-      <Search title="Pesquisar" placeholder="Digite sua pesquisa..." />
-      <Select title="Ordenar" type="Selecione..." options={optionsStatus} />
+      <Search
+        isActive={isActive}
+        title="Pesquisar"
+        placeholder="Digite sua pesquisa..."
+      />
+      <Select
+        isActive={isActive}
+        title="Ordenar"
+        type="Selecione..."
+        options={optionsStatus}
+      />
     </div>
   );
 }

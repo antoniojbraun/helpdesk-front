@@ -90,8 +90,13 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
       email: email,
       password: password,
     });
+    
     console.log("[LOGIN_RESPONSE]: " + response);
     if (!response?.error) {
+      alert(`${response}`);
+      return;
+    }
+    if (response?.ok) {
       router.refresh();
       router.push("/dashboard/user/tickets/create/");
     }

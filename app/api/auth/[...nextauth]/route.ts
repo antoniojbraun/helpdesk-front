@@ -39,11 +39,11 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         const data = await response.json();
-
+        console.log(data);
         const user = {
           id: data.userId,
           name: data.name,
-          email: dataForm.email,
+          email: data.email,
           role: data.userType,
           token: data.token,
           expirationDate: data.expirationDate,
@@ -84,6 +84,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/login",
+    error: "/login",
   },
 };
 

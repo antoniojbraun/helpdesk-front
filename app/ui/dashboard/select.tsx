@@ -14,10 +14,12 @@ export default function Select({
   title,
   type,
   options,
+  isActive,
 }: {
   title: string;
   type: string;
   options: { value: string; name: string }[];
+  isActive: boolean;
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -39,6 +41,7 @@ export default function Select({
     <div className={`${styleDivDefault} space-x-[26px] md:space-x-3`}>
       <label htmlFor={`title.toLowerCase()`}>{title}</label>
       <select
+        disabled={!isActive}
         name={`type.toLowerCase()`}
         id={`type.toLowerCase()`}
         className={`${styleInputDefault}`}

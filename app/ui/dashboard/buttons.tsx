@@ -70,3 +70,15 @@ export function ViewButtonTable({ slug, id }: { id: string; slug: string }) {
     </Link>
   );
 }
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+}
+export function DeleteButtonGeneric({ ...rest }) {
+  return (
+    <button {...rest} className="rounded-md border p-2 hover:bg-gray-100">
+      <span className="sr-only">Deletar</span>
+      <TrashIcon className="w-5" />
+    </button>
+  );
+}

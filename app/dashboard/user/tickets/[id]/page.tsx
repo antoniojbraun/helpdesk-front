@@ -8,15 +8,15 @@ export default async function Page({ params }: { params: { id: string } }) {
   const ticketItem = await getItemByIdGeneric(id, "itemTicket");
   const chatTicket = await getItemByIdGeneric(id, "chats");
   const listMessagesTicket = chatTicket;
-
+  console.log("porraaaa")
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Chamados", href: "/dashboard/tickets" },
+          { label: "Chamados", href: "/dashboard/user/tickets" },
           {
             label: `Dados do Chamado`,
-            href: `/dashboard/tickets/${id}`,
+            href: `/dashboard/user/tickets/${id}`,
             active: true,
           },
         ]}

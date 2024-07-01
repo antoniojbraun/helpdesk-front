@@ -4,7 +4,7 @@ import { Room } from "@/app/lib/definitions";
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace px-3 py-1";
 
-export default async function TableRooms({ data }: { data: Room[] }) {
+export default function TableRooms({ data }: { data: Room[] }) {
   return (
     <div className="mt-6 flex flex-root justify-center">
       <div className="inline-block align-middle min-w-full">

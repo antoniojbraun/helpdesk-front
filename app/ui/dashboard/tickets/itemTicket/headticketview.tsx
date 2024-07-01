@@ -11,7 +11,7 @@ export default function HeadTicketView({ ticket }: { ticket: itemTicket }) {
         <div className="space-y-[5px]">
           <p className={poppins600.className}>Dados do Chamado</p>
           <p>Veja um resumo do seu chamado</p>
-          <p className="pt-[5px] text-slate-500">Chamado #{ticket.id}</p>
+          <p className="pt-[5px] text-slate-500">Chamado #{ticket.number}</p>
         </div>
         <div className="flex flex-col justify-start items-center">
           <QuestionMarkCircleIcon className="text-[#788796] size-[20px]" />

@@ -74,7 +74,7 @@ export type Message = {
 
 export type Chat = {
   id: string;
-  chatdata: [];
+  chatdata: Message[];
 };
 
 export type InitialState = {

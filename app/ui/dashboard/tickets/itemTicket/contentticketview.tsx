@@ -50,6 +50,7 @@ export default function ContentTicketView({
       <TicketMessagesView
         isActive={messagesActive}
         messagesChat={messagesChat}
+        ticketStatus={ticket.status}
       />
     </div>
   );

@@ -6,16 +6,20 @@ import {
 
 import { NextResponse } from "next/server";
 
-export const isExpired = (expirationDate: string): boolean => {
-  const now = new Date();
-  const expiration = new Date(expirationDate);
-  return now > expiration;
-};
-
 const middleware = (request: NextRequestWithAuth) => {
   // console.log("[MIDDLEWARE_NEXTAUTH_TOKEN]: ", request.nextauth.token);
+  const expirationDate = request.nextauth.token?.expirationDate;
+  const userRole = JSON.stringify(request.nextauth.token?.role);
+  const now = new Date();
+  const expiration = new Date(`${expirationDate}`);
+  const isExpired = now > expiration;
+  const nameIsNull = request.nextauth.token?.name === null;
 
-  let userRole = JSON.stringify(request.nextauth.token?.role);
+  if (isExpired || nameIsNull) {
+    request.nextauth.token = null;
+    // Redirecionar para a página de login
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
   const isAdmin = userRole === "2";
   const isSupport = userRole === "1";

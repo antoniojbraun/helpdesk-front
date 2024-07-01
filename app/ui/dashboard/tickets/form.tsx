@@ -11,17 +11,24 @@ const styleInput = " rounded-md w-full py-[8px] px-[15px] ";
 const styleDivInputs = "flex flex-col rounded-md";
 const styleCancelButton =
   "flex h-10 items-center rounded-lg bg-gray-200 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-300";
+
 export default function FormCreateTicket({
   listofrooms,
+  userid,
 }: {
   listofrooms: Room[];
+  userid: string;
 }) {
-  const initialState = { message: null, errors: {} };
+  const initialState = {
+    message: null,
+    errors: {},
+  };
   const [state, dispatch] = useFormState(createTicket, initialState);
   let room: string | null = null;
   let roomId = "0";
 
   if (typeof window !== undefined) room = localStorage.getItem("room");
+
   if (room) {
     listofrooms.map((item) => {
       if (item.name.toLowerCase() == room!.toLowerCase())
@@ -37,17 +44,18 @@ export default function FormCreateTicket({
       setFileName("");
     }
   }
+
   return (
     <form action={dispatch}>
       <div className="rounded-md bg-[#F1F2F3] p-6 space-y-[10px] w-full">
         <div className={styleDivInputs}>
-          <label htmlFor="room" className={styleLabel}>
+          <label htmlFor="roomid" className={styleLabel}>
             Sala<span className="text-red-500">*</span>
           </label>
           <select
-            name="room"
-            id="room"
-            aria-describedby="room-error"
+            name="roomid"
+            id="roomid"
+            aria-describedby="roomid-error"
             className={styleInput}
             defaultValue={roomId}>
             <option value="0">Selecione a Sala</option>
@@ -58,8 +66,8 @@ export default function FormCreateTicket({
             ))}
           </select>
           <div id="room-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.room &&
-              state.errors.room.map((error: string) => (
+            {state.errors.roomid &&
+              state.errors.roomid.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>
@@ -99,7 +107,7 @@ export default function FormCreateTicket({
             className={styleInput}
           />
           <div id="description-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.description &&
+            {state?.errors?.description &&
               state.errors.description.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
@@ -112,6 +120,7 @@ export default function FormCreateTicket({
             Status
           </label>
           <input
+            disabled
             type="radio"
             id="status"
             name="status"
@@ -122,8 +131,11 @@ export default function FormCreateTicket({
           />
           <label htmlFor="status">Pendente</label>
         </div>
+        <div>
+          <input type="text" name="userid" id="userid" value={`${userid}`} />
+        </div>
         <div className={styleDivInputs}>
-          <label htmlFor="file" className={styleLabel}>
+          <label htmlFor="images" className={styleLabel}>
             Anexo
           </label>
           <InputFile fileName={fileName} handleFileChange={handleInputFile} />
