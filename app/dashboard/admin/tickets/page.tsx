@@ -59,7 +59,7 @@ export default async function Page({
       <TopbarContentPage titlePage="Chamados" titleButton="Criar Chamado" />
       <SearchBar />
 
-      <Table data={tickets} />
+      <Table data={tickets} url="admin" />
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

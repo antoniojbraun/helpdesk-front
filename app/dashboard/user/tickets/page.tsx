@@ -48,7 +48,7 @@ const Page = async ({
         urlButton="/dashboard/user/tickets/create"
       />
       <SearchBar />
-      <Table data={tickets} />
+      <Table data={tickets} url="user" />
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

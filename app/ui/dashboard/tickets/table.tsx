@@ -8,7 +8,13 @@ import { poppins500 } from "../../fonts";
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace-nowrap px-3 py-1";
 
-export default function TableTickets({ data }: { data: TicketByUser[] }) {
+export default function TableTickets({
+  data,
+  url,
+}: {
+  data: TicketByUser[];
+  url: string;
+}) {
   useEffect(() => {
     if (typeof window !== undefined) {
       if (localStorage.getItem("room")) localStorage.removeItem("room");
@@ -100,7 +106,7 @@ export default function TableTickets({ data }: { data: TicketByUser[] }) {
                     </td>
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
-                        <ViewButtonTable id={item.id} slug="admin/tickets" />
+                        <ViewButtonTable id={item.id} slug={`${url}/tickets`} />
                         {/* <UpdateButtonTable id={item.id} slug="tickets" /> */}
                         {/* <DeleteButtonTable id={item.id} slug="tickets"  /> */}
                       </div>
