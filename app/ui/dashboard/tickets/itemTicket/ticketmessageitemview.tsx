@@ -1,5 +1,5 @@
 import { poppins600 } from "../../../fonts";
-import { Message } from "@/app/lib/definitions";
+import { Chat, Message } from "@/app/lib/definitions";
 const styleUserMessageBox =
   "ml-[40px] mr-[18px] rounded-r-md rounded-bl-md shadow-[#C2CFD9] bg-[#C2CFD9]";
 const styleUserMessageEffect =
@@ -16,31 +16,31 @@ const styleDateSupport = "ml-[20px]";
 export default function ItemMessageView({
   messageItem,
 }: {
-  messageItem: Message;
+  messageItem: Chat;
 }) {
   const colorEfect =
-    messageItem.userType === "user"
+    messageItem.user.userType === "user"
       ? styleUserMessageEffect
       : styleSupportMessageEffect;
   const colorBox =
-    messageItem.userType === "user"
+    messageItem.user.userType === "user"
       ? styleUserMessageBox
       : styleSupportMessageBox;
 
   const styleDateMsg =
-    messageItem.userType === "user" ? styleDateUser : styleDateSupport;
+    messageItem.user.userType === "user" ? styleDateUser : styleDateSupport;
   return (
-    <div className="relative mb-[12px] pt-[8px]" key={messageItem.id}>
+    <div className="relative mb-[12px] pt-[8px]">
       <div
         className={`${colorEfect} absolute border-solid border-[8px] top-[0px] `}></div>
       <div
         className={`${colorBox}  space-y-[10px] mb-[7px] text-[#12181e] px-[25px] py-[20px] shadow-md `}>
-        <p className={`${poppins600.className}`}>{messageItem.author}</p>
+        <p className={`${poppins600.className}`}>{messageItem.user.name}</p>
         <p>{messageItem.message}</p>
       </div>
       <div className={`flex text-sm text-[#5e5e5e] ${styleDateMsg}`}>
         <p>
-          {messageItem.day_sent} às {messageItem.hour_sent}
+          {messageItem.sendedAt.getDay()} às {messageItem.sendedAt.getHours()}
         </p>
       </div>
     </div>

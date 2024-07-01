@@ -8,6 +8,8 @@ import { getDataSession } from "@/app/lib/utils";
 
 const urlTickets = `${urlBaseApi}/tickets/`;
 
+const token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjNTc4MjM2Yy05ZTdiLTQ1OTAtYWVjNi1iN2FhYjBhZmFmNTgiLCJlbWFpbCI6InplY2F1cnVidUBnbWFpbC5jb20uYnIiLCJqdGkiOiIwNTg5MTQyOC1kNDIxLTQwMzMtODI0Yi01MWZkMGEzYmYyZDYiLCJuYmYiOjE3MTk3OTMzOTIsImlhdCI6IjA3LzAxLzIwMjQgMDA6MjM6MTIiLCJleHAiOjE3MTk3OTY5OTIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJhdWQiOiJBdWRpZW5jZSJ9.oejLJfWGGYW_Ug1IeQyeyVpJAP7xjZhcqlN24iHRaJdB9TInPIfOylGQO7EZbw1PHcb8Qi-yWumraRpF0wSVNg"
+
 const FormSchema = z.object({
   id: z.string(),
   title: z
@@ -29,9 +31,9 @@ const CreateTicket = FormSchema.omit({
 });
 
 export async function getAllTickets(): Promise<TicketByUser[]> {
-  const newUrl = `http://localhost:3100/tickets`;
-  const data = await fetch(newUrl, {
+  const data = await fetch(`${urlBaseApi}/tickets/user/e11e52d8-6909-449d-968b-a7700e45e8e9`, {
     cache: "no-store",
+    headers: { Authorization: `Bearer ${token}` },
   });
   if (!data.ok) throw new Error("Failed to fetch data!");
   return data.json();

@@ -12,7 +12,7 @@ export default function ContentTicketView({
   messagesChat,
 }: {
   ticket: itemTicket;
-  messagesChat: Chat;
+  messagesChat: Chat[];
 }) {
   let [descriptionActive, setDescriptionActive] = useState(true);
   let [messagesActive, setMessagesActive] = useState(false);

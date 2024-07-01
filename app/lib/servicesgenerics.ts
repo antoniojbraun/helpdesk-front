@@ -11,6 +11,8 @@ import {
   getDataSession,
 } from "./utils";
 
+const token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjNTc4MjM2Yy05ZTdiLTQ1OTAtYWVjNi1iN2FhYjBhZmFmNTgiLCJlbWFpbCI6InplY2F1cnVidUBnbWFpbC5jb20uYnIiLCJqdGkiOiIwNTg5MTQyOC1kNDIxLTQwMzMtODI0Yi01MWZkMGEzYmYyZDYiLCJuYmYiOjE3MTk3OTMzOTIsImlhdCI6IjA3LzAxLzIwMjQgMDA6MjM6MTIiLCJleHAiOjE3MTk3OTY5OTIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJhdWQiOiJBdWRpZW5jZSJ9.oejLJfWGGYW_Ug1IeQyeyVpJAP7xjZhcqlN24iHRaJdB9TInPIfOylGQO7EZbw1PHcb8Qi-yWumraRpF0wSVNg"
+
 export async function deleteGeneric(infoUrl: InfoUrl) {
   const getDataUserLogged = await getDataSession();
   const token = getDataUserLogged?.token;
@@ -34,10 +36,9 @@ export async function deleteGeneric(infoUrl: InfoUrl) {
 }
 
 export async function getItemByIdGeneric(id: string, slug: string) {
-  const newUrl = `http://localhost:3100/${slug}/${id}`;
-  console.log(newUrl);
-  const response = await fetch(newUrl, {
+  const response = await fetch(`${urlBaseApi}/tickets/${id}`, {
     cache: "no-store",
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   if (!response.ok) {

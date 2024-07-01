@@ -4,12 +4,15 @@ import HeadTicketView from "@/app/ui/dashboard/tickets/itemTicket/headticketview
 import { getTicketById } from "@/app/lib/tickets/servicesticket";
 import { getDataSession } from "@/app/lib/utils";
 import { getItemByIdGeneric } from "@/app/lib/servicesgenerics";
-import { chats } from "@/app/lib/utils";
+import { getAllMessages } from "@/app/lib/chat/serviceschat";
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
   const dataUserLogged = await getDataSession();
   const dataFecth = { id: id, token: dataUserLogged?.token };
   const ticketItem = await getTicketById(dataFecth);
+  var chats = [];
+
+  chats = await getAllMessages(id);
 
   return (
     <main>

@@ -6,21 +6,20 @@ export default function TicketMessagesView({
   messagesChat,
 }: {
   isActive: boolean;
-  messagesChat: Chat;
+  messagesChat: Chat[];
 }) {
   const styleDivIsActive = isActive ? "block" : "hidden";
-  const messages = messagesChat.chatdata;
 
   return (
     <div className={`${styleDivIsActive} flex flex-col bg-[#F1F2F3] pt-[20px]`}>
       <div className="border-[2px] mb-[20px]"></div>
 
       <div>
-        {messages.map((item, indice) => (
+        {/* {messagesChat.map((item, indice) => (
           <ItemMessageView messageItem={item} key={indice} />
-        ))}
+        ))} */}
       </div>
-      <FormCreateMessages id={messagesChat.id} />
+      {/* <FormCreateMessages id={messagesChat.id} /> */}
     </div>
   );
 }
