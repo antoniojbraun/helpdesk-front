@@ -62,7 +62,14 @@ const Page = async ({
     <div className="flex flex-col">
       <TopbarContentPage titlePage="Meus Chamados" />
       <SearchBar isActive={hasTicketsToShow} />
-      <Table data={tickets} url="support" />
+      {!hasTicketsToShow && (
+        <div className="pl-2 mt-8">
+          <p className="text-[18px]">
+            Você não possui nenhum chamado criado =(
+          </p>
+        </div>
+      )}
+      {hasTicketsToShow && <Table data={tickets} url="support" />}
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

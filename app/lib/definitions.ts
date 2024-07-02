@@ -84,6 +84,16 @@ export type InitialState = {
   errors: {};
 };
 
+export type DataSession = {
+  user: {
+    id: string;
+    name: string;
+    role: string;
+    token: string;
+    expirationDate: string;
+  };
+};
+
 export const initialState = { message: null, errors: {} };
 
 export let urlBaseApi = "";

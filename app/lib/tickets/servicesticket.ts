@@ -169,4 +169,49 @@ export async function createTicket(prevState: State, formData: FormData) {
   redirect("/dashboard/user/tickets");
 }
 
-// d042c31a-5454-4bef-890c-aa06db7333cc
+export async function deleteTicketApi(ticketId: string) {
+  const getDataUserLogged = await getDataSession();
+  const token = getDataUserLogged?.token;
+  const userId = getDataUserLogged?.id;
+  let newUrlDelete = `${urlBaseApi}/tickets/${ticketId}/user/${userId}`;
+
+  const response = await fetch(newUrlDelete, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) {
+    const statusError = response.status;
+    return {
+      status: statusError,
+    };
+  }
+
+  return response.ok;
+}
+
+export const handleChangeSupportStatusTicket = async (data: {
+  ticketId?: string;
+  userId?: string;
+  typeChange: string;
+}) => {
+  const getDataUserLogged = await getDataSession();
+  const token = getDataUserLogged?.token;
+  const response = await fetch(
+    `${urlBaseApi}/tickets/${data.ticketId}/user/${data.userId}:${data.typeChange}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({ id: data.ticketId, supportUserId: data.userId }),
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  if (!response.ok) {
+    const dataError = await response.json();
+    return response.statusText;
+  }
+  if (response.ok) {
+    return response.ok;
+  }
+};
+
+

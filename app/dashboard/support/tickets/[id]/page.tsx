@@ -1,7 +1,7 @@
 import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import ContentTicketView from "@/app/ui/dashboard/tickets/itemTicket/contentticketview";
 import HeadTicketView from "@/app/ui/dashboard/tickets/itemTicket/headticketview";
-import { getItemByIdGeneric } from "@/app/lib/servicesgenerics";
+
 import { getTicketById } from "@/app/lib/tickets/servicesticket";
 import { chats } from "@/app/lib/utils";
 import { getDataSession } from "@/app/lib/utils";
@@ -13,11 +13,12 @@ export default async function Page({ params }: { params: { id: string } }) {
     id: id,
     token: session?.token,
   };
+
   const ticketItem = await getTicketById(dataFetch);
 
   let urlHrefBack = "/dashboard/support/tickets/";
   if (ticketItem.status === "Pendente") urlHrefBack += "pending";
-  
+
   return (
     <main>
       <Breadcrumbs
@@ -30,7 +31,11 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <HeadTicketView ticket={ticketItem} />
+      <HeadTicketView
+        ticket={ticketItem}
+        token={session?.token}
+        userId={session?.id}
+      />
       <ContentTicketView ticket={ticketItem} messagesChat={chats} />
     </main>
   );

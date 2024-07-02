@@ -1,11 +1,14 @@
 "use client";
 import { AppSessionProvider } from "../context/SessionContext";
 import { SidebarProvider } from "../context/SidebarContext";
+
+
 import Footer from "../ui/dashboard/footer";
 import Sidebar from "../ui/dashboard/sidebar";
 import TopBar from "../ui/dashboard/topbar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+
   return (
     <AppSessionProvider>
       <SidebarProvider>

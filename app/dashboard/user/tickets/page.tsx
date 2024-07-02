@@ -54,7 +54,6 @@ const Page = async ({
     ticket
   );
   const hasTicketsToShow: boolean = tickets.length > 0;
-  console.log(tickets);
 
   return (
     <div className="flex flex-col">

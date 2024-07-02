@@ -5,6 +5,8 @@ import { useSidebarContext } from "@/app/context/SidebarContext";
 import Person from "./person";
 import Logo from "./helpdesk-logo";
 
+
+
 export default function TopBar() {
   const { toggleSidebar } = useSidebarContext();
   return (

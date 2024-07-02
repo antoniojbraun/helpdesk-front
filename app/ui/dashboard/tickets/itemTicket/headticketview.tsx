@@ -1,17 +1,35 @@
 import { poppins600 } from "../../../fonts";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { itemTicket } from "@/app/lib/definitions";
+import SupportTakeTicket from "./supportTakeTicket";
+import { useState } from "react";
 
 const styleP = "whitespace-nowrap";
 const styleAtributesP = " text-slate-500";
-export default function HeadTicketView({ ticket }: { ticket: itemTicket }) {
+export default function HeadTicketView({
+  ticket,
+  token,
+  userId,
+}: {
+  ticket: itemTicket;
+  token?: string;
+  userId?: string;
+}) {
   return (
     <div className="px-[18px] py-[20px] bg-[#F1F2F3] rounded-md">
       <div className="flex flex-row justify-between">
         <div className="space-y-[5px]">
           <p className={poppins600.className}>Dados do Chamado</p>
           <p>Veja um resumo do seu chamado</p>
-          <p className="pt-[5px] text-slate-500">Chamado #{ticket.number}</p>
+          <div className="space-x-5 flex flex-row items-center">
+            <p className="pt-[5px] text-slate-500">Chamado #{ticket.number}</p>
+            <SupportTakeTicket
+              ticketAttendant={ticket.attendant}
+              ticketStatus={ticket.status}
+              ticketId={ticket.id}
+              userId={userId}
+            />
+          </div>
         </div>
         <div className="flex flex-col justify-start items-center">
           <QuestionMarkCircleIcon className="text-[#788796] size-[20px]" />
@@ -40,8 +58,8 @@ export default function HeadTicketView({ ticket }: { ticket: itemTicket }) {
           </div>
           <div>
             <p className={styleP}>{ticket.status}</p>
-            <p className={styleP}>
-              {ticket.attendant == undefined ? "--" : ticket.attendant}
+            <p className="">
+              {ticket.attendant ? `${ticket.attendant}` : "--"}
             </p>
             <p className={styleP}>{ticket.room.name}</p>
           </div>

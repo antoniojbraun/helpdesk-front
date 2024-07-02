@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
-import { ViewButtonTable } from "../buttons";
+import { useEffect, useState } from "react";
+import { DeleteButtonGeneric, ViewButtonTable } from "../buttons";
 import Status from "./status";
 import { TicketByUser } from "@/app/lib/definitions";
 import { poppins500 } from "../../fonts";
+import { deleteTicketApi } from "@/app/lib/tickets/servicesticket";
+import { useRouter } from "next/navigation";
+import { getDataSession } from "@/app/lib/utils";
+
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace-nowrap px-3 py-1";
 
@@ -15,11 +19,25 @@ export default function TableTickets({
   data: TicketByUser[];
   url: string;
 }) {
+  const router = useRouter();
+
   useEffect(() => {
     if (typeof window !== undefined) {
       if (localStorage.getItem("room")) localStorage.removeItem("room");
     }
   });
+
+  const handleDelete = async (id: string) => {
+    const userConfirmed = confirm("Tem certeza que quer deleter esse ticket?");
+    if (userConfirmed) {
+      const response = await deleteTicketApi(id);
+      if (response) {
+        alert("Deu tudo certo!");
+        router.refresh();
+      }
+    }
+  };
+
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -53,7 +71,7 @@ export default function TableTickets({
                     <div className="flex justify-end gap-2 ml-[3px]">
                       {/* <UpdateButtonTable id={item.id} slug="tickets" />
                       <DeleteButtonTable id={item.id} slug="tickets" /> */}
-                      <ViewButtonTable id={item.id} slug="admin/tickets" />
+                      <ViewButtonTable id={item.id} slug={`${url}/tickets`} />
                     </div>
                   </div>
                 </div>
@@ -107,6 +125,13 @@ export default function TableTickets({
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
                         <ViewButtonTable id={item.id} slug={`${url}/tickets`} />
+
+                        {item.status.toLowerCase() === "pendente" &&
+                          url === "user" && (
+                            <DeleteButtonGeneric
+                              onClick={() => handleDelete(item.id)}
+                            />
+                          )}
                         {/* <UpdateButtonTable id={item.id} slug="tickets" /> */}
                         {/* <DeleteButtonTable id={item.id} slug="tickets"  /> */}
                       </div>
