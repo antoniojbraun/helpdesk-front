@@ -21,26 +21,32 @@ export function Button({ children, className, ...rest }: ButtonProps) {
 interface InputFileProps {
   fileName: string;
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  fileInputRef: React.RefObject<HTMLInputElement>;
 }
 
-export function InputFile({ fileName, handleFileChange }: InputFileProps) {
+export function InputFile({
+  fileName,
+  handleFileChange,
+  fileInputRef,
+}: InputFileProps) {
   return (
     <div className="flex justify-end border-[2px] border-neutral-900 border-opacity-20 rounded-md bg-[#fff]">
       <div className="h-full py-[6px] px-[20px]">
         <p>{fileName}</p>
       </div>
       <label
-        htmlFor="file"
+        htmlFor="image"
         className="flex py-[6px] px-[20px] bg-[#C2CFD9] cursor-pointer">
         Selecionar arquivo
       </label>
       <input
-        id="file"
-        name="file"
+        ref={fileInputRef}
+        id="image"
+        name="image"
         type="file"
         className="hidden"
         onChange={handleFileChange}
-        aria-describedby="images-error"
+        aria-describedby="image-error"
       />
     </div>
   );

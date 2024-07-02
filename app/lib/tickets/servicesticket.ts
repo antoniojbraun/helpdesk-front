@@ -152,7 +152,7 @@ export async function createTicket(prevState: State, formData: FormData) {
       message: "Missing Fields Failed to Create Ticket",
     };
   }
-  console.log(formData);
+
   const response = await fetch(newUrl, {
     method: "POST",
     body: formData,
