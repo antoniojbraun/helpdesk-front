@@ -42,8 +42,9 @@ const FormSchema = z.object({
 });
 
 export async function getAllTickets(): Promise<TicketByUser[]> {
-  const data = await fetch(`${urlBaseApi}/tickets/user/826f64e4-1321-4f1a-bc47-a100b10b8749`, {
-    cache: "no-store"
+  const newUrl = `http://localhost:3100/tickets`;
+  const data = await fetch(newUrl, {
+    cache: "no-store",
   });
   if (!data.ok) throw new Error("Failed to fetch data!");
   return data.json();

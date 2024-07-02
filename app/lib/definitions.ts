@@ -65,15 +65,6 @@ export interface InfoUrl {
   redirect?: string;
 }
 
-export type Message = {
-  id: number;
-  userType: string;
-  author: string;
-  message: string;
-  day_sent: string;
-  hour_sent: string;
-};
-
 export type Chat = {
   message: string;
   sendedAt: string,
@@ -83,6 +74,7 @@ export type Chat = {
     email: string;
     userType: string;
   };
+  imageBase64: string;
 };
 
 export type InitialState = {

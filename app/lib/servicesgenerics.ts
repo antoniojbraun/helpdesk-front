@@ -36,17 +36,11 @@ export async function deleteGeneric(infoUrl: InfoUrl) {
 }
 
 export async function getItemByIdGeneric(id: string, slug: string) {
-  const response = await fetch(`${urlBaseApi}/tickets/${id}`, {
-    cache: "no-store"
+  const newUrl = `http://localhost:3100/${slug}/${id}`;
+  console.log(newUrl);
+  const response = await fetch(newUrl, {
+    cache: "no-store",
   });
-
-  if (!response.ok) {
-    const errorData = response.json();
-    console.error(
-      `Problema ao buscar dados de '${slug}' com erro: ${errorData} `
-    );
-  }
-  return response.json();
 }
 
 const ITEMS_PER_PAGE = 10;

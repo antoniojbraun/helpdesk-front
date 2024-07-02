@@ -37,6 +37,7 @@ export default function ItemMessageView({
         className={`${colorBox}  space-y-[10px] mb-[7px] text-[#12181e] px-[25px] py-[20px] shadow-md `}>
         <p className={`${poppins600.className}`}>{messageItem.user.name}</p>
         <p>{messageItem.message}</p>
+        {messageItem.imageBase64 ?? <img src={`data:image/png;base64,${messageItem.imageBase64}`} />}
       </div>
       <div className={`flex text-sm text-[#5e5e5e] ${styleDateMsg}`}>
         <p>

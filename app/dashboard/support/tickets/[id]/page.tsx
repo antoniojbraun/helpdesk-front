@@ -15,7 +15,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   };
 
   const chats = await getAllMessages(id);
-
   const ticketItem = await getTicketById(dataFetch);
 
   let urlHrefBack = "/dashboard/support/tickets/";
