@@ -3,8 +3,8 @@ import ContentTicketView from "@/app/ui/dashboard/tickets/itemTicket/contenttick
 import HeadTicketView from "@/app/ui/dashboard/tickets/itemTicket/headticketview";
 
 import { getTicketById } from "@/app/lib/tickets/servicesticket";
-import { chats } from "@/app/lib/utils";
 import { getDataSession } from "@/app/lib/utils";
+import { getAllMessages } from "@/app/lib/chat/serviceschat";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
@@ -14,6 +14,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     token: session?.token,
   };
 
+  const chats = await getAllMessages(id);
   const ticketItem = await getTicketById(dataFetch);
 
   let urlHrefBack = "/dashboard/support/tickets/";

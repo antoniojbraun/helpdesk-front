@@ -6,8 +6,11 @@ import { createMessageChat } from "@/app/lib/chat/serviceschat";
 
 const styleCancelButton =
   "flex h-10 items-center rounded-lg bg-gray-200 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-300";
+
 export default function FormCreateMessages({ id }: { id: string }) {
+
   const [fileName, setFileName] = useState("");
+
   function handleInputFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files?.length > 0) {
       setFileName(event.target.files[0].name);
@@ -15,6 +18,7 @@ export default function FormCreateMessages({ id }: { id: string }) {
       setFileName("");
     }
   }
+
   const initialState = { message: null, errors: {} };
   const createMessageChatWithId = createMessageChat.bind(null, id);
   const [state, dispatch] = useFormState(createMessageChatWithId, initialState);
@@ -27,8 +31,8 @@ export default function FormCreateMessages({ id }: { id: string }) {
       </label>
       <textarea
         aria-describedby="msg-error"
-        id="msg"
-        name="msg"
+        id="message"
+        name="message"
         placeholder="Insira aqui sua mensagem..."
         className="p-[15px] border-[2px] border-neutral-900 border-opacity-20 rounded-md"
       />

@@ -1,18 +1,19 @@
 import ItemMessageView from "./ticketmessageitemview";
-import { Chat } from "@/app/lib/definitions";
+import { Chat, itemTicket } from "@/app/lib/definitions";
 import FormCreateMessages from "./form-messages";
 import { poppins600 } from "@/app/ui/fonts";
 import FormCreateMessagesInative from "./form-messages-inative";
 export default function TicketMessagesView({
   isActive,
-  messagesChat,
-  ticketStatus,
+  messages,
+  ticket,
 }: {
   isActive: boolean;
-  messagesChat: Chat;
-  ticketStatus: string;
+  messages: Chat[];
+  ticket: itemTicket;
 }) {
   const styleDivIsActive = isActive ? "block" : "hidden";
+
   const messages: Chat[] = [];
   console.log(messages);
   let messagesBlocked =
@@ -37,9 +38,8 @@ export default function TicketMessagesView({
           ))}
         </div>
       )}
-      {/* i luv u */}
       {messagesBlocked ? (
-        <FormCreateMessages id={messagesChat.id} />
+         <FormCreateMessages id={ticket.id} />
       ) : (
         <FormCreateMessagesInative />
       )}

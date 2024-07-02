@@ -3,11 +3,13 @@ import ContentTicketView from "@/app/ui/dashboard/tickets/itemTicket/contenttick
 import HeadTicketView from "@/app/ui/dashboard/tickets/itemTicket/headticketview";
 import { getTicketById } from "@/app/lib/tickets/servicesticket";
 import { getDataSession } from "@/app/lib/utils";
-import { chats } from "@/app/lib/utils";
+import { getAllMessages } from "@/app/lib/chat/serviceschat";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
   const getDataUserLogged = await getDataSession();
+
+  const listMessagesTicket = await getAllMessages(id);
 
   const dataFetch = {
     id: id,
@@ -16,7 +18,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   const ticketItem = await getTicketById(dataFetch);
   let urlHrefBack = "/dashboard/user/tickets/";
   if (ticketItem.status === "Pendente") urlHrefBack += "pending";
-  const listMessagesTicket = chats;
   console.log(ticketItem);
   return (
     <main>

@@ -5,8 +5,7 @@ import Table from "@/app/ui/dashboard/tickets/table";
 import SearchBar from "@/app/ui/dashboard/tickets/searchbar";
 import TopbarContentPage from "@/app/ui/dashboard/topbarcontent";
 import {
-  getAllTicketsAPI,
-  getAllTickets,
+  getAllTicketsAPI
 } from "@/app/lib/tickets/servicesticket";
 import {
   HowManyPagesGeneric,

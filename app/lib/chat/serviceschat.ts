@@ -1,7 +1,11 @@
-import { State, urlBaseApi } from "../definitions";
+"use server";
+
+import { Chat, State, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
-import { redirect } from "@/node_modules/next/navigation";
+import { getDataSession } from "@/app/lib/utils";
+
+const urlChats = `${urlBaseApi}/chats`;
 
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
@@ -42,44 +46,61 @@ export async function createMessageChat(
   prevState: State,
   formData: FormData
 ) {
-  const inputFile = formData.get("inputFile") as File;
-  const inputMsg = formData.get("msg") as string;
+  const session = await getDataSession();
 
+  const message = formData.get("message") as string;
+  const file = formData.get("file") as File;
+
+  // Validate the fields
   let validatedFields = CreateMessageChat.safeParse({
-    msg: inputMsg,
-    file: inputFile.name !== "" ? inputFile : undefined,
+    msg: message,
+    file: file.name !== "" ? file : undefined,
   });
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields Failed to Create Ticket",
+      message: "Missing Fields Failed to Send Message",
     };
   }
 
-  // console.log(validatedFields.data);
+  const newFormData = new FormData();
+  formData.forEach((value, key) => {
+    if (key === "file") {
+      newFormData.append("image", value);
+    } else {
+      newFormData.append(key, value);
+    }
+  });
 
-  // const { msg, file } = validatedFields.data;
-  // if (file.name) console.log(file.name);
-  // console.log(msg);
+  const response = await fetch(`${urlChats}/ticket/${id}/user/${session?.id}`, {
+    method: "POST",
+    body: newFormData,
+    headers: {
+      Authorization: `Bearer ${session?.token}`,
+    },
+  });
 
-  // const newUrl = `${urlBaseApi}/tickets`;
+  if (!response.ok) {
+    const dataError = await response.json();
+    console.error("Erro ao cadastrar um chamado:");
+    console.error(dataError);
+    return;
+  }
 
-  // fetch(newUrl, {
-  //   method: "POST",
-  //   body: JSON.stringify({
-  //     title: title,
-  //     description: description,
-  //     room: room,
-  //     status: status,
-  //     dt_creation: date,
-  //   }),
-  //   headers: {
-  //     "Content-type": "application/json; charset=UTF-8",
-  //   },
-  // })
-  //   // .then((response) => console.log(response))
-  //   .then((error) => console.log(error));
+  revalidatePath(`/dashboard/user/tickets/${id}`);
+}
 
- 
+export async function getAllMessages(id: string): Promise<Chat[]> {
+  const session = await getDataSession();
+
+  const data = await fetch(`${urlChats}/ticket/${id}`, {
+    cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${session?.token}`,
+    },
+  });
+
+  if (!data.ok) throw new Error("Failed to fetch data!");
+  return data.json();
 }
