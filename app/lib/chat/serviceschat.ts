@@ -50,11 +50,11 @@ export async function createMessageChat(
 
   const message = formData.get("message") as string;
   const file = formData.get("file") as File;
-
+  console.log(file);
   // Validate the fields
   let validatedFields = CreateMessageChat.safeParse({
     msg: message,
-    file: file.name !== "" ? file : undefined,
+    file: file.size > 0 ? file : undefined,
   });
 
   if (!validatedFields.success) {
@@ -75,7 +75,7 @@ export async function createMessageChat(
 
   const response = await fetch(`${urlChats}/ticket/${id}/user/${session?.id}`, {
     method: "POST",
-    body: newFormData,
+    body: formData,
     headers: {
       Authorization: `Bearer ${session?.token}`,
     },
@@ -83,7 +83,7 @@ export async function createMessageChat(
 
   if (!response.ok) {
     const dataError = await response.json();
-    console.error("Erro ao cadastrar um chamado:");
+    console.error("Erro ao cadastrar uma mensagem:");
     console.error(dataError);
     return;
   }

@@ -14,12 +14,12 @@ export default function TicketMessagesView({
 }) {
   const styleDivIsActive = isActive ? "block" : "hidden";
 
-  const messages: Chat[] = [];
+  
   console.log(messages);
   let messagesBlocked =
-    ticketStatus.toLocaleLowerCase() !== "pendente" &&
-    ticketStatus.toLocaleLowerCase() !== "cancelado" &&
-    ticketStatus.toLocaleLowerCase() !== "encerrado";
+    ticket.status.toLocaleLowerCase() !== "pendente" &&
+    ticket.status.toLocaleLowerCase() !== "cancelado" &&
+    ticket.status.toLocaleLowerCase() !== "encerrado";
 
   return (
     <div className={`${styleDivIsActive} flex flex-col bg-[#F1F2F3] pt-[20px]`}>
