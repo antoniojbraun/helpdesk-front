@@ -1,10 +1,28 @@
-import { DeleteButtonTable, UpdateButtonTable } from "../buttons";
+"use client";
+
+import { DeleteButtonGeneric, UpdateButtonTable } from "../buttons";
 import { User } from "@/app/lib/definitions";
 import { poppins500 } from "../../fonts";
+import { deleteGeneric } from "@/app/lib/servicesgenerics";
+import { deleteUserApi } from "@/app/lib/users/servicesusers";
+import { useRouter } from "next/navigation";
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace-nowrap px-3 py-1";
 
-export default async function TableUsers({ data }: { data: User[] }) {
+export default function TableUsers({ data }: { data: User[] }) {
+  const router = useRouter();
+
+  const handleDelete = async (id: string) => {
+    const userConfirmed = confirm("Tem certeza que quer apagar esse usuário?");
+    if (userConfirmed) {
+      const response = await deleteUserApi(id);
+      if (response) {
+        alert("Deu tudo certo!");
+        router.refresh();
+      }
+    }
+  };
+
   return (
     <div className="mt-6 flex flex-root justify-center">
       <div className="inline-block align-middle min-w-full">
@@ -29,7 +47,10 @@ export default async function TableUsers({ data }: { data: User[] }) {
                     <p>{item.email}</p>
                     <div className="flex justify-end gap-2 ml-[3px]">
                       {/* <UpdateButtonTable id={item.id} slug="admin/users" /> */}
-                      <DeleteButtonTable id={item.id} slug="users" />
+
+                      <DeleteButtonGeneric
+                        onClick={() => handleDelete(item.id)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -73,10 +94,8 @@ export default async function TableUsers({ data }: { data: User[] }) {
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
                         {/* <UpdateButtonTable id={item.id} slug="admin/users" /> */}
-                        <DeleteButtonTable
-                          id={item.id}
-                          slug="users"
-                          redirect="admin/users"
+                        <DeleteButtonGeneric
+                          onClick={() => handleDelete(item.id)}
                         />
                       </div>
                     </td>

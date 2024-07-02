@@ -142,3 +142,24 @@ export async function updateUser(
   revalidatePath("/dashboard/users");
   redirect("/dashboard/users");
 }
+
+export async function deleteUserApi(userId: string) {
+  const getDataUserLogged = await getDataSession();
+  const token = getDataUserLogged?.token;
+
+  let newUrlDelete = `${urlBaseApi}/users/${userId}`;
+
+  const response = await fetch(newUrlDelete, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) {
+    const statusError = response.status;
+    return {
+      status: statusError,
+    };
+  }
+
+  return response.ok;
+}

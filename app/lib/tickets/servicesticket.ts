@@ -8,24 +8,37 @@ import { getDataSession } from "@/app/lib/utils";
 
 const urlTickets = `${urlBaseApi}/tickets/`;
 
+const MAX_FILE_SIZE = 5000000;
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
+
 const FormSchema = z.object({
-  id: z.string(),
+  userid: z.string(),
   title: z
     .string()
     .min(5, { message: "Títuo é obrigatório com pelo menos 5 caracteres." }),
   description: z.string().min(10, {
     message: "Descrição é necessária com pelo menos 10 caracteres.",
   }),
-  room: z.string().min(2, { message: "Sala é necessária." }),
-  dt_creation: z.string(),
-  status: z.enum(["Pendente", "Em Progresso", "Resolvido"]),
-  user_id: z.string(),
-});
-
-const CreateTicket = FormSchema.omit({
-  id: true,
-  dt_creation: true,
-  user_id: true,
+  roomid: z.string({ message: "Sala é necessária." }),
+  images: z
+    .instanceof(File)
+    .optional()
+    .refine((file: File | undefined) => !file || file.size <= MAX_FILE_SIZE, {
+      message: `Tamanho máximo permitido da imagem: 5MB.`,
+    })
+    .refine(
+      (file: File | undefined) =>
+        !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
+      {
+        message:
+          "Formatos de arquivos permitidos: .jpg, .jpeg, .png and .webp.",
+      }
+    ),
 });
 
 export async function getAllTickets(): Promise<TicketByUser[]> {
@@ -102,7 +115,7 @@ export async function getAllTicketsByUser(dataFetch: {
 
 export async function getTicketById(dataFetch: { id: string; token: string }) {
   const newUrl = `${urlBaseApi}/tickets/${dataFetch.id}`;
-  console.log(newUrl);
+
   const data = await fetch(newUrl, {
     cache: "no-store",
     headers: { Authorization: `Bearer ${dataFetch.token}` },
@@ -112,36 +125,113 @@ export async function getTicketById(dataFetch: { id: string; token: string }) {
 }
 
 export async function createTicket(prevState: State, formData: FormData) {
-  console.log(typeof formData.get("room"));
-  const validatedFields = CreateTicket.safeParse({
-    title: formData.get("title"),
-    description: formData.get("description"),
-    room: formData.get("room"),
-    status: formData.get("status"),
+  const session = await getDataSession();
+  const newUrl = `${urlBaseApi}/tickets`;
+
+  const userid = formData.get("userid");
+  const title = formData.get("title");
+  const description = formData.get("description");
+  const roomid = formData.get("roomid");
+  const images = formData.get("file") as File;
+
+  const validatedFields = FormSchema.safeParse({
+    userid: userid,
+    title: title,
+    description: description,
+    roomid: roomid,
+    images: images.size !== 0 ? images : undefined,
   });
 
+  console.log(validatedFields.data);
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields Failed to Create Ticket",
     };
   }
-  const { title, description, room, status } = validatedFields.data;
-  const newUrl = `${urlBaseApi}/tickets`;
 
-  fetch(newUrl, {
+  const response = await fetch(newUrl, {
     method: "POST",
-    body: JSON.stringify({
-      title: title,
-      description: description,
-      room: room,
-      status: status
-    }),
+    body: formData,
     headers: {
-      "Content-type": "application/json; charset=UTF-8",
+      Authorization: `Bearer ${session?.token}`,
     },
-  }).then((error) => console.log(error));
+  });
+  if (!response.ok) {
+    const dataError = await response.json();
+    console.error("Erro ao cadastrar um chamado:");
+    console.error(dataError);
+    return;
+  }
 
-  revalidatePath("/dashboard/tickets");
-  redirect("/dashboard/tickets");
+  revalidatePath("/dashboard/user/tickets");
+  redirect("/dashboard/user/tickets");
 }
+
+export async function deleteTicketApi(ticketId: string) {
+  const getDataUserLogged = await getDataSession();
+  const token = getDataUserLogged?.token;
+  const userId = getDataUserLogged?.id;
+  let newUrlDelete = `${urlBaseApi}/tickets/${ticketId}/user/${userId}`;
+
+  const response = await fetch(newUrlDelete, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) {
+    const statusError = response.status;
+    return {
+      status: statusError,
+    };
+  }
+
+  return response.ok;
+}
+
+export const handleChangeSupportStatusTicket = async (data: {
+  ticketId?: string;
+  userId?: string;
+  typeChange: string;
+}) => {
+  const getDataUserLogged = await getDataSession();
+  const token = getDataUserLogged?.token;
+  const response = await fetch(
+    `${urlBaseApi}/tickets/${data.ticketId}/user/${data.userId}:${data.typeChange}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({ id: data.ticketId, supportUserId: data.userId }),
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  if (!response.ok) {
+    const dataError = await response.json();
+    return response.statusText;
+  }
+  if (response.ok) {
+    return response.ok;
+  }
+};
+
+export const handleChangeUserStatusTicket = async (data: {
+  ticketId?: string;
+}) => {
+  const getDataUserLogged = await getDataSession();
+  const token = getDataUserLogged?.token;
+  const userId = getDataUserLogged?.id;
+  const response = await fetch(
+    `${urlBaseApi}/tickets/${data.ticketId}/user/${userId}:close`,
+    {
+      method: "PUT",
+      body: JSON.stringify({ id: data.ticketId, userId: userId }),
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  if (!response.ok) {
+    const dataError = await response.json();
+    return response.statusText;
+  }
+  if (response.ok) {
+    return response.ok;
+  }
+};

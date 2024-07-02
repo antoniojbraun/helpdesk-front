@@ -10,7 +10,7 @@ export default async function Page({ params }: Readonly<{ params: { id: string }
   const dataUserLogged = await getDataSession();
   const dataFecth = { id: id, token: dataUserLogged?.token };
   const ticketItem = await getTicketById(dataFecth);
-  const listMessagesTicket = await getAllMessages(id);
+  const chats = await getAllMessages(id);
 
   return (
     <main>
@@ -24,8 +24,8 @@ export default async function Page({ params }: Readonly<{ params: { id: string }
           },
         ]}
       />
-      <HeadTicketView ticket={ticketItem} />
-      <ContentTicketView ticket={ticketItem} messagesChat={listMessagesTicket} />
+      <HeadTicketView ticket={ticketItem} type="admin" />
+      <ContentTicketView ticket={ticketItem} messagesChat={chats} />
     </main>
   );
 }

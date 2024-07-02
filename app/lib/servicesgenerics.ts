@@ -12,23 +12,25 @@ import {
 } from "./utils";
 
 export async function deleteGeneric(infoUrl: InfoUrl) {
-  const getDataUserLogged = await getDataSession();
-  const token = getDataUserLogged?.token;
+  // const getDataUserLogged = await getDataSession();
+  // const token = getDataUserLogged?.token;
 
-  let newUrlDelete = `${urlBaseApi}/${infoUrl.slug}/${infoUrl.id}`;
+  // let newUrlDelete = `${urlBaseApi}/${infoUrl.slug}/${infoUrl.id}`;
 
-  const response = await fetch(newUrlDelete, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  // const response = await fetch(newUrlDelete, {
+  //   method: "DELETE",
+  //   headers: { Authorization: `Bearer ${token}` },
+  // });
 
-  if (!response.ok) {
-    const statusError = response.status;
-    console.error(statusError);
-    return;
-  }
+  // if (!response.ok) {
+  //   const statusError = response.status;
+  //   return {
+  //     status: statusError,
+  //   };
+  // }
   const urlBaseRedirect = "/dashboard";
   let newUrlRedirect = `${urlBaseRedirect}/${infoUrl.redirect}}`;
+  console.log(newUrlRedirect);
   revalidatePath(newUrlRedirect);
   redirect(newUrlRedirect);
 }

@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 
 import Link from "@/node_modules/next/link";
 import {
@@ -68,5 +69,15 @@ export function ViewButtonTable({ slug, id }: { id: string; slug: string }) {
       className="rounded-md border p-2 hover:bg-gray-100">
       <EyeIcon className="w-5" />
     </Link>
+  );
+}
+
+
+export function DeleteButtonGeneric({ ...rest }) {
+  return (
+    <button {...rest} className="rounded-md border p-2 hover:bg-gray-100">
+      <span className="sr-only">Deletar</span>
+      <TrashIcon className="w-5" />
+    </button>
   );
 }

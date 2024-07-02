@@ -3,31 +3,57 @@
 import { useUserSession } from "@/app/context/SessionContext";
 export default function Page({ params }: { params: { id: string } }) {
   const data = useUserSession();
-  const accessToken = data?.user;
-  console.log(data);
-  let isAdmin = null;
-  let isUser = null;
-  let isSupport = null;
-  if (accessToken) {
-    isAdmin = accessToken.role === 2;
-    isSupport = accessToken.role === 1;
-    isUser = accessToken.role === 0;
-    console.log(accessToken.token);
+  let dadosSession = {
+    user: {
+      id: "",
+      name: "",
+      role: "",
+      token: "",
+      expirationDate: "",
+    },
+  };
+
+  let isAdmin = false;
+  let isUser = false;
+  let isSupport = false;
+
+  if (data) {
+    dadosSession = JSON.parse(data);
+    isAdmin = dadosSession.user.role == "2";
+    isSupport = dadosSession.user.role == "1";
+    isUser = dadosSession.user.role == "0";
   }
 
   return (
-    <main>
-      Dashboard Home
-      <p>
-        Aqui vai mais algum conteúdo:{" "}
-        {accessToken && "Bem vindo:" + accessToken.name}
-      </p>
-      <p>
-        {isAdmin &&
-          `Tipo de Usuário: Administrador. Seu Token é ${accessToken.token}`}
-      </p>
-      <p>{isSupport && "Tipo de Usuário: Suporte"}</p>
-      <p>{isUser && "Tipo de Usuário: Usuário"}</p>
+    <main className="w-full">
+      {data && (
+        <div className="">
+          {" "}
+          Dashboard Home
+          <p> Aqui vai mais algum conteúdo:</p>
+          <p>{data && "Bem vindo:" + dadosSession.user.name}</p>
+          <p>
+            {isAdmin &&
+              `Tipo de Usuário: Administrador. Seu Token é ${dadosSession.user.token}.
+              Sua Data de Expiração é ${dadosSession.user.expirationDate}`}
+          </p>
+          {isSupport && (
+            <p className=" overflow-x-hidden text-ellipsis whitespace-">
+              <p>Tipo de Usuário: Suporte. Seu Token é</p>
+              <p>${dadosSession.user.token}.</p>
+              <p>Sua Data de Expiração é</p>
+              <p> ${dadosSession.user.expirationDate}</p>
+            </p>
+          )}
+          <p className=" overflow-x-hidden text-ellipsis whitespace-normal">
+            {isUser &&
+              `Tipo de Usuário: Usuário. Sua Data de Expiração é ${dadosSession.user.expirationDate}
+
+              Seu Token é ${dadosSession.user.token}.
+              `}
+          </p>
+        </div>
+      )}
     </main>
   );
 }

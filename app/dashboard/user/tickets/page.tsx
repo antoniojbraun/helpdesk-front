@@ -2,7 +2,10 @@ import Pagination from "@/app/ui/dashboard/pagination";
 import Table from "@/app/ui/dashboard/tickets/table";
 import SearchBar from "@/app/ui/dashboard/tickets/searchbar";
 import TopbarContentPage from "@/app/ui/dashboard/topbarcontent";
-import { getAllTickets } from "@/app/lib/tickets/servicesticket";
+import {
+  getAllTickets,
+  getAllTicketsByUser,
+} from "@/app/lib/tickets/servicesticket";
 import {
   HowManyPagesGeneric,
   fetchFilteredItemsGeneric,
@@ -27,18 +30,30 @@ const Page = async ({
     status: "",
     createdAt: "",
   };
-
+  const session = await getDataSession();
+  const dataFetch = {
+    idUser: session?.id,
+    token: session?.token,
+  };
+  const getAllTicketsByUserWithToken = getAllTicketsByUser.bind(
+    null,
+    dataFetch
+  );
   const query = searchParams?.query || "";
   const sort = searchParams?.sort || "";
   const currentPage = Number(searchParams?.page || 1);
-  const totalPages = await HowManyPagesGeneric(getAllTickets, query);
+  const totalPages = await HowManyPagesGeneric(
+    getAllTicketsByUserWithToken,
+    query
+  );
   const tickets = await fetchFilteredItemsGeneric(
     query,
     sort,
     currentPage,
-    getAllTickets,
+    getAllTicketsByUserWithToken,
     ticket
   );
+  const hasTicketsToShow: boolean = tickets.length > 0;
 
   return (
     <div className="flex flex-col">
@@ -47,8 +62,15 @@ const Page = async ({
         titleButton="Criar Chamado"
         urlButton="/dashboard/user/tickets/create"
       />
-      <SearchBar />
-      <Table data={tickets} url="user" />
+      <SearchBar isActive={hasTicketsToShow} />
+      {!hasTicketsToShow && (
+        <div className="pl-2 mt-8">
+          <p className="text-[18px]">
+            Você não possui nenhum chamado criado =(
+          </p>
+        </div>
+      )}
+      {hasTicketsToShow && <Table data={tickets} url="user" />}
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

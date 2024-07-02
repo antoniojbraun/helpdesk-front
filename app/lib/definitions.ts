@@ -52,7 +52,9 @@ export type State = {
   errors?: {
     title?: string[];
     description?: string[];
-    room?: string[];
+    roomid?: string[];
+    userid?: string[];
+    images?: string[];
   };
   message?: string | null;
 };
@@ -86,6 +88,16 @@ export type Chat = {
 export type InitialState = {
   message: null;
   errors: {};
+};
+
+export type DataSession = {
+  user: {
+    id: string;
+    name: string;
+    role: string;
+    token: string;
+    expirationDate: string;
+  };
 };
 
 export const initialState = { message: null, errors: {} };

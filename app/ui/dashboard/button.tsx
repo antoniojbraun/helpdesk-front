@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { ChangeEvent } from "react";
+import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -30,13 +30,13 @@ export function InputFile({ fileName, handleFileChange }: InputFileProps) {
         <p>{fileName}</p>
       </div>
       <label
-        htmlFor="inputFile"
+        htmlFor="file"
         className="flex py-[6px] px-[20px] bg-[#C2CFD9] cursor-pointer">
         Selecionar arquivo
       </label>
       <input
-        id="inputFile"
-        name="inputFile"
+        id="file"
+        name="file"
         type="file"
         className="hidden"
         onChange={handleFileChange}

@@ -21,42 +21,42 @@ const links = [
     name: "Usuários",
     href: "/dashboard/admin/users",
     icon: UserIcon,
-    userType: "admin",
+    userType: "administrador",
   },
   {
     title: "Lista Todos os Chamados Admin",
     name: "Chamados",
     href: "/dashboard/admin/tickets",
     icon: ListBulletIcon,
-    userType: "admin",
+    userType: "administrador",
   },
   {
     title: "Lista chamados Suporte",
     name: "Chamados",
     href: "/dashboard/support/tickets",
     icon: ListBulletIcon,
-    userType: "support",
+    userType: "suporte",
   },
   {
     title: "Fila chamados Pendentes",
     name: "Fila de Pendentes",
     href: "/dashboard/support/tickets/pending",
     icon: ListBulletIcon,
-    userType: "support",
+    userType: "suporte",
   },
   {
     title: "Fila Chamados Usuário",
     name: "Chamados User",
     href: "/dashboard/user/tickets",
     icon: ListBulletIcon,
-    userType: "user",
+    userType: "usuário",
   },
   {
     title: "Lista salas Suporte",
     name: "Salas",
     href: "/dashboard/support/rooms",
     icon: HomeIcon,
-    userType: "support, admin",
+    userType: "suporte, administrador",
   },
   ,
   {
@@ -64,14 +64,14 @@ const links = [
     name: "Ajuda",
     href: "/dashboard/support/help-page",
     icon: InformationCircleIcon,
-    userType: "support",
+    userType: "suporte",
   },
   {
     title: "Página Ajuda Usuário",
     name: "Ajuda",
     href: "/dashboard/user/help-page",
     icon: InformationCircleIcon,
-    userType: "user",
+    userType: "usuário",
   },
 ];
 
@@ -79,23 +79,34 @@ export default function Navlinks() {
   const { isSidebarOpen } = useSidebarContext();
   const pathname = usePathname();
   const data = useUserSession();
-  const accessToken = data?.user;
-
+  let dadosSession = {
+    user: {
+      id: "",
+      name: "",
+      role: "",
+      token: "",
+      expirationDate: "",
+    },
+  };
   let userType = "";
   let jaVai = false;
   let newLinks;
 
-  if (accessToken) {
+  if (data) {
+    dadosSession = JSON.parse(data);
     userType =
-      accessToken.role === 2
-        ? "admin"
-        : accessToken.role === 1
-        ? "support"
-        : accessToken.role === 0
-        ? "user"
+      dadosSession.user.role == "2"
+        ? "administrador"
+        : dadosSession.user.role == "1"
+        ? "suporte"
+        : dadosSession.user.role == "0"
+        ? "usuário"
         : "";
+
     jaVai = true;
-    newLinks = links.filter((item) => item?.userType.includes(userType));
+    newLinks = links.filter((item) =>
+      item?.userType.includes(userType.toLowerCase())
+    );
   }
   return (
     <div className="space-y-[7px]">
@@ -106,7 +117,7 @@ export default function Navlinks() {
             return (
               <Link
                 key={index}
-                href={link?.href}
+                href={link!.href}
                 className={clsx(
                   "flex items-center space-x-[18px] py-[6px] px-[15px] hover:bg-[#2C88D9] hover:rounded-lg hover:bg-opacity-15 active:bg-opacity-20",
                   {

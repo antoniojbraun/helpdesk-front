@@ -13,15 +13,16 @@ interface SessionProviderProps {
   children: ReactNode;
 }
 
-const SessionContext = createContext<Session | null>(null);
+const SessionContext = createContext<string | undefined>(undefined);
 
 export const AppSessionProvider = ({ children }: SessionProviderProps) => {
-  const [userSession, setUserSession] = useState<Session | null>(null);
+  const [userSession, setUserSession] = useState<string>();
 
   useEffect(() => {
     const fetchSession = async () => {
       const session = await getSession();
-      setUserSession(session);
+      const dataSessio = JSON.stringify(session);
+      setUserSession(dataSessio);
     };
     fetchSession();
   }, []);

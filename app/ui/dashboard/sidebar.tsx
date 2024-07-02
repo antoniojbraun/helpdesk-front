@@ -4,7 +4,7 @@ export default function Sidebar() {
   return (
     <div className={`flex items-start bg-[#ecf6ff] transition-all`}>
       <div className="p-[10px]">
-        <Navlinks />
+        <Navlinks  />
       </div>
     </div>
   );

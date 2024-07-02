@@ -37,7 +37,7 @@ export default function FormCreateMessages({ id }: { id: string }) {
         id="msg-error"
         aria-live="polite"
         aria-atomic="true">
-        {state.errors?.msg &&
+        {state?.errors?.msg &&
           state.errors.msg.map((error: string) => (
             <p key={error} className="mt-2 text-sm text-red-500">
               {error}
@@ -54,7 +54,7 @@ export default function FormCreateMessages({ id }: { id: string }) {
           id="file-error"
           aria-live="polite"
           aria-atomic="true">
-          {state.errors?.file &&
+          {state?.errors?.file &&
             state.errors.file.map((error: string) => (
               <p key={error} className="mt-2 text-sm text-red-500">
                 {error}
