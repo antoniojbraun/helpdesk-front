@@ -2,7 +2,6 @@ import { poppins600 } from "../../../fonts";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { itemTicket } from "@/app/lib/definitions";
 import SupportTakeTicket from "./supportTakeTicket";
-import { useState } from "react";
 
 const styleP = "whitespace-nowrap";
 const styleAtributesP = " text-slate-500";
@@ -10,11 +9,15 @@ export default function HeadTicketView({
   ticket,
   token,
   userId,
+  type,
 }: {
   ticket: itemTicket;
   token?: string;
   userId?: string;
+  type?: string;
 }) {
+  const isSupport = type == "support";
+  console.log(isSupport);
   return (
     <div className="px-[18px] py-[20px] bg-[#F1F2F3] rounded-md">
       <div className="flex flex-row justify-between">
@@ -23,12 +26,14 @@ export default function HeadTicketView({
           <p>Veja um resumo do seu chamado</p>
           <div className="space-x-5 flex flex-row items-center">
             <p className="pt-[5px] text-slate-500">Chamado #{ticket.number}</p>
-            <SupportTakeTicket
-              ticketAttendant={ticket.attendant}
-              ticketStatus={ticket.status}
-              ticketId={ticket.id}
-              userId={userId}
-            />
+            {isSupport && (
+              <SupportTakeTicket
+                ticketAttendant={ticket.attendant}
+                ticketStatus={ticket.status}
+                ticketId={ticket.id}
+                userId={userId}
+              />
+            )}
           </div>
         </div>
         <div className="flex flex-col justify-start items-center">

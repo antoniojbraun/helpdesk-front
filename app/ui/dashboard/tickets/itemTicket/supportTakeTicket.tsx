@@ -68,9 +68,11 @@ export default function SupportTakeTicket({
       ? colorButtonFinish
       : "";
   return (
-    <div
-      className={`py-2 px-3 cursor-pointer items-center rounded-lg ${colorButton}`}>
-      <p onClick={handleChangeStatus} className="text-[13px]">
+    <div className={`  items-center rounded-lg ${colorButton}`}>
+      <p
+        hidden={textAction == ""}
+        onClick={handleChangeStatus}
+        className="py-2 px-3 text-[13px] cursor-pointer">
         {textAction}
       </p>
     </div>

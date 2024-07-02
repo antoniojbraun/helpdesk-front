@@ -23,7 +23,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <HeadTicketView ticket={ticketItem} />
+      <HeadTicketView ticket={ticketItem} type="admin" />
       <ContentTicketView ticket={ticketItem} messagesChat={chats} />
     </main>
   );
