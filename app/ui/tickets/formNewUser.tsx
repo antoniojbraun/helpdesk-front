@@ -80,6 +80,8 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
     if (!response.ok) {
       const errorData = await response.json();
       console.error(`Erro ao fazer cadastro: ${errorData}`);
+      alert(response.statusText);
+      return;
     }
     handleLogin();
   };
@@ -90,10 +92,10 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
       email: email,
       password: password,
     });
-    
+
     console.log("[LOGIN_RESPONSE]: " + response);
-    if (!response?.error) {
-      alert(`${response}`);
+    if (response?.error) {
+      alert('aaaaaa');
       return;
     }
     if (response?.ok) {
