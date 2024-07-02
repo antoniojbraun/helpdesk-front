@@ -41,6 +41,14 @@ export async function getItemByIdGeneric(id: string, slug: string) {
   const response = await fetch(newUrl, {
     cache: "no-store",
   });
+  
+  if (!response.ok) {
+    const errorData = response.json();
+    console.error(
+      `Problema ao buscar dados de '${slug}' com erro: ${errorData} `
+    );
+  }
+  return response.json();
 }
 
 const ITEMS_PER_PAGE = 10;
