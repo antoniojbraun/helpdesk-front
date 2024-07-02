@@ -74,7 +74,7 @@ export type Message = {
 
 export type Chat = {
   message: string;
-  sendedAt: Date,
+  sendedAt: string,
   user: {
     id: string;
     name: string;
@@ -90,7 +90,7 @@ export type InitialState = {
 
 export const initialState = { message: null, errors: {} };
 
-export let urlBaseApi = "https://helpdesk-backend-muvo.onrender.com/api";
+export let urlBaseApi = "";
 
 function environmentVariables() {
   const env = process.env.NEXT_PUBLIC_ENVIRONMENT;

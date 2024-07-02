@@ -15,9 +15,9 @@ export default function TicketMessagesView({
       <div className="border-[2px] mb-[20px]"></div>
 
       <div>
-        {/* {messagesChat.map((item, indice) => (
+        {messagesChat.map((item, indice) => (
           <ItemMessageView messageItem={item} key={indice} />
-        ))} */}
+        ))}
       </div>
       {/* <FormCreateMessages id={messagesChat.id} /> */}
     </div>

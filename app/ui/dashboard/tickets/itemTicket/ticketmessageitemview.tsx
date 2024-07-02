@@ -1,5 +1,5 @@
 import { poppins600 } from "../../../fonts";
-import { Chat, Message } from "@/app/lib/definitions";
+import { Chat } from "@/app/lib/definitions";
 const styleUserMessageBox =
   "ml-[40px] mr-[18px] rounded-r-md rounded-bl-md shadow-[#C2CFD9] bg-[#C2CFD9]";
 const styleUserMessageEffect =
@@ -19,16 +19,16 @@ export default function ItemMessageView({
   messageItem: Chat;
 }) {
   const colorEfect =
-    messageItem.user.userType === "user"
+    messageItem.user.userType === "Usuário"
       ? styleUserMessageEffect
       : styleSupportMessageEffect;
   const colorBox =
-    messageItem.user.userType === "user"
+    messageItem.user.userType === "Usuário"
       ? styleUserMessageBox
       : styleSupportMessageBox;
 
   const styleDateMsg =
-    messageItem.user.userType === "user" ? styleDateUser : styleDateSupport;
+    messageItem.user.userType === "Usuário" ? styleDateUser : styleDateSupport;
   return (
     <div className="relative mb-[12px] pt-[8px]">
       <div
@@ -40,7 +40,7 @@ export default function ItemMessageView({
       </div>
       <div className={`flex text-sm text-[#5e5e5e] ${styleDateMsg}`}>
         <p>
-          {messageItem.sendedAt.getDay()} às {messageItem.sendedAt.getHours()}
+          {new Date(messageItem.sendedAt).getDay()} às {new Date(messageItem.sendedAt).getHours()}:{new Date(messageItem.sendedAt).getMinutes()}
         </p>
       </div>
     </div>

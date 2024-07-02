@@ -1,10 +1,9 @@
 import { Chat, State, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
-import { redirect } from "@/node_modules/next/navigation";
+import { getDataSession } from "../utils";
 
 const urlChats = `${urlBaseApi}/chats`;
-const token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjNTc4MjM2Yy05ZTdiLTQ1OTAtYWVjNi1iN2FhYjBhZmFmNTgiLCJlbWFpbCI6InplY2F1cnVidUBnbWFpbC5jb20uYnIiLCJqdGkiOiJjZWZhMjVkNS00N2VlLTRhODctYTdjMi1iMGI3NGRiY2UyMzgiLCJuYmYiOjE3MTk3OTM4MjQsImlhdCI6IjA3LzAxLzIwMjQgMDA6MzA6MjQiLCJleHAiOjE3MTk3OTc0MjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJhdWQiOiJBdWRpZW5jZSJ9.zlTsGfHgOLzhRxEU-Oe_mFgDwWnhoaz3t0C1gEVunnX-hV1nwwlPQNp_ToA6thyNXsLneJUr8zZkfmWW7nWETQ";
 
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
@@ -42,58 +41,53 @@ const CreateMessageChat = FormSchema.omit({
 
 export async function createMessageChat(
   id: string,
+  userId: string,
   prevState: State,
   formData: FormData
 ) {
-  const inputFile = formData.get("inputFile") as File;
-  const inputMsg = formData.get("msg") as string;
+  const session = await getDataSession();
+  const message = formData.get("msg") as string;
+  const image = formData.get("inputFile") as File;
 
   let validatedFields = CreateMessageChat.safeParse({
-    msg: inputMsg,
-    file: inputFile.name !== "" ? inputFile : undefined,
+    msg: message,
+    file: image.name !== "" ? image : undefined,
   });
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields Failed to Create Ticket",
+      message: "Missing Fields Failed to Send Message",
     };
   }
 
-  // console.log(validatedFields.data);
+  const response = await fetch(`${urlChats}/ticket/${id}/user/${userId}`, {
+    method: "POST",
+    body: formData,
+    headers: {
+      Authorization: `Bearer ${session?.token}`,
+    },
+  });
 
-  // const { msg, file } = validatedFields.data;
-  // if (file.name) console.log(file.name);
-  // console.log(msg);
+  if (!response.ok) {
+    const dataError = await response.json();
+    console.error("Erro ao cadastrar um chamado:");
+    console.error(dataError);
+    return;
+  }
 
-  // const newUrl = `${urlBaseApi}/tickets`;
-
-  // fetch(newUrl, {
-  //   method: "POST",
-  //   body: JSON.stringify({
-  //     title: title,
-  //     description: description,
-  //     room: room,
-  //     status: status,
-  //     dt_creation: date,
-  //   }),
-  //   headers: {
-  //     "Content-type": "application/json; charset=UTF-8",
-  //   },
-  // })
-  //   // .then((response) => console.log(response))
-  //   .then((error) => console.log(error));
-
-
+  revalidatePath(`/dashboard/user/tickets/${id}`);
 }
 
 export async function getAllMessages(id: string): Promise<Chat[]> {
-  const data = await fetch("https://helpdesk-backend-muvo.onrender.com/api/chats/ticket/371577dc-96e6-4a07-a0e2-ccd4a72e5aa6", {
-    cache: "no-store",
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const session = await getDataSession();
 
-  console.log(data)
+  const data = await fetch(`${urlChats}/ticket/${id}`, {
+    cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${session?.token}`,
+    },
+  });
 
   if (!data.ok) throw new Error("Failed to fetch data!");
   return data.json();
