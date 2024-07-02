@@ -13,10 +13,12 @@ export default function TicketMessagesView({
   ticketStatus: string;
 }) {
   const styleDivIsActive = isActive ? "block" : "hidden";
-  const messages = null;
-  let ticketInitiated =
+  const messages: Chat[] = [];
+  console.log(messages);
+  let messagesBlocked =
     ticketStatus.toLocaleLowerCase() !== "pendente" &&
-    ticketStatus.toLocaleLowerCase() !== "finalizado";
+    ticketStatus.toLocaleLowerCase() !== "cancelado" &&
+    ticketStatus.toLocaleLowerCase() !== "encerrado";
 
   return (
     <div className={`${styleDivIsActive} flex flex-col bg-[#F1F2F3] pt-[20px]`}>
@@ -28,7 +30,7 @@ export default function TicketMessagesView({
           <p>Ainda não há mensagens a exibir =(</p>
         </div>
       )}
-      {messages && (
+      {messages.length > 0 && (
         <div>
           {messages?.map((item: any, indice: any) => (
             <ItemMessageView messageItem={item} key={indice} />
@@ -36,7 +38,7 @@ export default function TicketMessagesView({
         </div>
       )}
       {/* i luv u */}
-      {ticketInitiated ? (
+      {messagesBlocked ? (
         <FormCreateMessages id={messagesChat.id} />
       ) : (
         <FormCreateMessagesInative />

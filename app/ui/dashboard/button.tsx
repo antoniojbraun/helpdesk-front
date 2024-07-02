@@ -30,17 +30,17 @@ export function InputFile({ fileName, handleFileChange }: InputFileProps) {
         <p>{fileName}</p>
       </div>
       <label
-        htmlFor="file"
+        htmlFor="images"
         className="flex py-[6px] px-[20px] bg-[#C2CFD9] cursor-pointer">
         Selecionar arquivo
       </label>
       <input
-        id="file"
-        name="file"
+        id="images"
+        name="images"
         type="file"
         className="hidden"
         onChange={handleFileChange}
-        aria-describedby="file-error"
+        aria-describedby="images-error"
       />
     </div>
   );

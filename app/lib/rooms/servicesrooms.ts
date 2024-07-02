@@ -43,8 +43,8 @@ export async function getRoomWithId(id: string) {
 }
 
 export async function getAllRoomsAPI(data: {
-  token: string;
-  userId: string;
+  token?: string;
+  userId?: string;
 }): Promise<Room[]> {
   const response = await fetch(`${urlBaseApi}/rooms`, {
     cache: "no-store",
@@ -58,8 +58,8 @@ export async function getAllRoomsAPI(data: {
 }
 
 export async function getRoomWithIdAPI(dataFetch: {
-  roomId: string;
-  token: string;
+  roomId?: string;
+  token?: string;
 }) {
   const newUrl = `${urlRooms}/${dataFetch.roomId}`;
   const data = await fetch(newUrl, {

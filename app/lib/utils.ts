@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth.config";
 import { Chat } from "./definitions";
 
-
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
   // display all pages without any ellipsis
@@ -75,12 +74,18 @@ export function OrderingByItem<T>(array: T[], item: keyof T): T[] {
   return array;
 }
 
-function isKeyOfT<T>(key: string, type: T): key is keyof T {
-  return key in type;
+function isKeyOfT<T extends object>(
+  key: string | number | symbol,
+  obj: T extends object ? any : any
+): key is keyof T {
+  return key in obj;
 }
-export function convertToKeyOfT<T>(key: string, type: T): keyof T | undefined {
+export function convertToKeyOfT<T extends object>(
+  key: string,
+  type: T extends object ? any : any
+): keyof T | undefined {
   if (isKeyOfT(key, type)) {
-    return key;
+    return key as keyof T;
   } else {
     return undefined;
   }
@@ -88,14 +93,28 @@ export function convertToKeyOfT<T>(key: string, type: T): keyof T | undefined {
 
 export async function getDataSession() {
   const session = await getServerSession(authOptions);
+  let dataSession = {
+    user: {
+      id: "",
+      name: "",
+      email: "",
+      role: "",
+      token: "",
+      expirationDate: "",
+    },
+  };
+  if (session) {
+    const text = JSON.stringify(session);
+    dataSession = JSON.parse(text);
+  }
   if (session) {
     const dataUserLogged = {
-      name: session.user?.name,
-      id: session.user?.id,
-      email: session.user?.email,
-      role: session.user?.role,
-      token: session.user?.token,
-      expirationDate: session.user?.expirationDate,
+      name: dataSession.user?.name,
+      id: dataSession.user?.id,
+      email: dataSession.user?.email,
+      role: dataSession.user?.role,
+      token: dataSession.user?.token,
+      expirationDate: dataSession.user?.expirationDate,
     };
     return dataUserLogged;
   }
