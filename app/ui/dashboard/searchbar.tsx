@@ -7,7 +7,7 @@ const styleInputDefault =
 export default function SearchBar() {
   return (
     <div className="flex flex-row items-center">
-      <Search title="Pesquisar" placeholder="Digite sua pesquisa..." />
+      <Searach title="Pesquisar" placeholder="Digite sua pesquisa..." />
     </div>
   );
 }

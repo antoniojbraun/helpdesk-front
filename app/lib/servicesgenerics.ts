@@ -92,6 +92,7 @@ export async function fetchFilteredItemsGeneric<T>(
   }
   if (order != "") {
     let newOrder = convertToKeyOfT(order, type);
+    
     if (newOrder) filteredItems = OrderingByItem(filteredItems, newOrder);
   }
   // Aqui vamos filtrar agora pela paginação.

@@ -6,16 +6,12 @@ const styleInputDefault =
   "border rounded-[3px] border-gray-400 px-[12px] py-[4px]";
 let optionsStatus = [
   {
-    value: "id",
+    value: "number",
     name: "ID",
   },
   {
     value: "title",
     name: "Título",
-  },
-  {
-    value: "room",
-    name: "Sala",
   },
   {
     value: "status",

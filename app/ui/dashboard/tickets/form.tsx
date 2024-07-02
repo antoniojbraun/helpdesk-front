@@ -17,7 +17,7 @@ export default function FormCreateTicket({
   userid,
 }: {
   listofrooms: Room[];
-  userid: string;
+  userid?: string;
 }) {
   const initialState = {
     message: null,
@@ -38,6 +38,7 @@ export default function FormCreateTicket({
 
   const [fileName, setFileName] = useState("");
   function handleInputFile(event: React.ChangeEvent<HTMLInputElement>) {
+    
     if (event.target.files && event.target.files?.length > 0) {
       setFileName(event.target.files[0].name);
     } else {

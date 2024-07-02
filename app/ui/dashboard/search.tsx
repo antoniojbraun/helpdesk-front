@@ -17,7 +17,7 @@ export default function Search({
 }: {
   placeholder: string;
   title: string;
-  isActive: boolean;
+  isActive?: boolean;
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();

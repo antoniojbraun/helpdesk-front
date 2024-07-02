@@ -67,8 +67,8 @@ export async function getAllTicketsAPI(data: {
 }
 
 export async function getAllTicketsSupportAPI(data: {
-  token: string;
-  userId: string;
+  token?: string;
+  userId?: string;
 }): Promise<TicketByUser[]> {
   const response = await fetch(`${urlBaseApi}/tickets/support/${data.userId}`, {
     cache: "no-store",
@@ -102,8 +102,8 @@ export async function getPendingTicketsAPI(data: {
 }
 
 export async function getAllTicketsByUser(dataFetch: {
-  idUser: string;
-  token: string;
+  idUser?: string;
+  token?: string;
 }): Promise<TicketByUser[]> {
   const newUrl = `${urlBaseApi}/tickets/user/${dataFetch.idUser}`;
   const data = await fetch(newUrl, {
@@ -114,7 +114,10 @@ export async function getAllTicketsByUser(dataFetch: {
   return data.json();
 }
 
-export async function getTicketById(dataFetch: { id: string; token: string }) {
+export async function getTicketById(dataFetch: {
+  id?: string;
+  token?: string;
+}) {
   const newUrl = `${urlBaseApi}/tickets/${dataFetch.id}`;
 
   const data = await fetch(newUrl, {
@@ -133,24 +136,23 @@ export async function createTicket(prevState: State, formData: FormData) {
   const title = formData.get("title");
   const description = formData.get("description");
   const roomid = formData.get("roomid");
-  const images = formData.get("file") as File;
+  const images = formData.get("images") as File;
 
   const validatedFields = FormSchema.safeParse({
     userid: userid,
     title: title,
     description: description,
     roomid: roomid,
-    images: images.size !== 0 ? images : undefined,
+    images: images.size > 0 ? images : undefined,
   });
 
-  console.log(validatedFields.data);
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields Failed to Create Ticket",
     };
   }
-
+  console.log(formData);
   const response = await fetch(newUrl, {
     method: "POST",
     body: formData,

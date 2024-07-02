@@ -4,6 +4,7 @@ const styleStatus = {
   progress: " bg-blue-100 text-blue-500",
   done: " bg-green-100 text-green-500",
   closed: " bg-red-200 text-red-700",
+  canceled: " bg-gray-200 text-gray-700",
 };
 
 interface StatusProps extends React.HtmlHTMLAttributes<HTMLElement> {
@@ -16,11 +17,10 @@ export default function Status({ children }: StatusProps) {
       ${children === "Pendente" ? styleStatus.pending : ""} 
       ${children === "Em Progresso" ? styleStatus.progress : ""}
       ${children === "Resolvido" ? styleStatus.done : ""}
-      ${children === "Cancelado" ? styleStatus.closed : ""}
+      ${children === "Encerrado" ? styleStatus.closed : ""}
+      ${children === "Cancelado" ? styleStatus.canceled : ""}
       `}>
       {children}
     </p>
   );
-
-  
 }

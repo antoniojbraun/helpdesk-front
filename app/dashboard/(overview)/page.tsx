@@ -38,12 +38,12 @@ export default function Page({ params }: { params: { id: string } }) {
               Sua Data de Expiração é ${dadosSession.user.expirationDate}`}
           </p>
           {isSupport && (
-            <p className=" overflow-x-hidden text-ellipsis whitespace-">
+            <div className=" overflow-x-hidden text-ellipsis whitespace-">
               <p>Tipo de Usuário: Suporte. Seu Token é</p>
               <p>${dadosSession.user.token}.</p>
               <p>Sua Data de Expiração é</p>
               <p> ${dadosSession.user.expirationDate}</p>
-            </p>
+            </div>
           )}
           <p className=" overflow-x-hidden text-ellipsis whitespace-normal">
             {isUser &&
