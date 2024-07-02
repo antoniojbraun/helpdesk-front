@@ -41,7 +41,7 @@ export async function getItemByIdGeneric(id: string, slug: string) {
   const response = await fetch(newUrl, {
     cache: "no-store",
   });
-  
+
   if (!response.ok) {
     const errorData = response.json();
     console.error(

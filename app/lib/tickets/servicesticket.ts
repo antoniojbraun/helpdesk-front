@@ -20,7 +20,7 @@ const FormSchema = z.object({
   userid: z.string(),
   title: z
     .string()
-    .min(5, { message: "Títuo é obrigatório com pelo menos 5 caracteres." }),
+    .min(5, { message: "Título é obrigatório com pelo menos 5 caracteres." }),
   description: z.string().min(10, {
     message: "Descrição é necessária com pelo menos 10 caracteres.",
   }),

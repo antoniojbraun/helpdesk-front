@@ -1,7 +1,9 @@
+"use server";
+
 import { Chat, State, urlBaseApi } from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
-import { getDataSession } from "../utils";
+import { getDataSession } from "@/app/lib/utils";
 
 const urlChats = `${urlBaseApi}/chats`;
 
@@ -41,17 +43,18 @@ const CreateMessageChat = FormSchema.omit({
 
 export async function createMessageChat(
   id: string,
-  userId: string,
   prevState: State,
   formData: FormData
 ) {
   const session = await getDataSession();
-  const message = formData.get("msg") as string;
-  const image = formData.get("inputFile") as File;
 
+  const message = formData.get("message") as string;
+  const file = formData.get("file") as File;
+
+  // Validate the fields
   let validatedFields = CreateMessageChat.safeParse({
     msg: message,
-    file: image.name !== "" ? image : undefined,
+    file: file.name !== "" ? file : undefined,
   });
 
   if (!validatedFields.success) {
@@ -61,9 +64,18 @@ export async function createMessageChat(
     };
   }
 
-  const response = await fetch(`${urlChats}/ticket/${id}/user/${userId}`, {
+  const newFormData = new FormData();
+  formData.forEach((value, key) => {
+    if (key === "file") {
+      newFormData.append("image", value);
+    } else {
+      newFormData.append(key, value);
+    }
+  });
+
+  const response = await fetch(`${urlChats}/ticket/${id}/user/${session?.id}`, {
     method: "POST",
-    body: formData,
+    body: newFormData,
     headers: {
       Authorization: `Bearer ${session?.token}`,
     },

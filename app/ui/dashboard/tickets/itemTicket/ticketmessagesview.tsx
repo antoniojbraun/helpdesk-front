@@ -1,21 +1,21 @@
 import ItemMessageView from "./ticketmessageitemview";
-import { Chat } from "@/app/lib/definitions";
+import { Chat, itemTicket } from "@/app/lib/definitions";
 import FormCreateMessages from "./form-messages";
 import { poppins600 } from "@/app/ui/fonts";
 import FormCreateMessagesInative from "./form-messages-inative";
 export default function TicketMessagesView({
   isActive,
   messages,
-  ticketStatus,
+  ticket,
 }: {
   isActive: boolean;
   messages: Chat[];
-  ticketStatus: string;
+  ticket: itemTicket;
 }) {
   const styleDivIsActive = isActive ? "block" : "hidden";
   let ticketInitiated =
-    ticketStatus.toLocaleLowerCase() !== "pendente" &&
-    ticketStatus.toLocaleLowerCase() !== "finalizado";
+      ticket.status.toLocaleLowerCase() !== "pendente" &&
+      ticket.status.toLocaleLowerCase() !== "finalizado";
 
   return (
     <div className={`${styleDivIsActive} flex flex-col bg-[#F1F2F3] pt-[20px]`}>
@@ -35,11 +35,11 @@ export default function TicketMessagesView({
         </div>
       )}
       {/* i luv u */}
-      {/* {ticketInitiated ? (
-        <FormCreateMessages id={messagesChat.id} />
+      {ticketInitiated ? (
+        <FormCreateMessages id={ticket.id} />
       ) : (
         <FormCreateMessagesInative />
-      )} */}
+      )}
     </div>
   );
 }
