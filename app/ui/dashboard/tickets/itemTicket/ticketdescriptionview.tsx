@@ -9,7 +9,7 @@ export default function TicketDescriptionView({
   img: string;
 }) {
   const styleDivIsActive = isActive ? "block" : "hidden";
-
+  console.log(img);
   return (
     <div className={`${styleDivIsActive} flex flex-col bg-[#F1F2F3] relative`}>
       <div className="border-[2px] my-[25px]"></div>

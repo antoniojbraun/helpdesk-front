@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   let urlHrefBack = "/dashboard/user/tickets/";
   if (ticketItem.status === "Pendente") urlHrefBack += "pending";
   const listMessagesTicket = chats;
-
+  console.log(ticketItem);
   return (
     <main>
       <Breadcrumbs
@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <HeadTicketView ticket={ticketItem} />
+      <HeadTicketView ticket={ticketItem} type="user" />
       <ContentTicketView
         ticket={ticketItem}
         messagesChat={listMessagesTicket}

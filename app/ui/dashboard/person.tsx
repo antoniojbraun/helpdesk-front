@@ -8,15 +8,23 @@ const getFirstName = (fullName: string) => {
 export default function Person() {
   const session = useUserSession();
   let firstname = "";
+  let userType = "";
   if (session) {
     const dadosSession = JSON.parse(session);
+    console.log(dadosSession);
     firstname = getFirstName(dadosSession.user.name);
+    userType =
+      dadosSession.user.role == 1
+        ? "- Suporte"
+        : dadosSession.user.role == 2
+        ? "- Administrador"
+        : "";
   }
   return (
     <div className="flex space-x-2 items-center">
       <UserCircleIcon className="size-6 text-[#2C88D9]" />
       <p className={`text-[#2C88D9] ${poppins600.className} text-[18px]`}>
-        {firstname}
+        {firstname} {userType}
       </p>
     </div>
   );

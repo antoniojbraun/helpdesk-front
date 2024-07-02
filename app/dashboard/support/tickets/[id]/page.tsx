@@ -31,11 +31,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <HeadTicketView
-        ticket={ticketItem}
-        token={session?.token}
-        userId={session?.id}
-      />
+      <HeadTicketView ticket={ticketItem} userId={session?.id} type="support" />
       <ContentTicketView ticket={ticketItem} messagesChat={chats} />
     </main>
   );

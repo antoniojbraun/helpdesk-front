@@ -25,19 +25,33 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <main>
+    <main className="w-full">
       {data && (
-        <div>
+        <div className="">
           {" "}
           Dashboard Home
           <p> Aqui vai mais algum conteúdo:</p>
           <p>{data && "Bem vindo:" + dadosSession.user.name}</p>
           <p>
             {isAdmin &&
-              `Tipo de Usuário: Administrador. Seu Token é ${dadosSession.user.token}`}
+              `Tipo de Usuário: Administrador. Seu Token é ${dadosSession.user.token}.
+              Sua Data de Expiração é ${dadosSession.user.expirationDate}`}
           </p>
-          <p>{isSupport && "Tipo de Usuário: Suporte"}</p>
-          <p>{isUser && "Tipo de Usuário: Usuário"}</p>
+          {isSupport && (
+            <p className=" overflow-x-hidden text-ellipsis whitespace-">
+              <p>Tipo de Usuário: Suporte. Seu Token é</p>
+              <p>${dadosSession.user.token}.</p>
+              <p>Sua Data de Expiração é</p>
+              <p> ${dadosSession.user.expirationDate}</p>
+            </p>
+          )}
+          <p className=" overflow-x-hidden text-ellipsis whitespace-normal">
+            {isUser &&
+              `Tipo de Usuário: Usuário. Sua Data de Expiração é ${dadosSession.user.expirationDate}
+
+              Seu Token é ${dadosSession.user.token}.
+              `}
+          </p>
         </div>
       )}
     </main>

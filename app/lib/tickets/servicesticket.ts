@@ -214,4 +214,25 @@ export const handleChangeSupportStatusTicket = async (data: {
   }
 };
 
-
+export const handleChangeUserStatusTicket = async (data: {
+  ticketId?: string;
+}) => {
+  const getDataUserLogged = await getDataSession();
+  const token = getDataUserLogged?.token;
+  const userId = getDataUserLogged?.id;
+  const response = await fetch(
+    `${urlBaseApi}/tickets/${data.ticketId}/user/${userId}:close`,
+    {
+      method: "PUT",
+      body: JSON.stringify({ id: data.ticketId, userId: userId }),
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  if (!response.ok) {
+    const dataError = await response.json();
+    return response.statusText;
+  }
+  if (response.ok) {
+    return response.ok;
+  }
+};
