@@ -30,14 +30,14 @@ export async function deleteGeneric(infoUrl: InfoUrl) {
   // }
   const urlBaseRedirect = "/dashboard";
   let newUrlRedirect = `${urlBaseRedirect}/${infoUrl.redirect}}`;
-  console.log(newUrlRedirect);
+  
   revalidatePath(newUrlRedirect);
   redirect(newUrlRedirect);
 }
 
 export async function getItemByIdGeneric(id: string, slug: string) {
   const newUrl = `http://localhost:3100/${slug}/${id}`;
-  console.log(newUrl);
+  
   const response = await fetch(newUrl, {
     cache: "no-store",
   });

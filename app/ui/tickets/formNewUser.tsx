@@ -69,7 +69,7 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
       setFieldErrors(validatedFields.error?.flatten().fieldErrors);
       return;
     }
-    console.log(`url ${urlBaseApi}/users`);
+
     const response = await fetch(`${urlBaseApi}/users`, {
       method: "POST",
       body: JSON.stringify({ name, email, password, confirmPassword }),
@@ -80,7 +80,7 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
     if (!response.ok) {
       const errorData = await response.json();
       console.error(`Erro ao fazer cadastro: ${errorData}`);
-      alert(response.statusText);
+      alert(response.status);
       return;
     }
     handleLogin();
@@ -93,9 +93,8 @@ const FormNewUser: React.FC<FormNewUserProps> = ({ isVisible }) => {
       password: password,
     });
 
-    console.log("[LOGIN_RESPONSE]: " + response);
     if (response?.error) {
-      alert('aaaaaa');
+      alert("aaaaaa");
       return;
     }
     if (response?.ok) {

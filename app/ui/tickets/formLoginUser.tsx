@@ -33,7 +33,7 @@ const FormLoginUser: React.FC<FormLoginUserProps> = ({ isVisible, room }) => {
       email: email,
       password: password,
     });
-    console.log("[LOGIN_RESPONSE]: " + response);
+
     if (!response?.error) {
       router.refresh();
       router.push("/dashboard/user/tickets/create/");

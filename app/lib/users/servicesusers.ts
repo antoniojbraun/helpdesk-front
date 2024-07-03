@@ -40,7 +40,7 @@ export async function getAllUsers() {
   return data.json();
 }
 
-export async function getAllUsersAPI(token: string): Promise<User[]> {
+export async function getAllUsersAPI(token?: string): Promise<User[]> {
   const response = await fetch(urlUsers, {
     cache: "no-store",
     headers: { Authorization: `Bearer ${token}` },

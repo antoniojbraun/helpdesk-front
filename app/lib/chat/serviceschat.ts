@@ -49,7 +49,7 @@ export async function createMessageChat(
   const session = await getDataSession();
 
   const message = formData.get("message") as string;
-  const image = formData.get("image") as File;
+  const image = formData.get("images") as File;
 
   // Validate the fields
   let validatedFields = CreateMessageChat.safeParse({
@@ -63,10 +63,19 @@ export async function createMessageChat(
       message: "Missing Fields Failed to Send Message",
     };
   }
-  console.log(formData.get("image"));
+
+  const newFormData = new FormData();
+  formData.forEach((value, key) => {
+    if (key === "images") {
+      newFormData.append("image", value);
+    } else {
+      newFormData.append(key, value);
+    }
+  });
+
   const response = await fetch(`${urlChats}/ticket/${id}/user/${session?.id}`, {
     method: "POST",
-    body: formData,
+    body: newFormData,
     headers: {
       Authorization: `Bearer ${session?.token}`,
     },

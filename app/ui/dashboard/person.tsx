@@ -11,7 +11,7 @@ export default function Person() {
   let userType = "";
   if (session) {
     const dadosSession = JSON.parse(session);
-    console.log(dadosSession);
+    
     firstname = getFirstName(dadosSession.user.name);
     userType =
       dadosSession.user.role == 1

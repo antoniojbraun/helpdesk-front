@@ -13,7 +13,7 @@ export default function UserFinishesTicket({
   userId?: string;
 }) {
   const router = useRouter();
-  console.log(userId);
+  
   async function handleChangeStatus() {
     if (ticketStatus !== "Resolvido") return;
     const isCertain = confirm(

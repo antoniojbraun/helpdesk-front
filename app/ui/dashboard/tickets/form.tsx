@@ -6,6 +6,7 @@ import { useFormState } from "react-dom";
 import { Button, InputFile } from "../button";
 import { Room } from "@/app/lib/definitions";
 import React, { useState } from "react";
+
 const styleLabel = " w-full py-[8px] ";
 const styleInput = " rounded-md w-full py-[8px] px-[15px] ";
 const styleDivInputs = "flex flex-col rounded-md";
@@ -38,7 +39,6 @@ export default function FormCreateTicket({
 
   const [fileName, setFileName] = useState("");
   function handleInputFile(event: React.ChangeEvent<HTMLInputElement>) {
-    
     if (event.target.files && event.target.files?.length > 0) {
       setFileName(event.target.files[0].name);
     } else {
@@ -59,7 +59,7 @@ export default function FormCreateTicket({
             aria-describedby="roomid-error"
             className={styleInput}
             defaultValue={roomId}>
-            <option value="0">Selecione a Sala</option>
+            <option>Selecione a Sala</option>
             {listofrooms.map((item) => (
               <option value={item.id} key={item.name}>
                 {item.name}

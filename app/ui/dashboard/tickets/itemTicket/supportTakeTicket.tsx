@@ -14,7 +14,7 @@ export default function SupportTakeTicket({
   ticketId: string;
   userId?: string;
 }) {
-  console.log("bunda");
+  
   const router = useRouter();
   const [textAction, setTextAction] = useState("");
   useEffect(() => {

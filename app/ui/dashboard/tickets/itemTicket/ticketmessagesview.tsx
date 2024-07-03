@@ -13,9 +13,7 @@ export default function TicketMessagesView({
   ticket: itemTicket;
 }) {
   const styleDivIsActive = isActive ? "block" : "hidden";
-
   
-  console.log(messages);
   let messagesBlocked =
     ticket.status.toLocaleLowerCase() !== "pendente" &&
     ticket.status.toLocaleLowerCase() !== "cancelado" &&

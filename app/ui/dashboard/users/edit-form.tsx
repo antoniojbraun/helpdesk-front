@@ -18,7 +18,7 @@ export default function FormEditUser({ user }: { user: User }) {
   const adminType = user.userType === "Administrador";
   const userType = user.userType === "Usuário";
   const supportType = user.userType === "Suporte";
-  console.log(user);
+  
   return (
     <form action={dispatch}>
       <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">

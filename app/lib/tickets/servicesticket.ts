@@ -83,8 +83,8 @@ export async function getAllTicketsSupportAPI(data: {
 }
 
 export async function getPendingTicketsAPI(data: {
-  token: string;
-  userId: string;
+  token?: string;
+  userId?: string;
 }): Promise<TicketByUser[]> {
   const response = await fetch(`${urlBaseApi}/tickets/user/${data.userId}`, {
     cache: "no-store",

@@ -1,5 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
+// import Router from "next/router";
+
 import z from "zod";
 const endpointLogin =
   "https://helpdesk-backend-muvo.onrender.com/api/users/login";
@@ -12,6 +14,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials) {
         const dataForm = {
           email: "braun1986@hotmail.com",
@@ -47,6 +50,7 @@ export const authOptions: NextAuthOptions = {
           token: data.token,
           expirationDate: data.expirationDate,
         };
+
         return user;
       },
     }),

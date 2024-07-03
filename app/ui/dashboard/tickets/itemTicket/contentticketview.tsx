@@ -26,7 +26,7 @@ export default function ContentTicketView({
     setDescriptionActive(false);
     setMessagesActive(true);
   }
-  console.log(ticket);
+  
   return (
     <div className="flex flex-col mt-[20px]">
       <div className="flex flex-col md:flex-row">

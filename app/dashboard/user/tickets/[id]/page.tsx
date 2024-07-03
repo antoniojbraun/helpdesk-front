@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const ticketItem = await getTicketById(dataFetch);
   let urlHrefBack = "/dashboard/user/tickets/";
   if (ticketItem.status === "Pendente") urlHrefBack += "pending";
-  console.log(ticketItem);
+
   return (
     <main>
       <Breadcrumbs
