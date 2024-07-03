@@ -70,9 +70,13 @@ export default function FormCreateTicket({
     const dataForm = new FormData();
     dataForm.append("title", ticketTitleInput);
     dataForm.append("description", ticketDescriptionINput);
-    dataForm.append("roomid", roomIdInput);
     dataForm.append("userid", userid!);
     dataForm.append("images", ticketImagesInput!);
+    if (roomId !== "" && roomIdInput == "") {
+      dataForm.append("roomid", roomId);
+    } else {
+      dataForm.append("roomid", roomIdInput);
+    }
 
     const response = await createTicketNew(dataForm);
     if (response?.errors) {
