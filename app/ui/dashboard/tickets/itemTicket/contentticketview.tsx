@@ -26,7 +26,7 @@ export default function ContentTicketView({
     setDescriptionActive(false);
     setMessagesActive(true);
   }
-  
+
   return (
     <div className="flex flex-col mt-[20px]">
       <div className="flex flex-col md:flex-row">
@@ -42,11 +42,7 @@ export default function ContentTicketView({
           Mensagens
         </ButtonContent>
       </div>
-      <TicketDescriptionView
-        isActive={descriptionActive}
-        description={ticket.description}
-        img={ticket.imagesBase64}
-      />
+      <TicketDescriptionView isActive={descriptionActive} ticket={ticket} />
       <TicketMessagesView
         isActive={messagesActive}
         messages={messagesChat}

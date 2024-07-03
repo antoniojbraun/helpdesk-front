@@ -1,8 +1,10 @@
 "use client";
 
-import { createRoom } from "@/app/lib/rooms/servicesrooms";
+import { useRouter } from "next/navigation";
+import { RoomFormError } from "@/app/lib/definitions";
+import { createRoomNew } from "@/app/lib/rooms/servicesrooms";
 import Link from "@/node_modules/next/link";
-import { useFormState } from "react-dom";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Button } from "../button";
 
 const styleLabel = " w-full py-[8px] ";
@@ -11,17 +13,49 @@ const styleDivInputs = "flex flex-col items-start rounded-md";
 const styleCancelButton =
   "flex h-10 items-center rounded-lg bg-gray-200 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-300";
 export default function FormCreateRoom() {
-  const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(createRoom, initialState);
+  const router = useRouter();
+  const [roomName, setRoomName] = useState<string>("");
+  const [roomDescription, setRoomDescription] = useState<string>("");
+  const [errors, setErrors] = useState<RoomFormError | undefined>();
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setRoomName(event.target.value);
+  };
 
+  const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setRoomDescription(event.target.value);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const dataForm = new FormData();
+    dataForm.append("name", roomName);
+    dataForm.append("description", roomDescription);
+
+    const response = await createRoomNew(dataForm);
+    if (response?.errors) {
+      setErrors(response?.errors);
+      return;
+    }
+
+    if (!response?.status) {
+      alert(response?.msg);
+      return;
+    }
+
+    if (response?.status) {
+      alert(response?.msg);
+      router.push("/dashboard/support/rooms");
+    }
+  };
   return (
-    <form action={dispatch}>
+    <form onSubmit={handleSubmit}>
       <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">
         <div className={styleDivInputs}>
           <label htmlFor="name" className={styleLabel}>
             Nome<span className="text-red-500">*</span>
           </label>
           <input
+            onChange={handleInputChange}
             type="text"
             id="name"
             name="name"
@@ -30,8 +64,8 @@ export default function FormCreateRoom() {
             className={styleInput}
           />
           <div id="name-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.name &&
-              state.errors.name.map((error: string) => (
+            {errors?.name &&
+              errors.name.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>
@@ -43,6 +77,7 @@ export default function FormCreateRoom() {
             Descrição<span className="text-red-500">*</span>
           </label>
           <textarea
+            onChange={handleTextareaChange}
             id="description"
             name="description"
             aria-describedby="description-error"
@@ -50,8 +85,8 @@ export default function FormCreateRoom() {
             className={styleInput}
           />
           <div id="description-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.description &&
-              state.errors.description.map((error: string) => (
+            {errors?.description &&
+              errors.description.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>

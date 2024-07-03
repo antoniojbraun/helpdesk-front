@@ -112,7 +112,7 @@ export default function Navlinks() {
     <div className="space-y-[7px]">
       {newLinks &&
         newLinks.map((link, index) => {
-          const LinkIcon = link?.icon;
+          const LinkIcon = link!.icon;
           if (jaVai) {
             return (
               <Link

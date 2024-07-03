@@ -1,6 +1,6 @@
 
- - Erro ao criar sala, não está atualizando a listagem
- - Não está deletando usuários pelo admin
+ ok - Erro ao criar sala, não está atualizando a listagem
+ ok - Não está deletando usuários pelo admin
  ok - Cadastro de mensagems, imagem
  ok - Cadastro de ticket, imagem
  - Trocar Alert pelo Toastfy
@@ -8,7 +8,7 @@
  - Pegar QR no backend para baixar no navegador.
     - /rooms/{id}/qrcode
 - Se der, adicionar possibilidade de adicionar mais de uma imagem.
-- Ver problema no campo de buscar, erro de listagem
+ok - Ver problema no campo de buscar, erro de listagem
 
 const link = document.createElement('a');
       link.href = response.data;

@@ -17,11 +17,11 @@ const ACCEPTED_IMAGE_TYPES = [
 
 const FormSchema = z.object({
   id: z.string(),
-  msg: z.string().min(10, {
+  message: z.string().min(10, {
     message:
       "O conteúdo da mensagem é obrigatório com pelo menos 10 caracteres..",
   }),
-  file: z
+  image: z
     .instanceof(File)
     .optional()
     .refine((file: File | undefined) => !file || file.size <= MAX_FILE_SIZE, {
@@ -61,8 +61,8 @@ export async function createMessageChat(
     };
   }
   if (file.size === 0) formData.delete("images");
-  const newFormData = new FormData();
 
+  const newFormData = new FormData();
   formData.forEach((value, key) => {
     if (key == "images") {
       newFormData.append("image", value);
@@ -87,6 +87,58 @@ export async function createMessageChat(
   }
   revalidatePath(`/dashboard/support/tickets/${id}`);
   revalidatePath(`/dashboard/user/tickets/${id}`);
+}
+
+export async function createMessageChatNew(id: string, formData: FormData) {
+  const session = await getDataSession();
+  const file = formData.get("image") as File;
+
+  const dataForm = {
+    message: formData.get("message"),
+    image: file.size > 0 ? file : undefined,
+  };
+  const validatedFields = CreateMessageChat.safeParse(dataForm);
+  console.log(validatedFields.error?.flatten().fieldErrors);
+
+  if (!validatedFields.success) {
+    return {
+      status: false,
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  if (dataForm.image == undefined) formData.delete("images");
+
+  const newFormData = new FormData();
+  formData.forEach((value, key) => {
+    if (key == "images") {
+      newFormData.append("image", value);
+    } else {
+      newFormData.append(key, value);
+    }
+  });
+
+  const response = await fetch(`${urlChats}/ticket/${id}/user/${session?.id}`, {
+    method: "POST",
+    body: newFormData,
+    headers: {
+      Authorization: `Bearer ${session?.token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    return {
+      status: false,
+      msg: errorData.error,
+    };
+  }
+  revalidatePath(`/dashboard/support/tickets/${id}`);
+  revalidatePath(`/dashboard/user/tickets/${id}`);
+  return {
+    status: true,
+    msg: "Mensagem cadastrada com sucesso",
+  };
 }
 
 export async function getAllMessages(id: string): Promise<Chat[]> {

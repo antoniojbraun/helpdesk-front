@@ -155,11 +155,14 @@ export async function deleteUserApi(userId: string) {
   });
 
   if (!response.ok) {
-    const statusError = response.status;
+    const errorData = await response.json();
     return {
-      status: statusError,
+      status: false,
+      msg: errorData.error,
     };
   }
-
-  return response.ok;
+  return {
+    status: true,
+    msg: "Usuário deletado com sucesso!",
+  };
 }

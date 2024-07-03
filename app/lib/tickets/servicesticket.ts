@@ -24,7 +24,7 @@ const FormSchema = z.object({
   description: z.string().min(10, {
     message: "Descrição é necessária com pelo menos 10 caracteres.",
   }),
-  roomid: z.string({ message: "Sala é necessária." }),
+  roomid: z.string().min(2, { message: "Sala é necessária." }),
   images: z
     .instanceof(File)
     .optional()
@@ -163,6 +163,7 @@ export async function createTicket(prevState: State, formData: FormData) {
       Authorization: `Bearer ${session?.token}`,
     },
   });
+
   if (!response.ok) {
     const dataError = await response.json();
     console.error("Erro ao cadastrar um chamado:");
@@ -172,6 +173,52 @@ export async function createTicket(prevState: State, formData: FormData) {
 
   revalidatePath("/dashboard/user/tickets");
   redirect("/dashboard/user/tickets");
+}
+
+export async function createTicketNew(formData: FormData) {
+  const session = await getDataSession();
+  const newUrl = `${urlBaseApi}/tickets`;
+  const file = formData.get("images") as File;
+
+  const dataForm = {
+    userid: formData.get("userid"),
+    title: formData.get("title"),
+    description: formData.get("description"),
+    roomid: formData.get("roomid"),
+    images: file.size > 0 ? file : undefined,
+  };
+
+  const validatedFields = FormSchema.safeParse(dataForm);
+
+  if (!validatedFields.success) {
+    return {
+      status: false,
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  if (dataForm.images == undefined) formData.delete("images");
+
+  const response = await fetch(newUrl, {
+    method: "POST",
+    body: formData,
+    headers: {
+      Authorization: `Bearer ${session?.token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    return {
+      status: false,
+      msg: errorData.error,
+    };
+  }
+  revalidatePath("/dashboard/user/tickets");
+  return {
+    status: true,
+    msg: "Ticket cadastrado com sucesso",
+  };
 }
 
 export async function deleteTicketApi(ticketId: string) {

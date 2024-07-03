@@ -1,11 +1,11 @@
 "use client";
 
-import { createTicket } from "@/app/lib/tickets/servicesticket";
 import Link from "@/node_modules/next/link";
-import { useFormState } from "react-dom";
 import { Button, InputFile } from "../button";
-import { Room } from "@/app/lib/definitions";
-import React, { useState } from "react";
+import { Room, TicketFormError } from "@/app/lib/definitions";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createTicketNew } from "@/app/lib/tickets/servicesticket";
 
 const styleLabel = " w-full py-[8px] ";
 const styleInput = " rounded-md w-full py-[8px] px-[15px] ";
@@ -20,14 +20,18 @@ export default function FormCreateTicket({
   listofrooms: Room[];
   userid?: string;
 }) {
-  const initialState = {
-    message: null,
-    errors: {},
-  };
-  const [state, dispatch] = useFormState(createTicket, initialState);
-  let room: string | null = null;
-  let roomId = "0";
+  const router = useRouter();
+  const [ticketTitleInput, setTicketTitleInput] = useState<string>("");
+  const [ticketDescriptionINput, setTicketDescriptionInput] =
+    useState<string>("");
+  const [roomIdInput, setRoomIdInput] = useState<string>("");
+  const [ticketImagesInput, setTicketImagesInput] = useState<File | undefined>(
+    undefined
+  );
+  const [errors, setErrors] = useState<TicketFormError | undefined>();
 
+  let room: string | null = null;
+  let roomId = "";
   if (typeof window !== undefined) room = localStorage.getItem("room");
 
   if (room) {
@@ -36,24 +40,66 @@ export default function FormCreateTicket({
         roomId = item.id.toString();
     });
   }
-
   const [fileName, setFileName] = useState("");
   function handleInputFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files?.length > 0) {
       setFileName(event.target.files[0].name);
+      setTicketImagesInput(event.target.files[0]);
     } else {
       setFileName("");
     }
   }
 
+  const handleTicketTitleInputChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setTicketTitleInput(event.target.value);
+  };
+  const handleTicketDescriptionInputChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setTicketDescriptionInput(event.target.value);
+  };
+
+  const handleRoomIdInputChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setRoomIdInput(event.target.value);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const dataForm = new FormData();
+    dataForm.append("title", ticketTitleInput);
+    dataForm.append("description", ticketDescriptionINput);
+    dataForm.append("roomid", roomIdInput);
+    dataForm.append("userid", userid!);
+    dataForm.append("images", ticketImagesInput!);
+
+    const response = await createTicketNew(dataForm);
+    if (response?.errors) {
+      setErrors(response?.errors);
+      return;
+    }
+
+    if (!response?.status) {
+      alert(response?.msg);
+      return;
+    }
+
+    if (response?.status) {
+      alert(response?.msg);
+      router.push("/dashboard/user/tickets");
+    }
+  };
+
   return (
-    <form action={dispatch}>
+    <form onSubmit={handleSubmit}>
       <div className="rounded-md bg-[#F1F2F3] p-6 space-y-[10px] w-full">
         <div className={styleDivInputs}>
           <label htmlFor="roomid" className={styleLabel}>
             Sala<span className="text-red-500">*</span>
           </label>
           <select
+            onChange={handleRoomIdInputChange}
             name="roomid"
             id="roomid"
             aria-describedby="roomid-error"
@@ -66,9 +112,9 @@ export default function FormCreateTicket({
               </option>
             ))}
           </select>
-          <div id="room-error" aria-live="polite" aria-atomic="true">
-            {state?.errors.roomid &&
-              state.errors.roomid.map((error: string) => (
+          <div id="roomid-error" aria-live="polite" aria-atomic="true">
+            {errors?.roomid &&
+              errors.roomid.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>
@@ -80,6 +126,7 @@ export default function FormCreateTicket({
             Título<span className="text-red-500">*</span>
           </label>
           <input
+            onChange={handleTicketTitleInputChange}
             type="text"
             id="title"
             name="title"
@@ -88,8 +135,8 @@ export default function FormCreateTicket({
             className={styleInput}
           />
           <div id="title-error" aria-live="polite" aria-atomic="true">
-            {state?.errors?.title &&
-              state.errors.title.map((error: string) => (
+            {errors?.title &&
+              errors.title.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>
@@ -101,6 +148,7 @@ export default function FormCreateTicket({
             Descrição<span className="text-red-500">*</span>
           </label>
           <textarea
+            onChange={handleTicketDescriptionInputChange}
             id="description"
             name="description"
             aria-describedby="description-error"
@@ -108,39 +156,13 @@ export default function FormCreateTicket({
             className={styleInput}
           />
           <div id="description-error" aria-live="polite" aria-atomic="true">
-            {state?.errors?.description &&
-              state.errors.description.map((error: string) => (
+            {errors?.description &&
+              errors.description.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>
               ))}
           </div>
-        </div>
-        <div className="hidden">
-          <label htmlFor="Status" className={styleLabel}>
-            Status
-          </label>
-          <input
-            disabled
-            type="radio"
-            id="status"
-            name="status"
-            className=""
-            value="Pendente"
-            checked
-            readOnly
-          />
-          <label htmlFor="status">Pendente</label>
-        </div>
-        <div>
-          <input
-            type="text"
-            className="hidden"
-            name="userid"
-            id="userid"
-            value={`${userid}`}
-            readOnly
-          />
         </div>
         <div className={styleDivInputs}>
           <label htmlFor="images" className={styleLabel}>
@@ -149,8 +171,8 @@ export default function FormCreateTicket({
           <InputFile fileName={fileName} handleFileChange={handleInputFile} />
         </div>
         <div id="images-error" aria-live="polite" aria-atomic="true">
-          {state?.errors?.images &&
-            state.errors.images.map((error: string) => (
+          {errors?.images &&
+            errors.images.map((error: string) => (
               <p key={error} className="mt-2 text-sm text-red-500">
                 {error}
               </p>

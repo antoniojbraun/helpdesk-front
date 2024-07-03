@@ -16,10 +16,8 @@ export default function TableUsers({ data }: { data: User[] }) {
     const userConfirmed = confirm("Tem certeza que quer apagar esse usuário?");
     if (userConfirmed) {
       const response = await deleteUserApi(id);
-      if (response) {
-        alert("Deu tudo certo!");
-        router.refresh();
-      }
+      alert(response.msg);
+      router.refresh();
     }
   };
 

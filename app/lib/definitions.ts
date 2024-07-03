@@ -59,6 +59,15 @@ export type State = {
   message?: string | null;
 };
 
+export type StateRoom = {
+  errors?: {
+    name?: string[];
+    description?: string[];
+  };
+  message: string | null;
+  status: boolean;
+};
+
 export interface InfoUrl {
   slug: string;
   id: string;
@@ -67,7 +76,7 @@ export interface InfoUrl {
 
 export type Chat = {
   message: string;
-  sendedAt: string,
+  sendedAt: string;
   user: {
     id: string;
     name: string;
@@ -90,6 +99,41 @@ export type DataSession = {
     token: string;
     expirationDate: string;
   };
+};
+
+export type DataCreateRoom = {
+  name?: string;
+  description?: string;
+};
+
+export type DataUpdateRoom = {
+  id: string;
+  name?: string;
+  description?: string;
+};
+
+export type RoomFormError = {
+  name?: string[] | undefined;
+  description?: string[] | undefined;
+  msg?: string[] | undefined;
+  status?: boolean;
+};
+
+export type TicketFormError = {
+  title?: string[] | undefined;
+  description?: string[] | undefined;
+  roomid?: string[] | undefined;
+  userid?: string[] | undefined;
+  images?: string[] | undefined;
+  msg?: string[] | undefined;
+  status?: boolean;
+};
+
+export type MessageChatFormError = {
+  message?: string[] | undefined;
+  image?: string[] | undefined;
+  msg?: string[] | undefined;
+  status?: boolean;
 };
 
 export const initialState = { message: null, errors: {} };

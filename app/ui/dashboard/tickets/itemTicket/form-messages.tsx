@@ -1,9 +1,9 @@
 import { Button, InputFile } from "../../button";
-import React, { useState, useRef } from "react";
-import { useFormState } from "react-dom";
+import React, { useState, useRef, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { createMessageChat } from "@/app/lib/chat/serviceschat";
+import { createMessageChatNew } from "@/app/lib/chat/serviceschat";
 import { revalidatePath } from "next/cache";
+import { MessageChatFormError } from "@/app/lib/definitions";
 
 const styleCancelButton =
   "flex h-10 items-center rounded-lg bg-gray-200 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-300";
@@ -11,23 +11,29 @@ const styleCancelButton =
 export default function FormCreateMessages({ id }: { id: string }) {
   const router = useRouter();
   const [fileName, setFileName] = useState("");
-  const [msgCreated, setMsgCreated] = useState(false);
-  const [inputTextArea, setInputTextArea] = useState("");
+  const [messageInput, setMessageInput] = useState<string>("");
+  const [chatImagesInput, setChatImagesInput] = useState<File | undefined>(
+    undefined
+  );
+  const [errors, setErrors] = useState<MessageChatFormError | undefined>();
+
   const inputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   function handleInputFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files?.length > 0) {
       setFileName(event.target.files[0].name);
+      setChatImagesInput(event.target.files[0]);
     } else {
       setFileName("");
     }
   }
 
-  const initialState = { message: null, errors: {} };
-  const createMessageChatWithId = createMessageChat.bind(null, id);
-
-  const [state, dispatch] = useFormState(createMessageChatWithId, initialState);
+  const handleTicketDescriptionInputChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setMessageInput(event.target.value);
+  };
 
   const handleClick = () => {
     setTimeout(() => {
@@ -36,18 +42,42 @@ export default function FormCreateMessages({ id }: { id: string }) {
       setFileName("");
       revalidatePath;
       router.refresh;
-    }, 3000);
+    }, 2000);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const dataForm = new FormData();
+    dataForm.append("message", messageInput);
+    dataForm.append("image", chatImagesInput!);
+    const response = await createMessageChatNew(id, dataForm);
+
+    if (response?.errors) {
+      setErrors(response?.errors);
+      return;
+    }
+
+    if (!response?.status) {
+      alert(response?.msg);
+      return;
+    }
+
+    if (response?.status) {
+      alert(response?.msg);
+      router.refresh;
+    }
   };
 
   return (
-    <form action={dispatch} className="py-[30px] px-[20px] flex flex-col">
+    <form onSubmit={handleSubmit} className="py-[30px] px-[20px] flex flex-col">
       <div className="border-[2px] my-[12px]"></div>
       <label htmlFor="msg" className="ml-[10px] my-[5px]">
         Mensagem
       </label>
       <textarea
+        onChange={handleTicketDescriptionInputChange}
         ref={inputTextAreaRef}
-        aria-describedby="msg-error"
+        aria-describedby="message-error"
         id="message"
         name="message"
         placeholder="Insira aqui sua mensagem..."
@@ -55,11 +85,11 @@ export default function FormCreateMessages({ id }: { id: string }) {
       />
       <div
         className="mb-4"
-        id="msg-error"
+        id="message-error"
         aria-live="polite"
         aria-atomic="true">
-        {state?.errors?.msg &&
-          state.errors.msg.map((error: string) => (
+        {errors?.message &&
+          errors.message.map((error: string) => (
             <p key={error} className="mt-2 text-sm text-red-500">
               {error}
             </p>
@@ -79,8 +109,8 @@ export default function FormCreateMessages({ id }: { id: string }) {
           id="file-error"
           aria-live="polite"
           aria-atomic="true">
-          {state?.errors?.image &&
-            state.errors.image.map((error: string) => (
+          {errors?.image &&
+            errors.image.map((error: string) => (
               <p key={error} className="mt-2 text-sm text-red-500">
                 {error}
               </p>

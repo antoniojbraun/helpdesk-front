@@ -1,10 +1,17 @@
 "use server";
 
-import { Room, State, urlBaseApi } from "../definitions";
+import {
+  Room,
+  StateRoom,
+  urlBaseApi,
+  DataCreateRoom,
+  RoomFormError,
+} from "../definitions";
 import { z } from "zod";
 import { revalidatePath } from "@/node_modules/next/cache";
 import { redirect } from "@/node_modules/next/navigation";
 import { getDataSession } from "../utils";
+
 const urlRooms = `${urlBaseApi}/rooms`;
 
 const FormSchema = z.object({
@@ -18,10 +25,6 @@ const FormSchema = z.object({
 });
 
 const CreateRoom = FormSchema.omit({
-  id: true,
-});
-
-const UpdateRoom = FormSchema.omit({
   id: true,
 });
 
@@ -70,10 +73,10 @@ export async function getRoomWithIdAPI(dataFetch: {
   return data.json();
 }
 
-export async function createRoom(prevState: State, formData: FormData) {
+export async function createRoom(prevState: StateRoom, formData: FormData) {
   const session = await getDataSession();
 
-  const validatedFields = CreateRoom.safeParse({
+  const validatedFields = FormSchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
   });
@@ -85,7 +88,7 @@ export async function createRoom(prevState: State, formData: FormData) {
   }
   const { name, description } = validatedFields.data;
 
-  fetch(urlRooms, {
+  const response = await fetch(urlRooms, {
     method: "POST",
     body: JSON.stringify({
       name: name,
@@ -95,19 +98,113 @@ export async function createRoom(prevState: State, formData: FormData) {
       "Content-type": "application/json; charset=UTF-8",
       Authorization: `Bearer ${session?.token}`,
     },
-  }).catch((error) => console.log(`Erro ao criar sala: ${error}`));
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    return {
+      status: false,
+      message: errorData,
+    };
+  }
   revalidatePath("/dashboard/support/rooms");
   redirect("/dashboard/support/rooms");
 }
 
+export async function createRoomNew(formData: FormData) {
+  const session = await getDataSession();
+
+  const validatedFields = CreateRoom.safeParse({
+    name: formData.get("name"),
+    description: formData.get("description"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      status: false,
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  const { name, description } = validatedFields.data;
+
+  const response = await fetch(urlRooms, {
+    method: "POST",
+    body: JSON.stringify({
+      name: name,
+      description: description,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      Authorization: `Bearer ${session?.token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    return {
+      status: false,
+      msg: errorData.error,
+    };
+  }
+  revalidatePath("/dashboard/support/rooms");
+  return {
+    status: true,
+    msg: "Sala cadastrada com sucesso",
+  };
+}
+
+export async function updateRoomNew(formData: FormData) {
+  const session = await getDataSession();
+
+  const validatedFields = FormSchema.safeParse({
+    id: formData.get("id"),
+    name: formData.get("name"),
+    description: formData.get("description"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      status: false,
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  const { name, description, id } = validatedFields.data;
+
+  const response = await fetch(`${urlBaseApi}/rooms/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      name: name,
+      description: description,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      Authorization: `Bearer ${session?.token}`,
+    },
+  });
+
+  if (!response.ok) {
+    console.log(response.ok);
+    const errorData = await response.json();
+    return {
+      status: false,
+      msg: errorData.error,
+    };
+  }
+  revalidatePath("/dashboard/support/rooms");
+  return {
+    status: true,
+    msg: "Sala atualizada com sucesso",
+  };
+}
+
 export async function updateRoom(
   id: string,
-  prevState: State,
+  prevState: StateRoom,
   formData: FormData
 ) {
   const session = await getDataSession();
 
-  const validatedFields = UpdateRoom.safeParse({
+  const validatedFields = FormSchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
   });
@@ -138,4 +235,23 @@ export async function updateRoom(
       status: true,
     };
   }
+}
+
+export async function deleteRoomApi(roomId: string) {
+  const session = await getDataSession();
+  const response = await fetch(`${urlBaseApi}/rooms/${roomId}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${session?.token}` },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    return {
+      status: false,
+      msg: errorData.error,
+    };
+  }
+  return {
+    status: true,
+    msg: "Sala deletada com sucesso!",
+  };
 }

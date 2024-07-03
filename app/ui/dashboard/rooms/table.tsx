@@ -1,6 +1,7 @@
 import { DeleteButtonTable, UpdateButtonTable } from "../buttons";
 import { poppins500 } from "../../fonts";
 import { Room } from "@/app/lib/definitions";
+import ButtonDeleteRoom from "./button-delete";
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace px-3 py-1";
 
@@ -27,11 +28,7 @@ export default function TableRooms({ data }: { data: Room[] }) {
                     <p>{item.description}</p>
                     <div className="flex justify-end gap-2 ml-[3px]">
                       <UpdateButtonTable id={item.id} slug="support/rooms" />
-                      <DeleteButtonTable
-                        id={item.id}
-                        slug="rooms"
-                        redirect="support/rooms"
-                      />
+                      <ButtonDeleteRoom roomId={item.id} />
                     </div>
                   </div>
                 </div>
@@ -71,11 +68,7 @@ export default function TableRooms({ data }: { data: Room[] }) {
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
                         <UpdateButtonTable id={item.id} slug="support/rooms" />
-                        <DeleteButtonTable
-                          id={item.id}
-                          slug="rooms"
-                          redirect="support/rooms"
-                        />
+                        <ButtonDeleteRoom roomId={item.id} />
                       </div>
                     </td>
                   </tr>
