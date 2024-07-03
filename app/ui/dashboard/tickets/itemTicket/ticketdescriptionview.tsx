@@ -1,6 +1,6 @@
 import { itemTicket } from "@/app/lib/definitions";
 import { poppins600 } from "../../../fonts";
-
+import Image from "next/image";
 export default function TicketDescriptionView({
   isActive,
   ticket,
@@ -9,7 +9,7 @@ export default function TicketDescriptionView({
   ticket: itemTicket;
 }) {
   const styleDivIsActive = isActive ? "block" : "hidden";
-  let testandoPorra: string[] = []
+  let testandoPorra: string[] = [];
   testandoPorra.push(ticket.imagesBase64);
 
   return (
@@ -20,7 +20,11 @@ export default function TicketDescriptionView({
         <p>{ticket.description}</p>
 
         {testandoPorra.map((imgSrc, index) => (
-          <img key={index} src={`data:image/png;base64,${imgSrc}`} />
+          <Image
+            alt="Descrição chamado"
+            key={index}
+            src={`data:image/png;base64,${imgSrc}`}
+          />
         ))}
       </div>
     </div>

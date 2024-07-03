@@ -1,6 +1,6 @@
 import { poppins600 } from "../../../fonts";
 import { Chat } from "@/app/lib/definitions";
-
+import Image from "next/image";
 const styleUserMessageBox =
   "ml-[40px] mr-[18px] rounded-r-md rounded-bl-md shadow-[#C2CFD9] bg-[#C2CFD9]";
 const styleUserMessageEffect =
@@ -40,12 +40,24 @@ export default function ItemMessageView({
         <p className={`${poppins600.className}`}>{messageItem.user.name}</p>
         <p>{messageItem.message}</p>
         {messageItem.imageBase64 && (
-          <img width="500" height="600" src={`data:image/png;base64,${messageItem.imageBase64}`} />
+          <Image
+            alt="Mensagens chat"
+            width="500"
+            height="600"
+            src={`data:image/png;base64,${messageItem.imageBase64}`}
+          />
         )}
       </div>
       <div className={`flex text-sm text-[#5e5e5e] ${styleDateMsg}`}>
         <p>
-          {new Date(messageItem.sendedAt).getDate()}/{new Date(messageItem.sendedAt).getMonth() + 1}/{new Date(messageItem.sendedAt).getFullYear()} às {new Date(messageItem.sendedAt).getHours()}:{new Date(messageItem.sendedAt).getMinutes().toString().padStart(2, '0')}
+          {new Date(messageItem.sendedAt).getDate()}/
+          {new Date(messageItem.sendedAt).getMonth() + 1}/
+          {new Date(messageItem.sendedAt).getFullYear()} às{" "}
+          {new Date(messageItem.sendedAt).getHours()}:
+          {new Date(messageItem.sendedAt)
+            .getMinutes()
+            .toString()
+            .padStart(2, "0")}
         </p>
       </div>
     </div>
