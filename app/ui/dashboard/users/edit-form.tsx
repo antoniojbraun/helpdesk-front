@@ -14,14 +14,14 @@ const styleCancelButton =
 export default function FormEditUser({ user }: { user: User }) {
   const initialState = { message: null, errors: {} };
   const updateUserWithId = updateUser.bind(null, user.id);
-  const [state, dispatch] = useFormState(updateUserWithId, initialState);
+  // const [state, dispatch] = useFormState(updateUserWithId, initialState);
   const adminType = user.userType === "Administrador";
   const userType = user.userType === "Usuário";
   const supportType = user.userType === "Suporte";
-  
+
   return (
-    <form action={dispatch}>
-      <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">
+    <form>
+      {/* <div className="w-full rounded-md bg-[#F1F2F3] p-6 space-y-[10px]">
         <div className={styleDivInputs}>
           <label htmlFor="name" className={styleLabel}>
             Nome Completo<span className="text-red-500">*</span>
@@ -36,8 +36,8 @@ export default function FormEditUser({ user }: { user: User }) {
             defaultValue={user.name}
           />
           <div id="name-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.name &&
-              state.errors.name.map((error: string) => (
+            {errors?.name &&
+              name.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>
@@ -58,8 +58,8 @@ export default function FormEditUser({ user }: { user: User }) {
             defaultValue={user.email}
           />
           <div id="email-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.email &&
-              state.errors.email.map((error: string) => (
+            {errors?.email &&
+              errors.email.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>
@@ -105,8 +105,8 @@ export default function FormEditUser({ user }: { user: User }) {
             <label htmlFor="usertype">Suporte</label>
           </div>
           <div id="usertype-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.usertype &&
-              state.errors.usertype.map((error: string) => (
+            {errors?.usertype &&
+              errors.usertype.map((error: string) => (
                 <p key={error} className="mt-2 text-sm text-red-500">
                   {error}
                 </p>
@@ -119,7 +119,7 @@ export default function FormEditUser({ user }: { user: User }) {
           Cancelar
         </Link>
         <Button type="submit">Editar Usuário</Button>
-      </div>
+      </div> */}
     </form>
   );
 }

@@ -111,6 +111,67 @@ export async function createUser(prevState: State, formData: FormData) {
   redirect("/dashboard/admin/users");
 }
 
+export async function createUserNew(formData: FormData) {
+  const session = await getDataSession();
+  const token = session?.token;
+
+  const dataForm = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+    userType: formData.get("userType"),
+  };
+  const validatedFields = FormSchema.safeParse(dataForm);
+
+  if (!validatedFields.success) {
+    return {
+      status: false,
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  let userTypeConverted = Number(dataForm.userType);
+  const { name, email, password, confirmPassword, userType } =
+    validatedFields.data;
+  console.log(
+    JSON.stringify({
+      name: name,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+      userType: userTypeConverted,
+    })
+  );
+  const response = await fetch(`${urlBaseApi}/users/admcreate`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+      userType: userTypeConverted,
+    }),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.log(errorData);
+    return {
+      status: false,
+      msg: `Erro ao cadastrar usuário: ${errorData.error}`,
+    };
+  }
+  revalidatePath("/dashboard/admin/users");
+  return {
+    status: true,
+    msg: "Usuário cadastrado com sucesso",
+  };
+}
+
 export async function updateUser(
   id: string,
   prevState: State,

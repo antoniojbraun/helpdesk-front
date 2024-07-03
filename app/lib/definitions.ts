@@ -136,6 +136,16 @@ export type MessageChatFormError = {
   status?: boolean;
 };
 
+export type CreateUserFormErrors = {
+  name?: string[] | undefined;
+  email?: string[] | undefined;
+  password?: string[] | undefined;
+  confirmPassword?: string[] | undefined;
+  userType?: string[] | undefined;
+  msg?: string[] | undefined;
+  status?: boolean;
+};
+
 export const initialState = { message: null, errors: {} };
 
 export let urlBaseApi = "";
