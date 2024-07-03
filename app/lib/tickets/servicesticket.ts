@@ -51,8 +51,8 @@ export async function getAllTickets(): Promise<TicketByUser[]> {
 }
 
 export async function getAllTicketsAPI(data: {
-  token: string;
-  userId: string;
+  token?: string;
+  userId?: string;
 }): Promise<TicketByUser[]> {
   const response = await fetch(`${urlBaseApi}/tickets/user/${data.userId}`, {
     cache: "no-store",
@@ -131,20 +131,17 @@ export async function getTicketById(dataFetch: {
 export async function createTicket(prevState: State, formData: FormData) {
   const session = await getDataSession();
   const newUrl = `${urlBaseApi}/tickets`;
+  const file = formData.get("images") as File;
 
-  const userid = formData.get("userid");
-  const title = formData.get("title");
-  const description = formData.get("description");
-  const roomid = formData.get("roomid");
-  const images = formData.get("images") as File;
+  const dataForm = {
+    userid: formData.get("userid"),
+    title: formData.get("title"),
+    description: formData.get("description"),
+    roomid: formData.get("roomid"),
+    images: file.size > 0 ? file : undefined,
+  };
 
-  const validatedFields = FormSchema.safeParse({
-    userid: userid,
-    title: title,
-    description: description,
-    roomid: roomid,
-    images: images.size > 0 ? images : undefined,
-  });
+  const validatedFields = FormSchema.safeParse(dataForm);
 
   if (!validatedFields.success) {
     return {
@@ -152,6 +149,12 @@ export async function createTicket(prevState: State, formData: FormData) {
       message: "Missing Fields Failed to Create Ticket",
     };
   }
+
+  formData.forEach((value, key) => {
+    if (dataForm.images == undefined) {
+      formData.delete("images");
+    }
+  });
 
   const response = await fetch(newUrl, {
     method: "POST",

@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import { createMessageChat } from "@/app/lib/chat/serviceschat";
+import { revalidatePath } from "next/cache";
 
 const styleCancelButton =
   "flex h-10 items-center rounded-lg bg-gray-200 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-300";
@@ -33,8 +34,9 @@ export default function FormCreateMessages({ id }: { id: string }) {
       if (inputTextAreaRef.current) inputTextAreaRef.current.value = "";
       if (fileInputRef.current) fileInputRef.current.value = "";
       setFileName("");
+      revalidatePath;
       router.refresh;
-    }, 2000);
+    }, 3000);
   };
 
   return (

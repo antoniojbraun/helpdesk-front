@@ -21,7 +21,7 @@ const FormSchema = z.object({
     message:
       "O conteúdo da mensagem é obrigatório com pelo menos 10 caracteres..",
   }),
-  image: z
+  file: z
     .instanceof(File)
     .optional()
     .refine((file: File | undefined) => !file || file.size <= MAX_FILE_SIZE, {
@@ -48,13 +48,10 @@ export async function createMessageChat(
 ) {
   const session = await getDataSession();
 
-  const message = formData.get("message") as string;
-  const image = formData.get("images") as File;
-
-  // Validate the fields
-  let validatedFields = CreateMessageChat.safeParse({
-    msg: message,
-    image: image.size > 0 ? image : undefined,
+  const file = formData.get("images") as File;
+  const validatedFields = CreateMessageChat.safeParse({
+    msg: formData.get("message"),
+    image: file.size > 0 ? file : undefined,
   });
 
   if (!validatedFields.success) {
@@ -63,10 +60,11 @@ export async function createMessageChat(
       message: "Missing Fields Failed to Send Message",
     };
   }
-
+  if (file.size === 0) formData.delete("images");
   const newFormData = new FormData();
+
   formData.forEach((value, key) => {
-    if (key === "images") {
+    if (key == "images") {
       newFormData.append("image", value);
     } else {
       newFormData.append(key, value);
@@ -87,6 +85,7 @@ export async function createMessageChat(
     console.error(dataError);
     return;
   }
+  revalidatePath(`/dashboard/support/tickets/${id}`);
   revalidatePath(`/dashboard/user/tickets/${id}`);
 }
 
