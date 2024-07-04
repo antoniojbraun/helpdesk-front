@@ -4,7 +4,7 @@ import { itemTicket } from "@/app/lib/definitions";
 import SupportTakeTicket from "./supportTakeTicket";
 import UserFinishesTicket from "./userCloseTicket";
 
-const styleP = "whitespace-nowrap";
+const styleP = "whitespace-normal";
 const styleAtributesP = " text-slate-500";
 export default function HeadTicketView({
   ticket,
@@ -46,31 +46,63 @@ export default function HeadTicketView({
         </div>
       </div>
       <div className="border-[2px] my-[12px]"></div>
-      <div className="flex flex-col md:flex-row md:space-x-[35px]">
-        <div className="flex space-x-[15px] ">
-          <div className=" w-fit ">
-            <p className={`${styleP} ${styleAtributesP}`}>Assunto:</p>
-            <p className={`${styleP} ${styleAtributesP}`}>Responsável:</p>
-            <p className={`${styleP} ${styleAtributesP}`}>Data Abertura:</p>
+      <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-8 max-[670px]:col-span-7 min-[1000px]:col-span-8 min-[1130px]:col-span-9 ">
+          <div className="grid grid-cols-12 gap-1">
+            <div
+              className={`col-span-12 md:col-span-4 min-[1000px]:col-span-3 min-[1200px]:col-span-2 ${styleAtributesP}`}>
+              Assunto:
+            </div>
+            <div className="col-span-12 md:col-span-8 min-[1000px]:col-span-9 min-[1200px]:col-span-10">
+              {ticket.title}
+            </div>
           </div>
-          <div>
-            <p className={styleP}>{ticket.title}</p>
-            <p className={styleP}>{ticket.responsible}</p>
-            <p className={styleP}>{ticket.createdAt}</p>
+          <div className="grid grid-cols-12">
+            <div
+              className={`col-span-12 md:col-span-4 min-[1000px]:col-span-3 min-[1200px]:col-span-2  ${styleAtributesP}`}>
+              Responsável:
+            </div>
+            <div className="col-span-12 md:col-span-8 min-[1000px]:col-span-9 min-[1200px]:col-span-10 ">
+              {ticket.responsible}
+            </div>
+          </div>
+          <div className="grid grid-cols-12">
+            <div
+              className={`col-span-12 md:col-span-4 min-[1000px]:col-span-3 min-[1200px]:col-span-2  ${styleAtributesP}`}>
+              Data Abertura:
+            </div>
+            <div className="col-span-12 md:col-span-8 min-[1000px]:col-span-9 min-[1200px]:col-span-10 ">
+              {ticket.createdAt}
+            </div>
           </div>
         </div>
-        <div className="flex space-x-[45px] md:space-x-[15px] ">
-          <div>
-            <p className={`${styleP} ${styleAtributesP}`}>Status:</p>
-            <p className={`${styleP} ${styleAtributesP}`}>Atendente:</p>
-            <p className={`${styleP} ${styleAtributesP}`}>Sala:</p>
+        <div className="col-span-4 max-[670px]:col-span-5 min-[1000px]:col-span-4 min-[1130px]:col-span-2 ">
+          <div className="grid grid-cols-12">
+            <div
+              className={`col-span-12 min-[630px]:col-span-6 min-[940px]:col-span-5 min-[1130px]:col-span-8  ${styleAtributesP}`}>
+              Status:
+            </div>
+            <div className="min-[940px]:col-span-7 min-[630px]:col-span-6 col-span-12 min-[1130px]:col-span-2">
+              {ticket.status}
+            </div>
           </div>
-          <div>
-            <p className={styleP}>{ticket.status}</p>
-            <p className="">
-              {ticket.attendant ? `${ticket.attendant}` : "--"}
-            </p>
-            <p className={styleP}>{ticket.room.name}</p>
+          <div className="grid grid-cols-12 gap-1">
+            <div
+              className={`min-[940px]:col-span-5 min-[630px]:col-span-6 col-span-12 min-[1130px]:col-span-8 ${styleAtributesP}`}>
+              Atendente:
+            </div>
+            <div className="min-[940px]:col-span-7 min-[630px]:col-span-6 col-span-12 min-[1130px]:col-span-4">
+              {ticket.attendant ? `${ticket.attendant.split(" ")[0]}` : "--"}
+            </div>
+          </div>
+          <div className="grid grid-cols-12">
+            <div
+              className={`min-[940px]:col-span-5 min-[630px]:col-span-6 col-span-12 min-[1130px]:col-span-8 ${styleAtributesP}`}>
+              Sala:
+            </div>
+            <div className="min-[940px]:col-span-7 min-[630px]:col-span-6 col-span-12 min-[1130px]:col-span-4">
+              {ticket.room.name}
+            </div>
           </div>
         </div>
       </div>
