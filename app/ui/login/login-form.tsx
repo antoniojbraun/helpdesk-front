@@ -13,7 +13,6 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
-  
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,6 +28,7 @@ export default function LoginForm() {
     console.log("[LOGIN_RESPONSE]: " + response);
     if (!response?.error) {
       router.refresh();
+
       router.push("/dashboard/");
     } else {
       setError("Email e/ou senha inválido(s)");
@@ -90,10 +90,6 @@ export default function LoginForm() {
               </>
             )}
           </div>
-          {/* <div className="mt-[20px] text-[11px] text-gray-600 text-center">
-            Ainda não é cadastrado?
-            <span className="text-blue-600">Faça seu cadastro aqui</span>
-          </div> */}
         </div>
       </div>
     </form>
