@@ -8,7 +8,7 @@ export default function Logo() {
 
   if (session) {
     let userDataSession = JSON.parse(session);
-    console.log(userDataSession)
+    console.log(userDataSession);
     switch (userDataSession.user.role) {
       case "0":
         slug = "user";
@@ -24,12 +24,11 @@ export default function Logo() {
     <Link
       className="flex items-center space-x-[3px] text-[#2C88D9]"
       href={`/dashboard/${slug}/tickets`}>
-      <Image
+      <img
         src="/dashboard/icon-headset-blue.png"
-        width={22}
-        height={23}
+        width="22"
+        height="23"
         className=""
-        priority
         alt="Screenshots of the dashboard project showing desktop versions"
       />
       <h1 className={`${poppins500.className} text-[20px]`}>Helpdesk</h1>
