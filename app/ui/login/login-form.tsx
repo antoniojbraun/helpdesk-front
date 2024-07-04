@@ -18,7 +18,6 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [errorMessage, setError] = useState("");
   const { data: session } = useSession();
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await signIn("credentials", {
@@ -26,7 +25,7 @@ export default function LoginForm() {
       email: email,
       password: password,
     });
-    console.log("[LOGIN_RESPONSE]: " + response);
+    console.log("[LOGIN_RESPONSE]: " + response?.status);
     if (!response?.error) {
       router.refresh();
 
@@ -37,23 +36,24 @@ export default function LoginForm() {
     }
   };
 
-  // useEffect(() => {
-  //   if (session) {
-  //     const sessionDataString = JSON.stringify(session);
-  //     const sessionDataJSON = JSON.parse(sessionDataString);
-  //     switch (sessionDataJSON.user.role) {
-  //       case 0:
-  //         router.push("/dashboard/user/tickets");
-  //         break;
-  //       case 1:
-  //         router.push("/dashboard/support/tickets");
-  //         break;
-  //       default:
-  //         router.push("/dashboard/admin/tickets");
-  //         break;
-  //     }
-  //   }
-  // }, [session, router]);
+  useEffect(() => {
+    if (session) {
+      const sessionDataString = JSON.stringify(session.user.role);
+      console.log(typeof sessionDataString);
+
+      switch (sessionDataString) {
+        case "0":
+          router.push("/dashboard/user/tickets");
+          break;
+        case "1":
+          router.push("/dashboard/support/tickets");
+          break;
+        default:
+          router.push("/dashboard/admin/tickets");
+          break;
+      }
+    }
+  }, [session, router]);
   return (
     <form onSubmit={handleLogin} className="flex justify-center w-full">
       <div className="flex flex-col items-center w-[90%]">
