@@ -255,3 +255,28 @@ export async function deleteRoomApi(roomId: string) {
     msg: "Sala deletada com sucesso!",
   };
 }
+
+export async function getQRCodeRoom(id: string) {
+  const session = await getDataSession();
+  const response = await fetch(`${urlBaseApi}/rooms/${id}/qrcode`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${session?.token}` },
+  });
+  if (!response.ok) {
+    const errorData = response.json();
+    return {
+      status: false,
+      errors: errorData,
+      msg: "Erro ao buscar QRCode da Sala",
+    };
+  }
+  if (response.ok) {
+    const dataQRCode = response.body;
+    console.log(dataQRCode);
+    return {
+      status: true,
+      errors: [],
+      msg: "Seu qrcode está chegando",
+    };
+  }
+}

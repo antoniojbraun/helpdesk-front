@@ -9,14 +9,15 @@ import {
 } from "@heroicons/react/24/outline";
 import { poppins600 } from "../fonts";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setError] = useState("");
+  const { data: session } = useSession();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +36,24 @@ export default function LoginForm() {
       console.log("[LOGIN_ERROR]: ", response.error);
     }
   };
+
+  useEffect(() => {
+    if (session) {
+      const sessionDataString = JSON.stringify(session);
+      const sessionDataJSON = JSON.parse(sessionDataString);
+      switch (sessionDataJSON.user.role) {
+        case 0:
+          router.push("/dashboard/user/tickets");
+          break;
+        case 1:
+          router.push("/dashboard/support/tickets");
+          break;
+        default:
+          router.push("/dashboard/admin/tickets");
+          break;
+      }
+    }
+  }, [session, router]);
   return (
     <form onSubmit={handleLogin} className="flex justify-center w-full">
       <div className="flex flex-col items-center w-[90%]">

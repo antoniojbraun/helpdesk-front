@@ -1,11 +1,17 @@
+"use client";
 import { DeleteButtonTable, UpdateButtonTable } from "../buttons";
 import { poppins500 } from "../../fonts";
 import { Room } from "@/app/lib/definitions";
 import ButtonDeleteRoom from "./button-delete";
+import { EyeIcon } from "@heroicons/react/24/outline";
+import { getQRCodeRoom } from "@/app/lib/rooms/servicesrooms";
 const styleThDefault = "px-3 py-5 font-medium";
 const styleTdDefault = "whitespace px-3 py-1";
 
 export default function TableRooms({ data }: { data: Room[] }) {
+  const handleClickQRCodeView = async (id: string) => {
+    const response = await getQRCodeRoom(id);
+  };
   return (
     <div className="mt-6 flex flex-root justify-center">
       <div className="inline-block align-middle min-w-full">
@@ -27,6 +33,7 @@ export default function TableRooms({ data }: { data: Room[] }) {
                   <div className="flex items-center justify-between pt-4">
                     <p>{item.description}</p>
                     <div className="flex justify-end gap-2 ml-[3px]">
+                      <EyeIcon className="w-5" />
                       <UpdateButtonTable id={item.id} slug="support/rooms" />
                       <ButtonDeleteRoom roomId={item.id} />
                     </div>
@@ -67,6 +74,11 @@ export default function TableRooms({ data }: { data: Room[] }) {
                     <td className={styleTdDefault}>{item.description}</td>
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
+                        <div
+                          onClick={() => handleClickQRCodeView(item.id)}
+                          className="rounded-md border p-2 hover:bg-gray-100 cursor-pointer">
+                          <EyeIcon className="w-5" />
+                        </div>
                         <UpdateButtonTable id={item.id} slug="support/rooms" />
                         <ButtonDeleteRoom roomId={item.id} />
                       </div>
