@@ -8,8 +8,8 @@ export default function Logo() {
 
   if (session) {
     let userDataSession = JSON.parse(session);
-    console.log(`${userDataSession} aaaaa`);
-    switch (userDataSession.user.role) {
+    let role = JSON.stringify(userDataSession.user.role);
+    switch (role) {
       case "0":
         slug = "user";
         break;
