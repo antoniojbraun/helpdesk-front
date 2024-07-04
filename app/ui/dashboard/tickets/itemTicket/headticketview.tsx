@@ -28,10 +28,10 @@ export default function HeadTicketView({
           </div>
         </div>
         <div className="flex flex-col items-center">
-          <div className="flex flex-col items-center justify-center">
+          {/* <div className="flex flex-col items-center justify-center">
             <QuestionMarkCircleIcon className="text-[#788796] size-[20px]" />
             <p>Ajuda</p>
-          </div>
+          </div> */}
           <div className="mt-2">
             {isUser && (
               <UserFinishesTicket
