@@ -2,10 +2,7 @@ import Pagination from "@/app/ui/dashboard/pagination";
 import Table from "@/app/ui/dashboard/tickets/table";
 import SearchBar from "@/app/ui/dashboard/tickets/searchbar";
 import TopbarContentPage from "@/app/ui/dashboard/topbarcontent";
-import {
-  getAllTickets,
-  getAllTicketsByUser,
-} from "@/app/lib/tickets/servicesticket";
+import { getAllTicketsByUser } from "@/app/lib/tickets/servicesticket";
 import {
   HowManyPagesGeneric,
   fetchFilteredItemsGeneric,
