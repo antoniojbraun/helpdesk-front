@@ -33,7 +33,7 @@ export default function TableRooms({ data }: { data: Room[] }) {
                   <div className="flex items-center justify-between pt-4">
                     <p>{item.description}</p>
                     <div className="flex justify-end gap-2 ml-[3px]">
-                      <EyeIcon className="w-5" />
+                      {/* <EyeIcon className="w-5" /> */}
                       <UpdateButtonTable id={item.id} slug="support/rooms" />
                       <ButtonDeleteRoom roomId={item.id} />
                     </div>
@@ -74,11 +74,11 @@ export default function TableRooms({ data }: { data: Room[] }) {
                     <td className={styleTdDefault}>{item.description}</td>
                     <td className="whitespace-nowrap py-1 px-3">
                       <div className="flex justify-end gap-3">
-                        <div
+                        {/* <div
                           onClick={() => handleClickQRCodeView(item.id)}
                           className="rounded-md border p-2 hover:bg-gray-100 cursor-pointer">
                           <EyeIcon className="w-5" />
-                        </div>
+                        </div> */}
                         <UpdateButtonTable id={item.id} slug="support/rooms" />
                         <ButtonDeleteRoom roomId={item.id} />
                       </div>
