@@ -9,7 +9,9 @@ export default function Logo() {
   if (session) {
     let userDataSession = JSON.parse(session);
     let role = JSON.stringify(userDataSession.user.role);
+
     console.log(`O tipo de role é ${role}`);
+    
     switch (role) {
       case "0":
         slug = "user";
