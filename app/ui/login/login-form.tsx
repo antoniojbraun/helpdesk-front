@@ -39,7 +39,7 @@ export default function LoginForm() {
   useEffect(() => {
     if (session) {
       const sessionDataString = JSON.stringify(session.user.role);
-      console.log(typeof sessionDataString);
+      console.log(sessionDataString);
 
       switch (sessionDataString) {
         case "0":
