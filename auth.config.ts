@@ -50,7 +50,7 @@ export const authOptions: NextAuthOptions = {
           token: data.token,
           expirationDate: data.expirationDate,
         };
-
+        
         return user;
       },
     }),
