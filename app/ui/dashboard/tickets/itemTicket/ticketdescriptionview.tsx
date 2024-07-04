@@ -11,7 +11,7 @@ export default function TicketDescriptionView({
   const styleDivIsActive = isActive ? "block" : "hidden";
   let testandoPorra: string[] = [];
   testandoPorra.push(ticket.imagesBase64);
-
+  console.log(testandoPorra[0].length);
   return (
     <div className={`${styleDivIsActive} flex flex-col bg-[#F1F2F3] relative`}>
       <div className="border-[2px] my-[25px]"></div>
@@ -19,13 +19,14 @@ export default function TicketDescriptionView({
         <p className={poppins600.className}>Descrição do chamado</p>
         <p>{ticket.description}</p>
 
-        {testandoPorra.map((imgSrc, index) => (
-          <Image
-            alt="Descrição chamado"
-            key={index}
-            src={`data:image/png;base64,${imgSrc}`}
-          />
-        ))}
+        {testandoPorra[0].length > 0 &&
+          testandoPorra.map((imgSrc, index) => (
+            <img
+              alt="Descrição chamado"
+              key={index}
+              src={`data:image/png;base64,${imgSrc}`}
+            />
+          ))}
       </div>
     </div>
   );
