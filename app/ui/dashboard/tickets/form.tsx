@@ -185,7 +185,7 @@ export default function FormCreateTicket({
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <Link href="/dashboard/tickets" className={styleCancelButton}>
+        <Link href="/dashboard/user/tickets" className={styleCancelButton}>
           Cancelar
         </Link>
 
