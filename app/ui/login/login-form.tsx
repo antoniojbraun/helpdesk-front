@@ -28,8 +28,6 @@ export default function LoginForm() {
     console.log("[LOGIN_RESPONSE]: " + response?.status);
     if (!response?.error) {
       router.refresh();
-
-      router.push("/dashboard/");
     } else {
       setError("Email e/ou senha inválido(s)");
       console.log("[LOGIN_ERROR]: ", response.error);

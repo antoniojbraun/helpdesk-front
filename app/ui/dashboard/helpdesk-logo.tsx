@@ -11,7 +11,7 @@ export default function Logo() {
     let role = JSON.stringify(userDataSession.user.role);
 
     console.log(`O tipo de role é ${role}`);
-    
+
     switch (role) {
       case "0":
         slug = "user";
@@ -27,8 +27,8 @@ export default function Logo() {
     <Link
       className="flex items-center space-x-[3px] text-[#2C88D9]"
       href={`/dashboard/${slug}/tickets`}>
-      <img
-        src="/dashboard/icon-headset-blue.png"
+      <Image
+        src="/imgs/icon-headset-blue.png"
         width="22"
         height="23"
         className=""
