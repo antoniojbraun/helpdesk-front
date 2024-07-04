@@ -25,6 +25,14 @@ export default function HeadTicketView({
           <p>Veja um resumo do seu chamado</p>
           <div className="space-x-5 flex flex-row items-center">
             <p className="pt-[5px] text-slate-500">Chamado #{ticket.number}</p>
+          </div>
+        </div>
+        <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center">
+            <QuestionMarkCircleIcon className="text-[#788796] size-[20px]" />
+            <p>Ajuda</p>
+          </div>
+          <div className="mt-2">
             {isUser && (
               <UserFinishesTicket
                 ticketStatus={ticket.status}
@@ -39,10 +47,6 @@ export default function HeadTicketView({
               />
             )}
           </div>
-        </div>
-        <div className="flex flex-col justify-start items-center">
-          <QuestionMarkCircleIcon className="text-[#788796] size-[20px]" />
-          <p>Ajuda</p>
         </div>
       </div>
       <div className="border-[2px] my-[12px]"></div>
@@ -77,7 +81,7 @@ export default function HeadTicketView({
           </div>
         </div>
         <div className="col-span-4 max-[670px]:col-span-5 min-[1000px]:col-span-4 min-[1130px]:col-span-2 ">
-          <div className="grid grid-cols-12">
+          <div className="grid grid-cols-12 gap-2">
             <div
               className={`col-span-12 min-[630px]:col-span-6 min-[940px]:col-span-5 min-[1130px]:col-span-8  ${styleAtributesP}`}>
               Status:
@@ -86,7 +90,7 @@ export default function HeadTicketView({
               {ticket.status}
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-1">
+          <div className="grid grid-cols-12 gap-2">
             <div
               className={`min-[940px]:col-span-5 min-[630px]:col-span-6 col-span-12 min-[1130px]:col-span-8 ${styleAtributesP}`}>
               Atendente:
@@ -95,7 +99,7 @@ export default function HeadTicketView({
               {ticket.attendant ? `${ticket.attendant.split(" ")[0]}` : "--"}
             </div>
           </div>
-          <div className="grid grid-cols-12">
+          <div className="grid grid-cols-12 gap-2">
             <div
               className={`min-[940px]:col-span-5 min-[630px]:col-span-6 col-span-12 min-[1130px]:col-span-8 ${styleAtributesP}`}>
               Sala:
