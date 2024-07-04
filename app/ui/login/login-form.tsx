@@ -37,23 +37,23 @@ export default function LoginForm() {
     }
   };
 
-  useEffect(() => {
-    if (session) {
-      const sessionDataString = JSON.stringify(session);
-      const sessionDataJSON = JSON.parse(sessionDataString);
-      switch (sessionDataJSON.user.role) {
-        case 0:
-          router.push("/dashboard/user/tickets");
-          break;
-        case 1:
-          router.push("/dashboard/support/tickets");
-          break;
-        default:
-          router.push("/dashboard/admin/tickets");
-          break;
-      }
-    }
-  }, [session, router]);
+  // useEffect(() => {
+  //   if (session) {
+  //     const sessionDataString = JSON.stringify(session);
+  //     const sessionDataJSON = JSON.parse(sessionDataString);
+  //     switch (sessionDataJSON.user.role) {
+  //       case 0:
+  //         router.push("/dashboard/user/tickets");
+  //         break;
+  //       case 1:
+  //         router.push("/dashboard/support/tickets");
+  //         break;
+  //       default:
+  //         router.push("/dashboard/admin/tickets");
+  //         break;
+  //     }
+  //   }
+  // }, [session, router]);
   return (
     <form onSubmit={handleLogin} className="flex justify-center w-full">
       <div className="flex flex-col items-center w-[90%]">
