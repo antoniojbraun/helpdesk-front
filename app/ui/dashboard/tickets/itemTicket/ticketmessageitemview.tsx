@@ -30,7 +30,7 @@ export default function ItemMessageView({
 
   const styleDateMsg =
     messageItem.user.userType === "Usuário" ? styleDateUser : styleDateSupport;
-
+  
   return (
     <div className="relative mb-[12px] pt-[8px]">
       <div
