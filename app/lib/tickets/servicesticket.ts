@@ -217,7 +217,7 @@ export async function createTicketNew(formData: FormData) {
   revalidatePath("/dashboard/user/tickets");
   return {
     status: true,
-    msg: "Ticket cadastrado com sucesso",
+    msg: "Chamado criado com sucesso!",
   };
 }
 
