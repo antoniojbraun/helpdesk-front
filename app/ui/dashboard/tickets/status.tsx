@@ -1,5 +1,5 @@
 const styleStatus = {
-  default: "flex items-center justify-center p-[5px] rounded-md text-xs",
+  default: "flex items-center justify-center whitespace-nowrap p-[5px] rounded-md text-xs",
   pending: " bg-yellow-100 text-yellow-800",
   progress: " bg-blue-100 text-blue-500",
   done: " bg-green-100 text-green-500",
