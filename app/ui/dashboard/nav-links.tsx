@@ -32,21 +32,21 @@ const links = [
   },
   {
     title: "Lista chamados Suporte",
-    name: "Chamados",
+    name: "Meus Chamados",
     href: "/dashboard/support/tickets",
     icon: ListBulletIcon,
     userType: "suporte",
   },
   {
     title: "Fila chamados Pendentes",
-    name: "Fila de Pendentes",
+    name: "Chamados pendentes",
     href: "/dashboard/support/tickets/pending",
     icon: ListBulletIcon,
     userType: "suporte",
   },
   {
     title: "Fila Chamados Usuário",
-    name: "Chamados User",
+    name: "Meus chamados",
     href: "/dashboard/user/tickets",
     icon: ListBulletIcon,
     userType: "usuário",
@@ -60,18 +60,18 @@ const links = [
   },
   ,
   {
-    title: "Página Ajuda Sporte",
+    title: "Página Ajuda Suporte",
     name: "Ajuda",
     href: "/dashboard/support/help-page",
     icon: InformationCircleIcon,
-    userType: "suporte",
+    userType: "",
   },
   {
     title: "Página Ajuda Usuário",
     name: "Ajuda",
     href: "/dashboard/user/help-page",
     icon: InformationCircleIcon,
-    userType: "usuário",
+    userType: "",
   },
 ];
 
