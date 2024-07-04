@@ -4,6 +4,7 @@ import LoginForm from "../ui/login/login-form";
 import "../ui/login/login.css";
 import Image from "@/node_modules/next/image";
 import { SessionProvider } from "next-auth/react";
+
 export default function LoginPage() {
   return (
     <SessionProvider>
@@ -16,6 +17,7 @@ export default function LoginPage() {
               height={330}
               className="hidden md:block"
               alt="Imagem página inicial do sistema Helpdesk"
+              priority
             />
             <Image
               src="/login/img-login-support.png"
@@ -23,6 +25,7 @@ export default function LoginPage() {
               height={200}
               className="block md:hidden"
               alt="Imagem página inicial do sistema Helpdesk"
+              priority
             />
           </div>
           <div className="flex items-center w-[full] h-full md:w-[60%] px-4 py-[40px] bg-[#D5E6F7] md:rounded-r-[10px] md:rounded-l-[0px] rounded-[10px] ">
