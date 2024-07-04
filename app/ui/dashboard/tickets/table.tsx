@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { DeleteButtonGeneric, ViewButtonTable } from "../buttons";
 import Status from "./status";
 import { TicketByUser } from "@/app/lib/definitions";
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { getDataSession } from "@/app/lib/utils";
 
 const styleThDefault = "px-3 py-5 font-medium";
-const styleTdDefault = "whitespace-nowrap px-3 py-1";
+const styleTdDefault = "whitespace px-3 py-1";
 
 export default function TableTickets({
   data,
@@ -28,11 +28,13 @@ export default function TableTickets({
   });
 
   const handleDelete = async (id: string) => {
-    const userConfirmed = confirm("Tem certeza que quer deleter esse ticket?");
+    const userConfirmed = confirm(
+      "Tem certeza que deseja deletar esse chamado?"
+    );
     if (userConfirmed) {
       const response = await deleteTicketApi(id);
       if (response) {
-        alert("Deu tudo certo!");
+        alert(`Chamado deletado com sucesso!"`);
         router.refresh();
       }
     }
@@ -58,7 +60,7 @@ export default function TableTickets({
                           #{item.number}
                         </p>
                       </div>
-                      <div>
+                      <div className="ml-2">
                         <Status>{item.status}</Status>
                       </div>
                     </div>
@@ -69,6 +71,12 @@ export default function TableTickets({
                       <p>Criado em {item.createdAt}</p>
                     </div>
                     <div className="flex justify-end gap-2 ml-[3px]">
+                      {item.status.toLowerCase() === "pendente" &&
+                        url === "user" && (
+                          <DeleteButtonGeneric
+                            onClick={() => handleDelete(item.id)}
+                          />
+                        )}
                       {/* <UpdateButtonTable id={item.id} slug="tickets" />
                       <DeleteButtonTable id={item.id} slug="tickets" /> */}
                       <ViewButtonTable id={item.id} slug={`${url}/tickets`} />
